@@ -1,10 +1,10 @@
-package com.pankaja.project1;
+package com.auto.exam;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Project1ApplicationTests {
+class ExamApplicationTests {
 
 	@Test
 	void contextLoads() {

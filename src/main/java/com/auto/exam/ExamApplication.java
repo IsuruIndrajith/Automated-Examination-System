@@ -1,13 +1,13 @@
-package com.project_test1.Automated_exam;
+package com.auto.exam;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AutomatedExamApplication {
+public class ExamApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AutomatedExamApplication.class, args);
+		SpringApplication.run(ExamApplication.class, args);
 	}
 
 }
