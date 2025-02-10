@@ -1,25 +1,51 @@
 package com.auto.exam.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class student {
+@Table(name = "student")
+public class student implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Student_ID")
     private int studentId;
+
+    @Column(name = "Email", nullable = false, unique = true, length = 255)
     private String email;
+
+    @Column(name = "Full_Name", nullable = false, length = 255)
     private String fullName;
-    private int nic;
-    private int nationality;
-    private int photoLink;
-    private int address;
-    private int gender;
+
+    @Column(name = "NIC", nullable = false, unique = true, length = 15)
+    private String nic;
+
+    @Column(name = "Nationality", nullable = false, length = 50)
+    private String nationality;
+
+    @Column(name = "Photo_Link")
+    private String photoLink;
+
+    @Column(name = "Address", nullable = false)
+    private String address;
+
+    @Column(name = "Gender", nullable = false, length = 10)
+    private String gender;
+
+    @Column(name = "Phone_No", nullable = false, length = 20)
     private String phoneNo;
+
+    @Column(name = "Department_ID", nullable = false)
     private int departmentId;
+
+    @Column(name = "Lecture_ID", nullable = false)
     private int lectureId;
 
-    public student(int studentId, String email, String fullName, int nic, int nationality, int photoLink, int address, int gender, String phoneNo, int departmentId, int lectureId) {
+    public student() {
+    }
+
+    public student(int studentId, String email, String fullName, String nic, String nationality, String photoLink, String address, String gender, String phoneNo, int departmentId, int lectureId) {
         this.studentId = studentId;
         this.email = email;
         this.fullName = fullName;
@@ -31,9 +57,6 @@ public class student {
         this.phoneNo = phoneNo;
         this.departmentId = departmentId;
         this.lectureId = lectureId;
-    }
-
-    public student() {
     }
 
     public int getStudentId() {
@@ -60,43 +83,43 @@ public class student {
         this.fullName = fullName;
     }
 
-    public int getNic() {
+    public String getNic() {
         return nic;
     }
 
-    public void setNic(int nic) {
+    public void setNic(String nic) {
         this.nic = nic;
     }
 
-    public int getNationality() {
+    public String getNationality() {
         return nationality;
     }
 
-    public void setNationality(int nationality) {
+    public void setNationality(String nationality) {
         this.nationality = nationality;
     }
 
-    public int getPhotoLink() {
+    public String getPhotoLink() {
         return photoLink;
     }
 
-    public void setPhotoLink(int photoLink) {
+    public void setPhotoLink(String photoLink) {
         this.photoLink = photoLink;
     }
 
-    public int getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(int address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
-    public int getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(int gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
