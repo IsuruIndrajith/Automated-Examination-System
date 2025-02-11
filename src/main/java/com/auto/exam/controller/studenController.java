@@ -1,11 +1,10 @@
 package com.auto.exam.controller;
 
-import com.auto.exam.Model.student;
+import com.auto.exam.Model.Student;
 import com.auto.exam.service.studentDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.HttpRequestHandler;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +24,8 @@ public class studenController {
     }
 
     @GetMapping("/getall")
-    public ResponseEntity<List<student>> getStudents(){
-        List<student> st=studentDetailsService.get_student();
+    public ResponseEntity<List<Student>> getStudents(){
+        List<Student> st=studentDetailsService.get_student();
         return new ResponseEntity<>(st,HttpStatus.OK);
     }
 }
