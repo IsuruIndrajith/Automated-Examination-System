@@ -8,7 +8,7 @@ public class Teach {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "teach_id")
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "lecture_id")

@@ -9,7 +9,7 @@ public class Attempt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "attempt_id")
-    private Integer attemptId;
+    private Long attemptId;
 
     @ManyToOne
     @JoinColumn(name = "student_id")
