@@ -9,7 +9,7 @@ public class CourseRegister {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "course_registration_id")
-    private Integer courseRegistrationID;
+    private Long courseRegistrationID;
 
     @ManyToOne
     @JoinColumn(name = "registration_id", nullable = false)
