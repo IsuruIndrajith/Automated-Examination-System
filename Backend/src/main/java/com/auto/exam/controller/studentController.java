@@ -15,11 +15,11 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("/api")
-public class studenController {
+public class studentController {
     private final studentDetailsService studentDetailsService;
 
     @Autowired
-    public studenController(com.auto.exam.service.studentDetailsService studentDetailsService) {
+    public studentController(com.auto.exam.service.studentDetailsService studentDetailsService) {
         this.studentDetailsService = studentDetailsService;
     }
 
