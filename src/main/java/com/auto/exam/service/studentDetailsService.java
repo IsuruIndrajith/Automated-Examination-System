@@ -1,6 +1,6 @@
 package com.auto.exam.service;
 
-import com.auto.exam.Model.student;
+import com.auto.exam.Model.Student;
 import com.auto.exam.repo.studentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +17,8 @@ public class studentDetailsService {
         this.studentRepo=studentRepo;
     }
 
-    public List<student> get_student(){
-        List<student> st=studentRepo.findAll();
+    public List<Student> get_student(){
+        List<Student> st=studentRepo.findAll();
         return st;
     }
 }
