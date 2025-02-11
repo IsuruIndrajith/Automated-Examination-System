@@ -9,6 +9,7 @@ import java.util.List;
 
 @Service
 public class studentDetailsService {
+
     private final studentRepo studentRepo;
 
     @Autowired
