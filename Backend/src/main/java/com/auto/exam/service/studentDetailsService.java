@@ -18,7 +18,6 @@ public class studentDetailsService {
     }
 
     public List<Student> get_student(){
-        List<Student> st=studentRepo.findAll();
-        return st;
+        return studentRepo.findAll();
     }
 }
