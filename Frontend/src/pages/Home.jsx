@@ -1,19 +1,19 @@
 import { Button, Container, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-function App() {
+const Home = () => {
   const navigate = useNavigate();
 
   return (
     <Container maxWidth="sm">
-      <Typography variant="h3" gutterBottom>
-        Welcome to My App
+      <Typography variant="h4" gutterBottom>
+        Welcome to Home Page
       </Typography>
-      <Button variant="contained" color="primary" onClick={() => navigate("/login")}>
-        Go to Login
+      <Button variant="contained" color="secondary" onClick={() => navigate("/login")}>
+        Logout
       </Button>
     </Container>
   );
-}
+};
 
-export default App;
+export default Home;
