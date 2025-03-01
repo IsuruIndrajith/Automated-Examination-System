@@ -5,12 +5,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(to bottom, #6a8edb, #3a37ff);
+    background: linear-gradient(to bottom, #6a8edb, #4f4cd7);
   }
   
   /* Login box styling */
   .login-box {
-    background-color: #bab6b6;
+    background-color: #F5F5F5;
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);

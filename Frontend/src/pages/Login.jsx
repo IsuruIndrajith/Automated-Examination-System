@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signInWithGoogle, signInWithFacebook } from "../firebase";
-import "./Login.css"; 
+import "./Login.css"; // Import CSS file
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -43,10 +43,11 @@ const Login = () => {
       <div className="login-box">
         <h2>AUTOMATED EXAMINATION SYSTEM - LOGIN</h2>
         <form onSubmit={handleLogin}>
-          <label htmlFor="email">USER NAME OR EMAIL</label>
+          <label htmlFor="email">USER NAME / USER EMAIL</label>
           <input
-            id="email-owner"
+            id="email"
             type="email"
+            placeholder="Enter email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -55,7 +56,8 @@ const Login = () => {
           <label htmlFor="password">PASSWORD</label>
           <input
             id="password"
-            type="password" 
+            type="password"
+            placeholder="Enter password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -77,8 +79,7 @@ const Login = () => {
         </button>
       </div>
     </div>
-
   );
 };
-export default Login;
 
+export default Login;
