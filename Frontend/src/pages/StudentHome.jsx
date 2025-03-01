@@ -17,13 +17,13 @@ const StudentHome = () => {
         {/* Sidebar */}
         <nav className="sidebar">
           <ul>
-            <li>HOME</li>
-            <li>EXAM</li>
-            <li>QUIZ</li>
-            <li>ASSIGNMENT</li>
-            <li>REPORTS</li>
-            <li>NOTES</li>
-            <li>COMPLAIN</li>
+            <li><button>HOME</button></li>
+            <li><button>EXAM</button></li>
+            <li><button>QUIZ</button></li>
+            <li><button>ASSIGNMENT</button></li>
+            <li><button>REPORTS</button></li>
+            <li><button>NOTES</button></li>
+            <li><button>COMPLAIN</button></li>
           </ul>
         </nav>
 
