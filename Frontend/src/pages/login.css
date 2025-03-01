@@ -1,0 +1,73 @@
+/* Full-screen background */
+.login-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom, #6a8edb, #3a37ff);
+  }
+  
+  /* Login box styling */
+  .login-box {
+    background-color: #bab6b6;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 350px;
+  }
+  
+  /* Form input fields */
+  input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  /* Login button */
+  .login-button {
+    width: 100%;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .login-button:hover {
+    background-color: #333;
+  }
+  
+  /* Social login buttons */
+  .social-button {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 16px;
+    background-color: white;
+  }
+  
+  .social-button img {
+    width: 20px;
+    margin-right: 10px;
+  }
+  
+  .facebook-button {
+    border-color: #1877F2;
+  }
+  
+  .google-button {
+    border-color: #DB4437;
+  }
+  
