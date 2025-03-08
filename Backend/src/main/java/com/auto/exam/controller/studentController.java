@@ -5,16 +5,13 @@ import com.auto.exam.service.studentDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api")
+@RequestMapping("/student")
 public class studentController {
     private final studentDetailsService studentDetailsService;
 
@@ -25,7 +22,14 @@ public class studentController {
 
     @GetMapping("/getall")
     public ResponseEntity<List<Student>> getStudents(){
-        List<Student> st=studentDetailsService.get_student();
-        return new ResponseEntity<>(st,HttpStatus.OK);
+        List<Student> st = studentDetailsService.get_student();
+        return new ResponseEntity<>(st, HttpStatus.OK);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<Student> addStudent(@RequestBody Student student) {
+        Student newStudent = studentDetailsService.save_student(student);
+        System.out.println(newStudent.toString());
+        return new ResponseEntity<>(newStudent, HttpStatus.CREATED);
     }
 }

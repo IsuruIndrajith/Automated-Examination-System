@@ -11,7 +11,7 @@ public class Question {
     private Long questionId;
 
     private String question;
-    private Integer maks;
+    private Integer marks;
     private String answer;
 
     @ManyToOne

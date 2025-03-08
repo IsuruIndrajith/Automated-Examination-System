@@ -20,4 +20,9 @@ public class studentDetailsService {
     public List<Student> get_student(){
         return studentRepo.findAll();
     }
+
+    public Student save_student(Student student) {
+        return studentRepo.save(student);
+    }
+    
 }
