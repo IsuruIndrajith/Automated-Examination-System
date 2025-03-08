@@ -10,7 +10,7 @@ import java.util.Set;
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "coourse_id")
+    @Column(name = "course_id")
     private Long courseId;
 
     private String courseName;

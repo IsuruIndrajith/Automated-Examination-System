@@ -11,7 +11,7 @@ public class Lecture {
     private Long lectureId;
 
     @OneToOne
-    @JoinColumn(name = "satff_id")
+    @JoinColumn(name = "staff_id")
     private Staff staff;
 
     @ManyToOne
