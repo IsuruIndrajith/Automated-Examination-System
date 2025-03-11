@@ -12,7 +12,15 @@ const Login = () => {
     if (email === "admin@example.com" && password === "password") {
       alert("Login successful!");
       navigate("/home");
-    } else {
+    }else if (email === "student@example.com" && password === "password") {
+      alert("Login successful!");
+      navigate("/student-home");
+    }
+    else if (email === "lecturer@example.com" && password === "password") {
+      alert("Login successful!");
+      navigate("/lecturer-home");
+    }
+    else {
       alert("Invalid credentials!");
     }
   };

@@ -5,6 +5,7 @@ import App from "./App";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import StudentHome from "./pages/StudentHome";
+import LecturerHome from "./pages/LecturerHome";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -14,6 +15,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
         <Route path="/student-home" element={<StudentHome />} />
+        <Route path="/lecturer-home" element={<LecturerHome />} />
       </Routes>
     </Router>
   </React.StrictMode>
