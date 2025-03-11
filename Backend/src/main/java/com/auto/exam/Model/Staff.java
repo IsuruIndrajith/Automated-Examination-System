@@ -18,6 +18,10 @@ public class Staff {
     private String phoneNumber;
     private String password;
 
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    private User user;
+
     public Long getStaffId() {
         return staffId;
     }
@@ -64,6 +68,14 @@ public class Staff {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
