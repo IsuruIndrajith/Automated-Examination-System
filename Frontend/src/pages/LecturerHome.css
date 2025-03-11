@@ -1,0 +1,96 @@
+.lecturer-dashboard {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #e0e7ea;
+  }
+  
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  .lecturer-title {
+    color: grey;
+  }
+  
+  .homepage-title {
+    font-size: 24px;
+    text-decoration: underline;
+  }
+  
+  .logout {
+    cursor: pointer;
+  }
+  
+  .dashboard-body {
+    display: flex;
+    flex: 1;
+  }
+  
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    gap: 10px;
+    padding: 30px;
+  }
+  
+  .sidebar-button {
+    background: linear-gradient(135deg, #5f9ea0, #8a2be2);
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 20px;
+  }
+  
+  .calendar-section {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 20px;
+  }
+  
+  .custom-calendar {
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .events-list {
+    margin-top: 10px;
+  }
+  
+  .event-item {
+    font-size: 14px;
+    margin: 5px 0;
+  }
+  
+  .select-lecture-section {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .select-lecture-button {
+    background: linear-gradient(135deg, #5f9ea0, #8a2be2);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 20px;
+  }
+  
