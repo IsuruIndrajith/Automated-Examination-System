@@ -1,6 +1,8 @@
 package com.auto.exam.Model;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDateTime;
 
@@ -13,7 +15,10 @@ public class Exam {
     private Long examId;
 
     @Column(name = "start_data_and_time")
-    private LocalDateTime startDateTime;
+    @GetMapping("/profile")
+    public String getUserProfile(@AuthenticationPrincipal User user) {
+        return "User Profile for: " + user.getUsername();
+    }    private LocalDateTime startDateTime;
     private Integer duration;
     private Integer passingCriteria;
     private Integer type;
