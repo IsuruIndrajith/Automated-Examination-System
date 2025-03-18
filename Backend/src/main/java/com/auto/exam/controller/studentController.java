@@ -56,8 +56,13 @@ public class studentController {
         return userRepo.findByUsername(username);
     }
 
-    @PostMapping("/get exams")
-    public ResponseEntity<List<Exam>> getExamsOnDate(@RequestBody Date date){
-        return null;
+    @PostMapping("/getexams")
+    public ResponseEntity<List<Exam>> getExamsOnDate(String date){
+        List<Exam> ex=examService.getExamsUsingDate(date);
+        for(Exam x:ex){
+            System.out.println(x.toString());
+            System.out.println("**************************");
+        }
+        return new ResponseEntity<>(ex, HttpStatus.OK);
     }
 }
