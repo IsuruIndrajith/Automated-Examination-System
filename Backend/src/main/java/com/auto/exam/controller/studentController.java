@@ -2,12 +2,15 @@ package com.auto.exam.controller;
 
 import com.auto.exam.Model.Course;
 import com.auto.exam.Model.Exam;
+import com.auto.exam.Model.ExamRequest;
 import com.auto.exam.Model.Student;
 import com.auto.exam.Model.User;
+import com.auto.exam.Model.UserPrincipal;
 import com.auto.exam.repo.userRepo;
 import com.auto.exam.service.studentDetailsService;
 import com.auto.exam.service.examService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -16,8 +19,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.crypto.Data;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 @RestController
 @CrossOrigin
@@ -57,12 +64,20 @@ public class studentController {
     }
 
     @PostMapping("/getexams")
-    public ResponseEntity<List<Exam>> getExamsOnDate(String date){
-        List<Exam> ex=examService.getExamsUsingDate(date);
-        for(Exam x:ex){
-            System.out.println(x.toString());
-            System.out.println("**************************");
+    public ResponseEntity<List<Exam>> getExamsOnDate(@RequestBody ExamRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();        
+        User user = userRepo.findByUsername(userPrincipal.getUsername());   
+        Student student = studentDetailsService.getStudentByUser(user);
+        Date date;
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            date = formatter.parse(request.getDate());
+        } catch (ParseException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(ex, HttpStatus.OK);
+
+        List<Exam> ex = examService.getExamsUsingDate(date, student);
+        return new ResponseEntity<>(ex, HttpStatus.OK); 
     }
 }

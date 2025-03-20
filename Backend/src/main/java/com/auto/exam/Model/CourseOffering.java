@@ -3,6 +3,7 @@ package com.auto.exam.Model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "course_offering")
@@ -27,4 +28,8 @@ public class CourseOffering {
     @ManyToOne
     @JoinColumn(name = "lecture_id")
     private Lecture lecture;
+
+    @OneToMany(mappedBy = "offering", cascade = CascadeType.ALL)
+    private List<CourseRegister> courseRegisters;
+
 }

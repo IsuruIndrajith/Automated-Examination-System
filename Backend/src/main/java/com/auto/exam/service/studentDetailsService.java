@@ -1,6 +1,7 @@
 package com.auto.exam.service;
 
 import com.auto.exam.Model.Student;
+import com.auto.exam.Model.User;
 import com.auto.exam.repo.studentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,13 @@ public class studentDetailsService {
 
     public Student save_student(Student student) {
         return studentRepo.save(student);
+    }
+
+    public Student getStudentByUser(User user) {
+        System.out.println("Fetching student for user: " + user);
+        Student student = studentRepo.findByUser(user);
+        System.out.println("Student fetched: " + student);
+        return student;
     }
     
 }
