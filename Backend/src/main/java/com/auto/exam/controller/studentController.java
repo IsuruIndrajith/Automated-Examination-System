@@ -1,12 +1,10 @@
 package com.auto.exam.controller;
 
-import com.auto.exam.Model.Course;
-import com.auto.exam.Model.Exam;
-import com.auto.exam.Model.Student;
-import com.auto.exam.Model.User;
+import com.auto.exam.Model.*;
 import com.auto.exam.repo.userRepo;
 import com.auto.exam.service.studentDetailsService;
 import com.auto.exam.service.examService;
+import org.aspectj.weaver.patterns.TypePatternQuestions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +21,7 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping("/student")
 public class studentController {
+
     private final studentDetailsService studentDetailsService;
     private final examService examService;
 
@@ -64,5 +63,20 @@ public class studentController {
             System.out.println("**************************");
         }
         return new ResponseEntity<>(ex, HttpStatus.OK);
+    }
+    //registration process of student for the exam
+    @PostMapping("/register")
+    public ResponseEntity<Exam> getExamsOnDate(@RequestBody Student student){
+        return null;
+    }
+    @PostMapping("/exam/{ExamID}")
+    public List<ProvideQuestion> examQuestions(@PathVariable long ExamID){
+        return examService.getQuestions(ExamID);
+    }
+
+
+    @PostMapping("/exam/{ExamID}/submit")
+    public List<MarkQuestions> markQuestions(@RequestBody List<MarkQuestions> markQuestions){
+        return examService.markQuestions(markQuestions);
     }
 }
