@@ -60,19 +60,7 @@ public class studentController {
 
     @PostMapping("/getexams")
     public ResponseEntity<List<Exam>> getExamsOnDate(@RequestBody ExamRequest request) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();        
-        User user = userRepo.findByUsername(userPrincipal.getUsername());   
-        Student student = studentDetailsService.getStudentByUser(user);
-        Date date;
-        try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            date = formatter.parse(request.getDate());
-        } catch (ParseException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        List<Exam> ex = examService.getExamsUsingDate(date, student);
+        List<Exam> ex = examService.getExamsUsingDate(request);
         return new ResponseEntity<>(ex, HttpStatus.OK); 
     }
 

@@ -12,6 +12,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface examRepo extends JpaRepository<Exam, Integer> {
-    @Query("SELECT ex FROM Exam ex JOIN ex.courseOffering co JOIN co.courseRegisters cr JOIN cr.registration r JOIN r.student s WHERE s.studentId = :studentId")
-    List<Exam> findExamAllCustom1(@Param("studentId") Long studentId);
+    @Query("SELECT ex FROM Exam ex JOIN ex.courseOffering co JOIN co.courseRegisters cr JOIN cr.registration r JOIN r.student s JOIN s.user u WHERE u.username = :user_name")
+    List<Exam> findExamByUser(@Param("user_name") String user_name);
 }
