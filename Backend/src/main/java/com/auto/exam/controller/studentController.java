@@ -1,11 +1,6 @@
 package com.auto.exam.controller;
 
-import com.auto.exam.Model.Course;
-import com.auto.exam.Model.Exam;
-import com.auto.exam.Model.ExamRequest;
-import com.auto.exam.Model.Student;
-import com.auto.exam.Model.User;
-import com.auto.exam.Model.UserPrincipal;
+import com.auto.exam.Model.*;
 import com.auto.exam.repo.userRepo;
 import com.auto.exam.service.studentDetailsService;
 import com.auto.exam.service.examService;
@@ -80,4 +75,17 @@ public class studentController {
         List<Exam> ex = examService.getExamsUsingDate(date, student);
         return new ResponseEntity<>(ex, HttpStatus.OK); 
     }
+
+    @PostMapping("/exam/{ExamID}")
+    public List<ProvideQuestion> examQuestions(@PathVariable long ExamID){
+        return examService.getQuestions(ExamID);
+    }
+
+
+    @PostMapping("/exam/{ExamID}/submit")
+    public List<MarkQuestions> markQuestions(@RequestBody List<MarkQuestions> markQuestions){
+        return examService.markQuestions(markQuestions);
+    }
+
+
 }
