@@ -1,7 +1,9 @@
 package com.auto.exam.Model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
+@NoArgsConstructor
 @Entity
 @Table(name = "question")
 public class Question {
@@ -17,4 +19,63 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "exam_id")
     private Exam exam;
+
+    public Question(Long questionId, String question, Integer marks, Exam exam, String answer) {
+        this.questionId = questionId;
+        this.question = question;
+        this.marks = marks;
+        this.exam = exam;
+        this.answer = answer;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public long getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(Long questionId) {
+        this.questionId = questionId;
+    }
+
+    public Integer getMarks() {
+        return marks;
+    }
+
+    public void setMarks(Integer marks) {
+        this.marks = marks;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public Exam getExam() {
+        return exam;
+    }
+
+    public void setExam(Exam exam) {
+        this.exam = exam;
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "questionId=" + questionId +
+                ", question='" + question + '\'' +
+                ", marks=" + marks +
+                ", answer='" + answer + '\'' +
+                ", exam=" + exam +
+                '}';
+    }
 }
