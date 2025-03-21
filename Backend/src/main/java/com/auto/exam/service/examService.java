@@ -1,5 +1,6 @@
 package com.auto.exam.service;
 
+
 import com.auto.exam.Dto.ExamRequest;
 import com.auto.exam.Model.*;
 import com.auto.exam.repo.*;
@@ -42,10 +43,29 @@ public class examService {
         this.examanalysisRepo = examanalysisRepo;
     }
     
+    public List<SendingExam> getExamsUsingDateAndLecture(ExamRequest request){
+        UserPrincipal userPrincipal = SecurityUtil.getAuthenticatedUser();     
 
-    public List<Exam> getExamsUsingDate(ExamRequest request){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();        
+        Date date;
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            date = formatter.parse(request.getDate());
+        } catch (ParseException e) {
+            return null;
+        }
+
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        String user_name = userPrincipal.getUsername();
+        List<Exam> exams = examRepo.findLectureExamByUser(user_name);
+        List<Exam> return_exams=exams.stream().filter(exam -> exam.getStartDateTime().toString().equals(outputFormat.format(date))).toList();
+        List<SendingExam> sendingExams = return_exams.stream().map(exam -> new SendingExam(exam.getExamId(), exam.getStartDateTime(), exam.getDuration(), exam.getPassingCriteria(), exam.getType(), exam.getTotalMarks(), exam.getCourseOffering().getCourse().getCourseId(), exam.getCourseOffering().getCourse().getCourseName(), exam.getCourseOffering().getCourse().getCourseCode())).collect(Collectors.toList());
+
+        return sendingExams;
+    }
+    
+
+    public List<SendingExam> getExamsUsingDateAndStudent(ExamRequest request){
+        UserPrincipal userPrincipal = SecurityUtil.getAuthenticatedUser();    
 
         Date date;
         try {
@@ -56,10 +76,13 @@ public class examService {
         }
         SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
         String user_name = userPrincipal.getUsername();
-        List<Exam> exams = examRepo.findExamByUser(user_name);
-        return exams.stream().filter(exam -> exam.getStartDateTime().toString().equals(outputFormat.format(date))).toList();
 
+        List<Exam> exams = examRepo.findStudentExamByUser(user_name);
+        List<Exam> return_exams=exams.stream().filter(exam -> exam.getStartDateTime().toString().equals(outputFormat.format(date))).toList();
+        List<SendingExam> sendingExams = return_exams.stream().map(exam -> new SendingExam(exam.getExamId(), exam.getStartDateTime(), exam.getDuration(), exam.getPassingCriteria(), exam.getType(), exam.getTotalMarks(), exam.getCourseOffering().getCourse().getCourseId(), exam.getCourseOffering().getCourse().getCourseName(), exam.getCourseOffering().getCourse().getCourseCode())).collect(Collectors.toList());
+        return sendingExams;
     }
+
     public List<ProvideQuestion> getQuestions(long examID) {
 
      /*   Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -73,6 +96,7 @@ public class examService {
                 .map(q -> new ProvideQuestion(q.getQuestionId(), q.getQuestion(), q.getMarks()))
                 .collect(Collectors.toList());
     }
+
     @Transactional
     public List<MarkQuestions> markQuestions(List<MarkQuestions> markQuestions) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -120,6 +144,7 @@ public class examService {
 
         return markQuestions;
     }
+
 
 
     public Character getGrade(int totalMarks) {
