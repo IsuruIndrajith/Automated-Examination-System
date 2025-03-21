@@ -1,19 +1,18 @@
-import { Button, Container, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom';
+import Login from './pages/Login';
+import StudentHomepage from './pages/StudentHomePage';
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <>
+      <Route path="/" element={<Login />} />
+      <Route path="/student" element={<StudentHomepage />} />
+    </>
+  )
+);
 
 function App() {
-  const navigate = useNavigate();
-
-  return (
-    <Container maxWidth="sm">
-      <Typography variant="h3" gutterBottom>
-        Welcome to My App
-      </Typography>
-      <Button variant="contained" color="primary" onClick={() => navigate("/login")}>
-        Go to Login
-      </Button>
-    </Container>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

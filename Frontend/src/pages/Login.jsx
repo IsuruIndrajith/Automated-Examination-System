@@ -1,85 +1,73 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import './login.css'; // Import the CSS file
+import "./login.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [users, setUsers] = useState([]);
+  const [errors, setErrors] = useState("");
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    fetch('/users.json')
+    .then((res) => res.json())
+    .then((data) => {setUsers(data.users);
+                     console.log("Fetched Users: ",data.users);})
+    .catch((err) => console.error("Error in fetching users: ", err));} , []
+  );
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (email === "admin@example.com" && password === "password") {
-      alert("Login successful!");
-      navigate("/home");
-    } else {
-      alert("Invalid credentials!");
-    }
-  };
 
-  const handleGoogleLogin = async () => {
-    try {
-      await signInWithGoogle(); // You'll need to implement signInWithGoogle in your Firebase file
-      alert("Google login successful!");
-      navigate("/home");
-    } catch (error) {
-      alert(error.message);
+    if(!email || !password){
+      setErrors("Please enter both email and password");
+      return;
     }
-  };
+    console.log("checking credentials for : ", email , password);
 
-  const handleFacebookLogin = async () => {
-    try {
-      await signInWithFacebook(); // You'll need to implement signInWithFacebook in your Firebase file
-      alert("Facebook login successful!");
-      navigate("/home");
-    } catch (error) {
-      alert(error.message);
+    const user = users.find((u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password );
+
+    console.log("Matched user: ",user);
+
+    if(user){
+      console.log("Login Successful!");
+      setEmail("");
+      setPassword("");
+      setErrors("");
+      navigate("/student");
     }
-  };
+    else{
+      console.log("Invalid credentials");
+      setErrors("Invalid email or password");
+    }
+  }
+
 
   return (
     <div className="login-container">
       <div className="login-box">
         <h1 className="login-title">AUTOMATED EXAMINER LOGIN</h1>
         <form onSubmit={handleLogin}>
-          <label>USER NAME / USER EMAIL</label>
+          <label>USER EMAIL</label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <label>PASSWORD</label>
+          <label>USER PASSWORD</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button type="submit" className="login-btn">
-            LOGIN
+          <button type="submit" className="login-submit-btn">
+            Submit
           </button>
         </form>
-
-        <p className="or-continue">Or continue with</p>
-
-        <button onClick={handleFacebookLogin} className="social-btn">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
-            alt="Facebook"
-            width="20"
-          />
-          &nbsp; Continue with Facebook
-        </button>
-
-        <button onClick={handleGoogleLogin} className="social-btn">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_icon.png"
-            alt="Google"
-            width="20"
-          />
-          &nbsp; Continue with Google
-        </button>
+        {errors && <p style={{ color: "red" }}>{errors}</p>}
       </div>
     </div>
   );
