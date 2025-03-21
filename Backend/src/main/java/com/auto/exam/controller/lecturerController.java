@@ -50,9 +50,9 @@ public class lecturerController {
     @Autowired
     public lecturerController(examService examService, courseService courseService, courseOfferingRepo courseOfferingRepo, questionService questionService) {
         this.courseService = courseService;
-        this.courseOfferingRepo = courseOfferingRepo;
         this.questionService = questionService;
         this.courseOfferingRepo = courseOfferingRepo;
+        this.examService = examService;
     }
     
 
