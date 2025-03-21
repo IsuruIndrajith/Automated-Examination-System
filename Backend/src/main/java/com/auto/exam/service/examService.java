@@ -2,6 +2,8 @@ package com.auto.exam.service;
 
 
 import com.auto.exam.Dto.ExamRequest;
+import com.auto.exam.Dto.MarkQuestions;
+import com.auto.exam.Dto.ProvideQuestion;
 import com.auto.exam.Model.*;
 import com.auto.exam.repo.*;
 import com.auto.exam.util.SecurityUtil;
@@ -52,7 +54,7 @@ public class examService {
     }
     
     public List<SendingExam> getExamsUsingDateAndLecture(ExamRequest request){
-        UserPrincipal userPrincipal = SecurityUtil.getAuthenticatedUser();     
+        UserPrincipal userPrincipal = SecurityUtil.getAuthenticatedUser();
 
         Date date;
         try {

@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.auto</groupId>
-	<artifactId>exam</artifactId>
+	<artifactId>examId</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>exam</name>
+	<name>examId</name>
 	<description>Automated examination system</description>
 	<url/>
 	<licenses>
