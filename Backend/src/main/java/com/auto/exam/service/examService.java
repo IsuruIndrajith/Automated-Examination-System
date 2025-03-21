@@ -1,23 +1,20 @@
 package com.auto.exam.service;
 
+import com.auto.exam.Dto.ExamRequest;
 import com.auto.exam.Model.*;
 import com.auto.exam.repo.*;
 
 import org.springframework.security.core.Authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,11 +26,12 @@ public class examService {
     private questionRepo questionRepo;
     private attemptRepo attemptRepo;
     private studentRepo studentRepo;
+    private examanalysisRepo examanalysisRepo;
 
     private long ExamId;
   
     @Autowired
-    public examService(examRepo examRepo, courseRegisterRepo courseRegisterRepo,questionRepo questionRepo,userRepo userRepo,studentDetailsService studentDetailsService,attemptRepo attemptRepo,studentRepo studentRepo){
+    public examService(examRepo examRepo, courseRegisterRepo courseRegisterRepo,questionRepo questionRepo,userRepo userRepo,studentDetailsService studentDetailsService,attemptRepo attemptRepo,studentRepo studentRepo,examanalysisRepo examanalysisRepo){
         this.examRepo=examRepo;
         this.courseRegisterRepo=courseRegisterRepo;
         this.questionRepo = questionRepo;
@@ -41,6 +39,7 @@ public class examService {
         this.studentDetailsService = studentDetailsService;
         this.attemptRepo = attemptRepo;
         this.studentRepo = studentRepo;
+        this.examanalysisRepo = examanalysisRepo;
     }
     
 
@@ -78,12 +77,26 @@ public class examService {
     public List<MarkQuestions> markQuestions(List<MarkQuestions> markQuestions) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+
         int TotalMarks = 0;
         Attempt attempt = new Attempt();
-        for (MarkQuestions question : markQuestions) {
 
+        User user = userRepo.findByUsername(userPrincipal.getUsername());
+        Student student = studentRepo.findByUser(user);
+
+        Exam exam = examRepo.findExamByExamId(ExamId);
+
+        for (MarkQuestions question : markQuestions) {
             String correctAnswer = questionRepo.findAnswerByQuestionId((long) question.getQuestionId());
             int retrievedMarks = questionRepo.findMarksByQuestionId((long) question.getQuestionId());
+
+            // Save Exam Analysis (User's Answer)
+            ExamAnalysis examAnalysis = new ExamAnalysis();
+            examAnalysis.setExam(exam);
+            examAnalysis.setQuestion(questionRepo.findById((long)question.getQuestionId()).orElse(null));
+            examAnalysis.setStudentAnswer(question.getAnswer()); // Save user-provided answer
+
+            examanalysisRepo.save(examAnalysis); // Save the entry into the exam_analysis table
 
             // Compare the given answer with the correct answer
             if (question.getAnswer().equalsIgnoreCase(correctAnswer)) {
@@ -91,28 +104,23 @@ public class examService {
             } else {
                 question.setMarks(0); // Assign 0 marks for incorrect answers
             }
-            TotalMarks = TotalMarks+question.getMarks();
+            TotalMarks += question.getMarks();
         }
+
         attempt.setMarks(TotalMarks);
-
-        Exam exam =  examRepo.findExamByExamId(ExamId);
-        User user = userRepo.findByUsername(userPrincipal.getUsername());
-
         attempt.setExam(exam);
         attempt.setGrade(getGrade(TotalMarks));
-
-        Student student = studentRepo.findByUser(user);
-
         attempt.setStudent(student);
+
         try {
             attemptRepo.save(attempt);
+        } catch (Exception e) {
+            System.out.println("Cannot Attempt More Than One Time " + e);
         }
-        catch (Exception e){
-            System.out.println("Cannot Attempt More Than One Time "+e);
-           // return "Cannot Attempt More Than One Time";
-        }
+
         return markQuestions;
     }
+
 
     public Character getGrade(int totalMarks) {
         if (totalMarks >= 90) return 'A';

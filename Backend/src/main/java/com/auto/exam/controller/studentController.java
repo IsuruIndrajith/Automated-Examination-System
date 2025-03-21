@@ -1,25 +1,19 @@
 package com.auto.exam.controller;
 
+import com.auto.exam.Dto.ExamReport;
+import com.auto.exam.Dto.ExamReportAnalysis;
+import com.auto.exam.Dto.ExamRequest;
 import com.auto.exam.Model.*;
 import com.auto.exam.repo.userRepo;
 import com.auto.exam.service.studentDetailsService;
 import com.auto.exam.service.examService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.crypto.Data;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 @RestController
 @CrossOrigin
@@ -73,6 +67,18 @@ public class studentController {
     @PostMapping("/exam/{ExamID}/submit")
     public ResponseEntity<List<MarkQuestions>> markQuestions(@RequestBody List<MarkQuestions> markQuestions){
         return new ResponseEntity<>(examService.markQuestions(markQuestions),HttpStatus.ACCEPTED) ;
+    }
+
+
+    @PostMapping("/reports")
+    public ResponseEntity<List<ExamReport>> getReports(){
+        return new ResponseEntity<>(studentDetailsService.getReports(),HttpStatus.OK) ;
+    }
+
+    @PostMapping("/reports/{examId}")
+    public ResponseEntity<List<ExamReportAnalysis>> examAnalysis(@PathVariable long examId) {
+        List<ExamReportAnalysis> analysisList = studentDetailsService.examAnalysis(examId);
+        return new ResponseEntity<>(analysisList, HttpStatus.OK);
     }
 
 
