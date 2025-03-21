@@ -32,6 +32,9 @@ public class Registration {
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
+    public Registration() {
+    }
+
     public Registration(Long registrationId, LocalDate registrationDate, Integer semester, AR ar, Student student) {
         this.registrationId = registrationId;
         this.registrationDate = registrationDate;
