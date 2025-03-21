@@ -165,9 +165,7 @@ public class examService {
     }
 
 	public Long addExam( Map<String, Object> payload) {
-
-        // System.out.println("9999999999999999999999999999999999");
-
+        
         Long offeringId = Long.valueOf(payload.get("Offering_ID").toString());
         LocalDateTime startDateTime = LocalDateTime.parse(payload.get("startDateTime").toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         Integer duration = Integer.valueOf(payload.get("duration").toString());
