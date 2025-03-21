@@ -2,6 +2,10 @@ import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } 
 import Login from './pages/Login';
 import StudentHomepage from './pages/StudentHomePage';
 import AdminHome from './pages/AdminHome';
+<<<<<<< HEAD
+=======
+
+>>>>>>> 97396686aa32552f05488ed25f526f48d153d683
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
