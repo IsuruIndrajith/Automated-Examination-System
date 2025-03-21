@@ -65,14 +65,14 @@ public class studentController {
     }
 
     @PostMapping("/exam/{ExamID}")
-    public List<ProvideQuestion> examQuestions(@PathVariable long ExamID){
-        return examService.getQuestions(ExamID);
+    public ResponseEntity<List<ProvideQuestion>> examQuestions(@PathVariable long ExamID){
+        return new ResponseEntity<>(examService.getQuestions(ExamID),HttpStatus.OK);
     }
 
 
     @PostMapping("/exam/{ExamID}/submit")
-    public List<MarkQuestions> markQuestions(@RequestBody List<MarkQuestions> markQuestions){
-        return examService.markQuestions(markQuestions);
+    public ResponseEntity<List<MarkQuestions>> markQuestions(@RequestBody List<MarkQuestions> markQuestions){
+        return new ResponseEntity<>(examService.markQuestions(markQuestions),HttpStatus.ACCEPTED) ;
     }
 
 
