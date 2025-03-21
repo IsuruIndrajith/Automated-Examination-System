@@ -40,7 +40,6 @@ public class studentController {
 
     @GetMapping("/getall")
     public ResponseEntity<List<Student>> getStudents(){
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName()+"---------------------------");
         List<Student> st = studentDetailsService.get_student();
         return new ResponseEntity<>(st, HttpStatus.OK);
     }
@@ -48,7 +47,6 @@ public class studentController {
     @PostMapping("/add")
     public ResponseEntity<Student> addStudent(@RequestBody Student student) {
         Student newStudent = studentDetailsService.save_student(student);
-        System.out.println(newStudent.toString());
         return new ResponseEntity<>(newStudent, HttpStatus.CREATED);
     }
 
@@ -58,9 +56,9 @@ public class studentController {
         return userRepo.findByUsername(username);
     }
 
-    @PostMapping("/getexams")
-    public ResponseEntity<List<Exam>> getExamsOnDate(@RequestBody ExamRequest request) {
-        List<Exam> ex = examService.getExamsUsingDate(request);
+    @PostMapping("/getExamsByDate")
+    public ResponseEntity<List<SendingExam>> getExamsOnDate(@RequestBody ExamRequest request) {
+        List<SendingExam> ex = examService.getExamsUsingDateAndStudent(request);
         return new ResponseEntity<>(ex, HttpStatus.OK); 
     }
 

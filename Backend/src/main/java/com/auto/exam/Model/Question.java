@@ -18,6 +18,9 @@ public class Question {
     @JoinColumn(name = "exam_id")
     private Exam exam;
 
+    public Question() {
+    }
+
     public Question(Long questionId, String question, Integer marks, String answer, Exam exam) {
         this.questionId = questionId;
         this.question = question;

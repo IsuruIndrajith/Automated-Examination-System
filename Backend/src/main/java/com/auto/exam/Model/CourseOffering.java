@@ -1,12 +1,20 @@
 package com.auto.exam.Model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
 
+
+
 @Entity
 @Table(name = "course_offering")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class CourseOffering {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,5 +39,6 @@ public class CourseOffering {
 
     @OneToMany(mappedBy = "offering", cascade = CascadeType.ALL)
     private List<CourseRegister> courseRegisters;
+    
 
 }
