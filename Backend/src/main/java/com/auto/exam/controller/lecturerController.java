@@ -46,6 +46,8 @@ public class lecturerController {
     private courseOfferingRepo courseOfferingRepo;
     private questionService questionService;
 
+    
+    @Autowired
     public lecturerController(examService examService, courseService courseService, courseOfferingRepo courseOfferingRepo, questionService questionService) {
         this.courseService = courseService;
         this.courseOfferingRepo = courseOfferingRepo;
