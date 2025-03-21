@@ -164,7 +164,7 @@ public class examService {
         else return 'F';
     }
 
-	public Exam addExam( Map<String, Object> payload) {
+	public Long addExam( Map<String, Object> payload) {
 
         // System.out.println("9999999999999999999999999999999999");
 
@@ -190,6 +190,6 @@ public class examService {
             // Save the Exam object
 
         examRepo.save(exam);
-        return exam;
+        return exam.getExamId();
     }
 }

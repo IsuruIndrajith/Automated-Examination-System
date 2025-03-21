@@ -64,10 +64,10 @@ public class lecturerController {
     }
 
     @PostMapping("/addExam")
-    public ResponseEntity<Exam> addExam(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<Long> addExam(@RequestBody Map<String, Object> payload) {
         try {
-            Exam savedExam = examService.addExam(payload);
-            return new ResponseEntity<>(savedExam, HttpStatus.CREATED);
+            Long savedExamId = examService.addExam(payload);
+            return new ResponseEntity<>(savedExamId, HttpStatus.CREATED);
 
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
