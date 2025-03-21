@@ -1,4 +1,4 @@
-package com.auto.exam.Model;
+package com.auto.exam.Dto;
 
 public class MarkQuestions {
     private int QuestionId;

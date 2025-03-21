@@ -1,8 +1,6 @@
 package com.auto.exam.controller;
 
-import com.auto.exam.Dto.ExamReport;
-import com.auto.exam.Dto.ExamReportAnalysis;
-import com.auto.exam.Dto.ExamRequest;
+import com.auto.exam.Dto.*;
 import com.auto.exam.Model.*;
 import com.auto.exam.repo.userRepo;
 import com.auto.exam.service.studentDetailsService;
