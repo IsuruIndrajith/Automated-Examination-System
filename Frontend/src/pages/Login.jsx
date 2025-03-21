@@ -1,94 +1,75 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, TextField, Button, Typography, Box } from "@mui/material";
-import { signInWithGoogle, signInWithFacebook } from "../firebase";
+import "./login.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [users, setUsers] = useState([]);
+  const [errors, setErrors] = useState("");
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    fetch('/users.json')
+    .then((res) => res.json())
+    .then((data) => {setUsers(data.users);
+                     console.log("Fetched Users: ",data.users);})
+    .catch((err) => console.error("Error in fetching users: ", err));} , []
+  );
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (email === "admin@example.com" && password === "password") {
-      alert("Login successful!");
-      navigate("/home");
-    } else {
-      alert("Invalid credentials!");
-    }
-  };
 
-  const handleGoogleLogin = async () => {
-    try {
-      await signInWithGoogle();
-      alert("Google login successful!");
-      navigate("/home");
-    } catch (error) {
-      alert(error.message);
+    if(!email || !password){
+      setErrors("Please enter both email and password");
+      return;
     }
-  };
+    console.log("checking credentials for : ", email , password);
 
-  const handleFacebookLogin = async () => {
-    try {
-      await signInWithFacebook();
-      alert("Facebook login successful!");
-      navigate("/home");
-    } catch (error) {
-      alert(error.message);
+    const user = users.find((u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password );
+
+    console.log("Matched user: ",user);
+
+    if(user){
+      console.log("Login Successful!");
+      setEmail("");
+      setPassword("");
+      setErrors("");
+      navigate("/student");
     }
-  };
+    else{
+      console.log("Invalid credentials");
+      setErrors("Invalid email or password");
+    }
+  }
+
 
   return (
-    <Container maxWidth="xs" sx={{ 
-      display: "flex", flexDirection: "column", alignItems: "center",
-      justifyContent: "center", height: "100vh", background: "linear-gradient(to bottom, #6a8edb, #4f4cd7)"
-    }}>
-      <Box sx={{ 
-        backgroundColor: "#F5F5F5", padding: "30px", borderRadius: "10px",
-        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)", textAlign: "center"
-      }}>
-        <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold" }}>
-          AUTOMATED EXAMINATION SYSTEM - LOGIN
-        </Typography>
+    <div className="login-container">
+      <div className="login-box">
+        <h1 className="login-title">AUTOMATED EXAMINER LOGIN</h1>
         <form onSubmit={handleLogin}>
-          <TextField
-            label="USER NAME / USER EMAIL"
+          <label>USER EMAIL</label>
+          <input
             type="email"
-            fullWidth
-            margin="normal"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <TextField
-            label="PASSWORD"
+          <label>USER PASSWORD</label>
+          <input
             type="password"
-            fullWidth
-            margin="normal"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <Button type="submit" variant="contained" fullWidth sx={{ backgroundColor: "#000", mt: 2 }}>
-            LOGIN
-          </Button>
+          <button type="submit" className="login-submit-btn">
+            Submit
+          </button>
         </form>
-
-        <Typography variant="body2" sx={{ marginTop: "15px", marginBottom: "5px" }}>
-          Or continue with
-        </Typography>
-
-        <Button onClick={handleFacebookLogin} variant="outlined" fullWidth sx={{ marginBottom: "10px" }}>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" width="20" />
-          &nbsp; Continue with Facebook
-        </Button>
-
-        <Button onClick={handleGoogleLogin} variant="outlined" fullWidth>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_icon.png" alt="Google" width="20" />
-          &nbsp; Continue with Google
-        </Button>
-      </Box>
-    </Container>
+        {errors && <p style={{ color: "red" }}>{errors}</p>}
+      </div>
+    </div>
   );
 };
 

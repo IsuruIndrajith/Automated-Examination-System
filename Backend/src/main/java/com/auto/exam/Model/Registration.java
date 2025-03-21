@@ -32,5 +32,55 @@ public class Registration {
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
-    // Constructors, getters, and setters
+    public Registration() {
+    }
+
+    public Registration(Long registrationId, LocalDate registrationDate, Integer semester, AR ar, Student student) {
+        this.registrationId = registrationId;
+        this.registrationDate = registrationDate;
+        this.semester = semester;
+        this.ar = ar;
+        this.student = student;
+    }
+
+    public Long getRegistrationId() {
+        return registrationId;
+    }
+
+    public void setRegistrationId(Long registrationId) {
+        this.registrationId = registrationId;
+    }
+
+    public LocalDate getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(LocalDate registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+    public Integer getSemester() {
+        return semester;
+    }
+
+    public void setSemester(Integer semester) {
+        this.semester = semester;
+    }
+
+    public AR getAr() {
+        return ar;
+    }
+
+    public void setAr(AR ar) {
+        this.ar = ar;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+// Constructors, getters, and setters
 }
