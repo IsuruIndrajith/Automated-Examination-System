@@ -11,7 +11,7 @@ function Navbar() {
   const navigate = useNavigate();
   const showSidebar = () => setSidebar(!sidebar); 
 
-  const handleLogout = () => {
+  const handleLogout = () => { 
     const isConfirmed = window.confirm("Do you want to continue? ");
     if(isConfirmed){
       console.log("logout confirmed");
