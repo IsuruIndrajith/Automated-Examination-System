@@ -1,14 +1,7 @@
 package com.auto.exam.service;
 
-import com.auto.exam.Model.CourseRegister;
-import com.auto.exam.Model.Exam;
-import com.auto.exam.Model.ExamRequest;
-import com.auto.exam.Model.Student;
-import com.auto.exam.Model.User;
-import com.auto.exam.Model.UserPrincipal;
-import com.auto.exam.repo.courseRegisterRepo;
-import com.auto.exam.repo.examRepo;
-import com.auto.exam.repo.userRepo;
+import com.auto.exam.Model.*;
+import com.auto.exam.repo.*;
 
 import org.springframework.security.core.Authentication;
 
@@ -34,14 +27,20 @@ public class examService {
     private userRepo userRepo;
     private studentDetailsService studentDetailsService;
     private questionRepo questionRepo;
+    private attemptRepo attemptRepo;
+    private studentRepo studentRepo;
+
+    private long ExamId;
   
     @Autowired
-    public examService(examRepo examRepo, courseRegisterRepo courseRegisterRepo,questionRepo questionRepo,userRepo userRepo,studentDetailsService studentDetailsService){
+    public examService(examRepo examRepo, courseRegisterRepo courseRegisterRepo,questionRepo questionRepo,userRepo userRepo,studentDetailsService studentDetailsService,attemptRepo attemptRepo,studentRepo studentRepo){
         this.examRepo=examRepo;
         this.courseRegisterRepo=courseRegisterRepo;
         this.questionRepo = questionRepo;
         this.userRepo = userRepo;
         this.studentDetailsService = studentDetailsService;
+        this.attemptRepo = attemptRepo;
+        this.studentRepo = studentRepo;
     }
     
 
@@ -70,13 +69,17 @@ public class examService {
         Student student = studentRepo.findByUser(user.getUsername());
         */
 
-
+        this.ExamId=examID;
         return questionRepo.findQuestionById(examID).stream()
                 .map(q -> new ProvideQuestion(q.getQuestionId(), q.getQuestion(), q.getMarks()))
                 .collect(Collectors.toList());
     }
     @Transactional
     public List<MarkQuestions> markQuestions(List<MarkQuestions> markQuestions) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        int TotalMarks = 0;
+        Attempt attempt = new Attempt();
         for (MarkQuestions question : markQuestions) {
 
             String correctAnswer = questionRepo.findAnswerByQuestionId((long) question.getQuestionId());
@@ -88,7 +91,35 @@ public class examService {
             } else {
                 question.setMarks(0); // Assign 0 marks for incorrect answers
             }
+            TotalMarks = TotalMarks+question.getMarks();
+        }
+        attempt.setMarks(TotalMarks);
+
+        Exam exam =  examRepo.findExamByExamId(ExamId);
+        User user = userRepo.findByUsername(userPrincipal.getUsername());
+
+        attempt.setExam(exam);
+        attempt.setGrade(getGrade(TotalMarks));
+
+        Student student = studentRepo.findByUser(user);
+
+        attempt.setStudent(student);
+        try {
+            attemptRepo.save(attempt);
+        }
+        catch (Exception e){
+            System.out.println("Cannot Attempt More Than One Time "+e);
+           // return "Cannot Attempt More Than One Time";
         }
         return markQuestions;
+    }
+
+    public Character getGrade(int totalMarks) {
+        if (totalMarks >= 90) return 'A';
+        else if (totalMarks >= 80) return 'B';
+        else if (totalMarks >= 70) return 'C';
+        else if (totalMarks >= 60) return 'D';
+        else if (totalMarks >= 50) return 'E';
+        else return 'F';
     }
 }
