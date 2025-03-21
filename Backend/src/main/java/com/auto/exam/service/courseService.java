@@ -27,8 +27,7 @@ public class courseService {
 
     public List<CoursesForLecture> getCourses() {
         UserPrincipal userPrincipal = SecurityUtil.getAuthenticatedUser();
-        List<Course> cs=courseRepo.findCourseByLectureName(userPrincipal.getUsername());    
-        List<CoursesForLecture> coursesForLectures= cs.stream().map(course -> new CoursesForLecture(course.getCourseId(), course.getCourseName(), course.getCourseCode(), course.getCredits())).toList();
+        List<CoursesForLecture> coursesForLectures= courseRepo.findCourseByLectureName(userPrincipal.getUsername());
         return coursesForLectures; 
     }
 }

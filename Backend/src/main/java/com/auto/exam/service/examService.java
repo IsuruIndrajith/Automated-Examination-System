@@ -4,6 +4,7 @@ package com.auto.exam.service;
 import com.auto.exam.Dto.ExamRequest;
 import com.auto.exam.Model.*;
 import com.auto.exam.repo.*;
+import com.auto.exam.util.SecurityUtil;
 
 import org.springframework.security.core.Authentication;
 
@@ -14,8 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,11 +32,14 @@ public class examService {
     private attemptRepo attemptRepo;
     private studentRepo studentRepo;
     private examanalysisRepo examanalysisRepo;
+    private courseOfferingRepo courseOfferingRepo;
 
     private long ExamId;
   
     @Autowired
-    public examService(examRepo examRepo, courseRegisterRepo courseRegisterRepo,questionRepo questionRepo,userRepo userRepo,studentDetailsService studentDetailsService,attemptRepo attemptRepo,studentRepo studentRepo,examanalysisRepo examanalysisRepo){
+    public examService(examRepo examRepo, courseRegisterRepo courseRegisterRepo,questionRepo questionRepo,
+                        userRepo userRepo,studentDetailsService studentDetailsService,attemptRepo attemptRepo,
+                        studentRepo studentRepo,examanalysisRepo examanalysisRepo, courseOfferingRepo courseOfferingRepo) {
         this.examRepo=examRepo;
         this.courseRegisterRepo=courseRegisterRepo;
         this.questionRepo = questionRepo;
@@ -41,6 +48,7 @@ public class examService {
         this.attemptRepo = attemptRepo;
         this.studentRepo = studentRepo;
         this.examanalysisRepo = examanalysisRepo;
+        this.courseOfferingRepo = courseOfferingRepo;
     }
     
     public List<SendingExam> getExamsUsingDateAndLecture(ExamRequest request){
@@ -154,5 +162,34 @@ public class examService {
         else if (totalMarks >= 60) return 'D';
         else if (totalMarks >= 50) return 'E';
         else return 'F';
+    }
+
+	public Exam addExam( Map<String, Object> payload) {
+
+        // System.out.println("9999999999999999999999999999999999");
+
+        Long offeringId = Long.valueOf(payload.get("Offering_ID").toString());
+        LocalDateTime startDateTime = LocalDateTime.parse(payload.get("startDateTime").toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        Integer duration = Integer.valueOf(payload.get("duration").toString());
+        Integer passingCriteria = Integer.valueOf(payload.get("passingCriteria").toString());
+        Integer type = Integer.valueOf(payload.get("type").toString());
+        Integer totalMarks = Integer.valueOf(payload.get("totalMarks").toString());
+
+            // Fetch the CourseOffering entity
+        CourseOffering courseOffering = courseOfferingRepo.findById(offeringId).orElseThrow(() -> new IllegalArgumentException("Invalid Offering_ID"));
+
+            // Create the Exam object
+        Exam exam = new Exam();
+        exam.setCourseOffering(courseOffering);
+        exam.setStartDateTime(startDateTime);
+        exam.setDuration(duration);
+        exam.setPassingCriteria(passingCriteria);
+        exam.setType(type);
+        exam.setTotalMarks(totalMarks);
+
+            // Save the Exam object
+
+        examRepo.save(exam);
+        return exam;
     }
 }
