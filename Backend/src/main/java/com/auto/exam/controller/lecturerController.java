@@ -22,10 +22,13 @@ import com.auto.exam.Dto.ExamAdding;
 import com.auto.exam.Model.Course;
 import com.auto.exam.Model.Exam;
 import com.auto.exam.Dto.ExamRequest;
+import com.auto.exam.Dto.GenQuestion;
 import com.auto.exam.Model.SendingExam;
 import com.auto.exam.service.examService;
+import com.auto.exam.service.questionService;
 import com.auto.exam.Model.CourseOffering;
 import com.auto.exam.repo.courseOfferingRepo;
+import com.auto.exam.repo.questionRepo;
 
 import jakarta.transaction.Transactional;
 
@@ -41,12 +44,15 @@ public class lecturerController {
     private examService examService;
     private courseService courseService;
     private courseOfferingRepo courseOfferingRepo;
+    private questionService questionService;
 
+    
     @Autowired
-    public lecturerController(examService examService, courseService courseService, courseOfferingRepo courseOfferingRepo) {
+    public lecturerController(examService examService, courseService courseService, courseOfferingRepo courseOfferingRepo, questionService questionService) {
         this.courseService = courseService;
-        this.examService = examService;
+        this.questionService = questionService;
         this.courseOfferingRepo = courseOfferingRepo;
+        this.examService = examService;
     }
     
 
@@ -55,6 +61,9 @@ public class lecturerController {
         List<SendingExam> ex = examService.getExamsUsingDateAndLecture(request);
         return new ResponseEntity<>(ex, HttpStatus.OK); 
     }
+    // {
+    //     "date": "2025-06-1 09:00:00"
+    // }
 
     @GetMapping("/getCourses")
     @Transactional
@@ -64,10 +73,61 @@ public class lecturerController {
     }
 
     @PostMapping("/addExam")
-    public ResponseEntity<Exam> addExam(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<Long> addExam(@RequestBody Map<String, Object> payload) {
         try {
-            Exam savedExam = examService.addExam(payload);
-            return new ResponseEntity<>(savedExam, HttpStatus.CREATED);
+            Long savedExamId = examService.addExam(payload);
+            return new ResponseEntity<>(savedExamId, HttpStatus.CREATED);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+    // {
+    //     "Offering_ID": 1,
+    //     "startDateTime": "2025-06-01 09:00:00",
+    //     "duration": 60,
+    //     "passingCriteria": 50,
+    //     "type": 1,
+    //     "totalMarks": 100
+    // }
+
+
+    @PostMapping("/addQuestions")
+    public ResponseEntity<List<Long>> addQuestions(@RequestBody Map<String, Object> payload) {
+        try {
+            List<Long> savedExamId = questionService.addQuestions(payload);
+            return new ResponseEntity<>(savedExamId, HttpStatus.CREATED);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+    // {
+    //     "examId": 32,
+    //     "questions": [
+    //       {
+    //         "question": "What is the capital of France?",
+    //         "marks": 5,
+    //         "answer": "Paris"
+    //       },
+    //       {
+    //         "question": "Solve: 5 + 3",
+    //         "marks": 2,
+    //         "answer": "8"
+    //       },
+    //       {
+    //         "question": "What is the chemical symbol for water?",
+    //         "marks": 3,
+    //         "answer": "H2O"
+    //       }
+    //     ]
+    //   }
+
+    @PostMapping("/generateExamAi")
+    public ResponseEntity<List<GenQuestion>> generateExamAi(@RequestBody Map<String, Object> payload) {
+        try {
+            List<GenQuestion> savedExamId = questionService.generateQuestions(payload);
+            return new ResponseEntity<>(savedExamId, HttpStatus.CREATED);
 
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
