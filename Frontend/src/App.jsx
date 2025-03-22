@@ -8,6 +8,7 @@ import StudentNotes from './pages/StudentNotes';
 import StudentReports from './pages/StudentReports';
 import Scomplains from './pages/Scomplains';
 import { UserProvider } from "./components/userContext"; 
+import AdminHome from './pages/AdminHome';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,7 +21,8 @@ const router = createBrowserRouter(
       <Route path="/student-note" element={<StudentNotes />} />
       <Route path="/student-report" element={<StudentReports />} />
       <Route path="/student-complain" element={<Scomplains />} />
-    </Route>
+      <Route path="/admin" element={<AdminHome />} />
+     </Route>
   )
 );
 

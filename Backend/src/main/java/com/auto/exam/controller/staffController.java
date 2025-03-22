@@ -24,14 +24,12 @@ public class staffController {
     @GetMapping("/all")
     public ResponseEntity<List<Staff>> getAll(){
         List<Staff> st=staffService.getAll();
-//        System.out.println(st);
         return new ResponseEntity<>(st,HttpStatus.OK);
     }
 
     @PostMapping("/add")
     public ResponseEntity<Staff> addStaff(@RequestBody Staff staff) {
         Staff newStaff = staffService.save_staff(staff);
-        System.out.println(newStaff.toString());
         return new ResponseEntity<>(newStaff, HttpStatus.CREATED);
     }
 

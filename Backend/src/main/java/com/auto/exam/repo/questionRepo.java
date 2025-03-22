@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface questionRepo extends JpaRepository<Question, Long> {
@@ -21,5 +22,7 @@ public interface questionRepo extends JpaRepository<Question, Long> {
     // Get the correct answer for a specific question
     @Query("SELECT q.answer FROM Question q WHERE q.questionId = :questionId")
     String findAnswerByQuestionId(Long questionId);
+
+
 
 }
