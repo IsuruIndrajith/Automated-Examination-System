@@ -3,7 +3,7 @@
     justify-content: space-between;
     align-items: flex-start;
     padding: 20px;
-    font-family: Arial, sans-serif;
+    font-family: 'Inter', sans-serif;
   }
   
   .calendar-section {
@@ -11,7 +11,7 @@
     max-width: 55%;
     text-align: center;
     align-items: center;
-  }
+  } 
   
   .react-calendar {
     margin-left: 210px;

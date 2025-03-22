@@ -3,7 +3,8 @@
   justify-content: space-between;
   align-items: flex-start;
   padding: 20px;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
+  height: 90vh;
 }
 
 .calendar-section {
@@ -132,9 +133,12 @@
 
 
 .tasks-section {
-  flex: 1; 
+  flex: 1;  
   max-width: 40%;
   text-align: left;
+  max-height: calc(100vh - 150px);  /* Adjust this depending on other sections */
+  overflow-y: auto;  /* Enable vertical scroll for the tasks section */
+  padding: 20px;
 }
 
 .task-cards {

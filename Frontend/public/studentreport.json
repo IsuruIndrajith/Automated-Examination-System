@@ -1,0 +1,58 @@
+[
+    {
+      "id": 1,
+      "name": "Math",
+      "lastAttempt": "2025-03-21",
+      "marksObtained": 85,
+      "totalMarks": 100,
+      "progress": 85,
+      "lastTimeMarks": 90
+    },
+    {
+      "id": 2,
+      "name": "Science",
+      "lastAttempt": "2025-03-18",
+      "marksObtained": 90,
+      "totalMarks": 100,
+      "progress": 90,
+      "lastTimeMarks": 87
+    },
+    {
+        "id": 3,
+        "name": "History",
+        "lastAttempt": "2025-03-12",
+        "marksObtained": 79,
+        "totalMarks": 100,
+        "progress": 79,
+        "lastTimeMarks": 67
+      },
+      {
+        "id": 4,
+        "name": "Civics",
+        "lastAttempt": "2025-03-11",
+        "marksObtained": 90,
+        "totalMarks": 100,
+        "progress": 90,
+        "lastTimeMarks": 95
+      },
+      {
+        "id": 5,
+        "name": "English",
+        "lastAttempt": "2025-03-18",
+        "marksObtained": 80,
+        "totalMarks": 100,
+        "progress": 80,
+        "lastTimeMarks": 76
+
+      },
+      {
+        "id": 6,
+        "name": "ICT",
+        "lastAttempt": "2025-03-18",
+        "marksObtained": 87,
+        "totalMarks": 100,
+        "progress": 87,
+        "lastTimeMarks": 69 
+      }
+  ]
+  

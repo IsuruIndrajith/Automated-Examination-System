@@ -1,0 +1,141 @@
+{
+    "quizzes": [
+      {
+        "id": 1,
+        "title": "JavaScript Basics",
+        "subject": "JavaScript",
+        "duration": 10,
+        "questions": [
+          {
+            "id": 101,
+            "questionText": "What does 'var' declare in JavaScript?",
+            "options": ["A variable", "A function", "A constant", "An object"],
+            "correctAnswer": "A variable"
+          },
+          {
+            "id": 102,
+            "questionText": "Which keyword is used to declare a constant in JavaScript?",
+            "options": ["const", "let", "var", "static"],
+            "correctAnswer": "const"
+          },
+          {
+            "id": 103,
+            "questionText": "Which keyword is used to declare a constant in JavaScript?",
+            "options": ["const", "let", "var", "static"],
+            "correctAnswer": "const"
+          },
+          {
+            "id": 104,
+            "questionText": "Which keyword is used to declare a constant in JavaScript?",
+            "options": ["const", "let", "var", "static"],
+            "correctAnswer": "const"
+          },
+          {
+            "id": 105,
+            "questionText": "Which keyword is used to declare a constant in JavaScript?",
+            "options": ["const", "let", "var", "static"],
+            "correctAnswer": "const"
+          },
+          {
+            "id": 106,
+            "questionText": "Which keyword is used to declare a constant in JavaScript?",
+            "options": ["const", "let", "var", "static"],
+            "correctAnswer": "const"
+          },
+          {
+            "id": 107,
+            "questionText": "Which keyword is used to declare a constant in JavaScript?",
+            "options": ["const", "let", "var", "static"],
+            "correctAnswer": "const"
+          },
+          {
+            "id": 108,
+            "questionText": "Which keyword is used to declare a constant in JavaScript?",
+            "options": ["const", "let", "var", "static"],
+            "correctAnswer": "const"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "React Fundamentals",
+        "subject": "React",
+        "duration": 15,
+        "questions": [
+          {
+            "id": 201,
+            "questionText": "What is JSX?",
+            "options": ["Java XML", "JavaScript XML", "JSON XML", "JS Extended"],
+            "correctAnswer": "JavaScript XML"
+          },
+          {
+            "id": 202,
+            "questionText": "Which hook is used to manage state in a functional component?",
+            "options": ["useEffect", "useState", "useReducer", "useContext"],
+            "correctAnswer": "useState"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "CSS Mastery",
+        "subject": "CSS",
+        "duration": 8,
+        "questions": [
+          {
+            "id": 301,
+            "questionText": "Which property is used to change text color in CSS?",
+            "options": ["background-color", "font-color", "color", "text-style"],
+            "correctAnswer": "color"
+          },
+          {
+            "id": 302,
+            "questionText": "What does 'vh' stand for in CSS?",
+            "options": ["Viewport Height", "Virtual Height", "Variable Height", "Vector Height"],
+            "correctAnswer": "Viewport Height"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "CSS Mastery",
+        "subject": "CSS",
+        "duration": 8,
+        "questions": [
+          {
+            "id": 301,
+            "questionText": "Which property is used to change text color in CSS?",
+            "options": ["background-color", "font-color", "color", "text-style"],
+            "correctAnswer": "color"
+          },
+          {
+            "id": 302,
+            "questionText": "What does 'vh' stand for in CSS?",
+            "options": ["Viewport Height", "Virtual Height", "Variable Height", "Vector Height"],
+            "correctAnswer": "Viewport Height"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "CSS Mastery",
+        "subject": "CSS",
+        "duration": 8,
+        "questions": [
+          {
+            "id": 301,
+            "questionText": "Which property is used to change text color in CSS?",
+            "options": ["background-color", "font-color", "color", "text-style"],
+            "correctAnswer": "color"
+          },
+          {
+            "id": 302,
+            "questionText": "What does 'vh' stand for in CSS?",
+            "options": ["Viewport Height", "Virtual Height", "Variable Height", "Vector Height"],
+            "correctAnswer": "Viewport Height"
+          }
+        ]
+      }
+    ]
+  }
+  
