@@ -73,6 +73,16 @@ public class lecturerController {
         return new ResponseEntity<>(courses, HttpStatus.OK);
     }
 
+    // [
+    // {
+    //     "courseId": 1,
+    //     "courseName": "Introduction to CS",
+    //     "courseCode": "CS101",
+    //     "credits": 3,
+    //     "offeringId": 1
+    // }
+    // ]
+
     @PostMapping("/addExam")
     public ResponseEntity<Long> addExam(@RequestBody Map<String, Object> payload) {
         try {
@@ -134,4 +144,5 @@ public class lecturerController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
+
 }

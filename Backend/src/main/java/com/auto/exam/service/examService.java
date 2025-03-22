@@ -192,4 +192,9 @@ public class examService {
         examRepo.save(exam);
         return exam.getExamId();
     }
+
+    public List<SendingExam> getAllExams() {
+        List<Exam> exams = examRepo.findAll();
+        return exams.stream().map(exam -> new SendingExam(exam.getExamId(), exam.getStartDateTime(), exam.getDuration(), exam.getPassingCriteria(), exam.getType(), exam.getTotalMarks(), exam.getCourseOffering().getCourse().getCourseId(), exam.getCourseOffering().getCourse().getCourseName(), exam.getCourseOffering().getCourse().getCourseCode())).collect(Collectors.toList());
+    }
 }
