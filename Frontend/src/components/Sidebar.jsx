@@ -9,44 +9,54 @@ import { CgDanger } from "react-icons/cg";
 export const SidebarData = [
   {
     title: "Home",
-    icon: <AiIcons.AiFillHome size={20} color="black" />,
+    icon: <AiIcons.AiFillHome size={20} color="black" style={{ marginRight: "10px" }} />,
     cName: "nav-text home-bg",
-    onClick: (navigate) => navigate("/"),
+    onClick: (navigate) => navigate("/student"),
   },
   {
     title: "Exam",
-    icon: <IoIcons.IoIosPaper size={20} color="black" />,
+    icon: <IoIcons.IoIosPaper size={20} color="black" style={{ marginRight: "10px" }} />,
     cName: "nav-text home-bg",
-    onClick: (navigate) => navigate("/exams"),
+    hasSubmenu: true, // Indicates it has a submenu
+    subMenu: [
+      {
+        title: "Register Exam",
+        onClick: (navigate) => navigate("/student-exam"),
+      },
+      {
+        title: "Take Exam",
+        onClick: (navigate) => navigate("/student-exam"),
+      },
+    ],
   },
   {
     title: "Quiz",
-    icon: <MdQuiz size={20} color="black" />,
+    icon: <MdQuiz size={20} color="black" style={{ marginRight: "10px" }}/>,
     cName: "nav-text home-bg",
-    onClick: (navigate) => navigate("/quiz"),
+    onClick: (navigate) => navigate("/student-quiz"),
   },
   {
     title: "Assignment",
-    icon: <IoIcons.IoMdPeople size={20} color="black" />,
+    icon: <IoIcons.IoMdPeople size={20} color="black" style={{ marginRight: "10px" }}/>,
     cName: "nav-text home-bg",
-    onClick: (navigate) => navigate("/assignments"),
+    onClick: (navigate) => navigate("/student-assign"),
   },
   {
     title: "Reports",
-    icon: <FaIcons.FaEnvelopeOpenText size={20} color="black" />,
+    icon: <FaIcons.FaEnvelopeOpenText size={20} color="black" style={{ marginRight: "10px" }}/>,
     cName: "nav-text home-bg",
-    onClick: (navigate) => navigate("/reports"),
+    onClick: (navigate) => navigate("/student-report"),
   },
   {
     title: "Notes",
-    icon: <FaStickyNote size={20} color="black" />,
+    icon: <FaStickyNote size={20} color="black" style={{ marginRight: "10px" }}/>,
     cName: "nav-text home-bg",
-    onClick: (navigate) => navigate("/notes"),
+    onClick: (navigate) => navigate("/student-note"),
   },
   {
     title: "Complains",
-    icon: <CgDanger size={20} color="black" />,
+    icon: <CgDanger size={20} color="black" style={{ marginRight: "10px" }}/>,
     cName: "nav-text home-bg",
-    onClick: (navigate) => navigate("/complains"),
+    onClick: (navigate) => navigate("/student-complain"),
   },
 ];

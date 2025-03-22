@@ -1,12 +1,12 @@
 import React from 'react';
 import StudentHomePage from './StudentHomePage';
 
-const StudentQuiz = () => {
+const StudentExams = () => {
   return (
-      <>
+    <>
         <StudentHomePage/>
-      </>
+    </>
   )
 }
 
-export default StudentQuiz
+export default StudentExams;

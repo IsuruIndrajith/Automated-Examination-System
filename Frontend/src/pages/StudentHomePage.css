@@ -19,8 +19,13 @@
   height: 550px; 
   background: #1C1C1C;
   border-radius: 10px;
-  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.8);
   padding: 20px;
+}
+
+.calendar-section:hover{
+  transform: scale(1.02);
+  transition: 0.3s;
 }
 
 .calendar-legend{

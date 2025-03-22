@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
+import { UserContext } from "../components/userContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -8,41 +9,48 @@ const Login = () => {
   const [users, setUsers] = useState([]);
   const [errors, setErrors] = useState("");
   const navigate = useNavigate();
+  const { setUser } = useContext(UserContext); // Get user from context
 
-  useEffect(()=>{
+  useEffect(() => {
     fetch('/users.json')
-    .then((res) => res.json())
-    .then((data) => {setUsers(data.users);
-                     console.log("Fetched Users: ",data.users);})
-    .catch((err) => console.error("Error in fetching users: ", err));} , []
-  );
+      .then((res) => res.json())
+      .then((data) => {
+        setUsers(data.users);
+        console.log("Fetched Users: ", data.users);
+      })
+      .catch((err) => console.error("Error in fetching users: ", err));
+  }, []);
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    if(!email || !password){
+    if (!email || !password) {
       setErrors("Please enter both email and password");
       return;
     }
-    console.log("checking credentials for : ", email , password);
+    console.log("Checking credentials for:", email, password);
 
-    const user = users.find((u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password );
+    const user = users.find((u) => 
+      u.email.toLowerCase() === email.toLowerCase() && u.password === password
+    );
 
-    console.log("Matched user: ",user);
+    console.log("Matched user:", user);
 
-    if(user){
+    if (user) {
+      setUser(user.username); // Update context
+      localStorage.setItem("username", user.username); // Save to localStorage
+      console.log("Saved to localStorage:", localStorage.getItem("username"));
+
       console.log("Login Successful!");
       setEmail("");
       setPassword("");
       setErrors("");
-      navigate("/student");
-    }
-    else{
+      navigate("/student"); // Redirect after login
+    } else {
       console.log("Invalid credentials");
       setErrors("Invalid email or password");
     }
-  }
-
+  };
 
   return (
     <div className="login-container">

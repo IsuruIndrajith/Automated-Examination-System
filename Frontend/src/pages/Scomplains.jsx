@@ -1,12 +1,12 @@
 import React from 'react';
 import StudentHomePage from './StudentHomePage';
 
-const StudentQuiz = () => {
+const Scomplains = () => {
   return (
-      <>
+    <>
         <StudentHomePage/>
-      </>
+    </>
   )
 }
 
-export default StudentQuiz
+export default Scomplains;
