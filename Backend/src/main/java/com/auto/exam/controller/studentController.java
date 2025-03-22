@@ -38,17 +38,29 @@ public class studentController {
         return new ResponseEntity<>(st, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Student> addStudent(@RequestBody Student student) {
-        Student newStudent = studentDetailsService.save_student(student);
-        return new ResponseEntity<>(newStudent, HttpStatus.CREATED);
-    }
-
     @GetMapping("/profile")
     public  User getUserProfile() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepo.findByUsername(username);
     }
+
+    @PostMapping("/exam/getAll")
+    public ResponseEntity<List<SendingExam>> getAllExams() {
+        List<SendingExam> ex = examService.getAllExams();
+        return new ResponseEntity<>(ex, HttpStatus.OK);
+    }
+
+    // {
+    //     "examId": 1,
+    //     "startDateTime": "2025-06-01T09:00:00",
+    //     "duration": 60,
+    //     "passingCriteria": 50,
+    //     "type": 1,
+    //     "totalMarks": 100,
+    //     "courseId": 1,
+    //     "courseName": "Introduction to CS",
+    //     "courseCode": "CS101"
+    // },
 
     @PostMapping("/getExamsByDate")
     public ResponseEntity<List<SendingExam>> getExamsOnDate(@RequestBody ExamRequest request) {
@@ -60,6 +72,14 @@ public class studentController {
     public ResponseEntity<List<ProvideQuestion>> examQuestions(@PathVariable long ExamID){
         return new ResponseEntity<>(examService.getQuestions(ExamID),HttpStatus.OK);
     }
+
+//     [
+//     {
+//         "questionId": 1,
+//         "question": "Question1",
+//         "marks": 10
+//     }
+// ]
 
 
     @PostMapping("/exam/{ExamID}/submit")

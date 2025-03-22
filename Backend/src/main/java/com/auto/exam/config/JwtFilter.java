@@ -33,37 +33,22 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = null;
         String username = null;
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            System.out.println("auth1=====================");
+        if (authHeader != null && authHeader.startsWith("Bearer")) {
             token = authHeader.substring(7);
             username = jwtService.extractUserName(token);
-            System.out.println(token+"====================="+username+"=====");
-        }else {
-            System.out.println("else1============================");
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            System.out.println("auth2=============================");
             UserDetails userDetails = context.getBean(MyUserDetailsService.class).loadUserByUsername(username);
-            System.out.println("auth3=============================");
 
             if (jwtService.validateToken(token, userDetails)) {
-                System.out.println("auth4======================================================");
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                System.out.println("auth5===================================================");
                 authToken.setDetails(new WebAuthenticationDetailsSource()
                         .buildDetails(request));
-                System.out.println("auth6================================================");
                 SecurityContextHolder.getContext().setAuthentication(authToken);
 
-                System.out.println("auth7===============================================");
-            }else{
-                System.out.println("else3=====================================");
             }
-        }else{
-            System.out.println("else===========================================");
         }
-        System.out.println("===================="+request);
         filterChain.doFilter(request, response);
     }
 }
