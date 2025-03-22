@@ -11,8 +11,14 @@ import java.util.List;
 
 @Repository
 public interface attemptRepo extends JpaRepository<Attempt, Long> {
-    @Query("SELECT new com.auto.exam.Dto.ExamReport(a.attemptId, a.exam, a.marks, a.grade, a.student.studentId) " +
-            "FROM Attempt a WHERE a.student.studentId = :studentId")
-    List<ExamReport> findExamByStudentId(@Param("studentId") Long studentId);
+    @Query("SELECT new com.auto.exam.Dto.ExamReport(a.attemptId, e.examId, e.startDateTime, e.totalMarks, a.marks, a.grade, s.studentId, c.courseName) " +
+    "FROM Attempt a " +
+    "JOIN a.exam e " +
+    "JOIN a.student s " +
+    "JOIN e.courseOffering co " +
+    "JOIN co.course c " +
+    "WHERE s.studentId = :studentId")
+List<ExamReport> findExamByStudentId(@Param("studentId") Long studentId);
+
 
 }

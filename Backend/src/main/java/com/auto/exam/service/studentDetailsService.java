@@ -70,7 +70,10 @@ public class studentDetailsService {
         return examAnalysisList.stream()
                 .map(exam -> new ExamReportAnalysis(
                         exam.getExam().getExamId(),  // Extract exam ID
-                        exam.getQuestion(),          // Extract question object
+                        exam.getQuestion().getQuestionId(),
+                        exam.getQuestion().getQuestion(),
+                        exam.getQuestion().getMarks(),
+                        exam.getQuestion().getAnswer(),// Extract question object
                         exam.getStudentAnswer()      // Extract student's answer
                 ))
                 .collect(Collectors.toList());
