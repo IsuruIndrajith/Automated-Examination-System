@@ -9,10 +9,10 @@ const Login = () => {
   const [users, setUsers] = useState([]);
   const [errors, setErrors] = useState("");
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext); // Get user from context
+  const { setUser } = useContext(UserContext);
 
   useEffect(() => {
-    fetch('/users.json')
+    fetch("/users.json")
       .then((res) => res.json())
       .then((data) => {
         setUsers(data.users);
@@ -30,22 +30,28 @@ const Login = () => {
     }
     console.log("Checking credentials for:", email, password);
 
-    const user = users.find((u) => 
-      u.email.toLowerCase() === email.toLowerCase() && u.password === password
+    const user = users.find(
+      (u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password
     );
 
-    console.log("Matched user:", user);
-
     if (user) {
-      setUser(user.username); // Update context
-      localStorage.setItem("username", user.username); // Save to localStorage
-      console.log("Saved to localStorage:", localStorage.getItem("username"));
+      setUser(user);
+      localStorage.setItem("user", JSON.stringify(user));
+      console.log("Login Successful!", user);
 
-      console.log("Login Successful!");
-      setEmail("");
-      setPassword("");
-      setErrors("");
-      navigate("/student"); // Redirect after login
+      switch (user.role) {
+        case "student":
+          navigate("/student");
+          break;
+        case "lecturer":
+          navigate("/lecturer");
+          break;
+        case "admin":
+          navigate("/admin");
+          break;
+        default:
+          setErrors("Invalid role detected!");
+      }
     } else {
       console.log("Invalid credentials");
       setErrors("Invalid email or password");

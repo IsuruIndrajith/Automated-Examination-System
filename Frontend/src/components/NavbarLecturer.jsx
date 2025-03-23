@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import * as FaIcons from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
-import { SidebarData } from './Sidebar';
+import { SidebarData } from './SidebarLecturer';
 import './Navbar.css';
 import { IconContext } from 'react-icons';
 
-function Navbar() {
+function NavbarLecturer() {
   const [sidebar, setSidebar] = useState(false);
   const [username, setUsername] = useState("Guest");
   const [activeSubMenu, setActiveSubMenu] = useState(null); 
@@ -32,14 +32,14 @@ function Navbar() {
     }
   };
 
-  return ( 
+  return (
     <>
       <IconContext.Provider value={{ color: '#fff' }}>
         {/* Navbar */}
         <div className='navbar'>
           <Link to='#' className='menu-bars'>
             <div className="icon-text">
-              <FaIcons.FaBars onClick={showSidebar} size={25} style={{ marginRight: "10px" }}  />
+              <FaIcons.FaBars onClick={showSidebar} size={25} style={{ marginRight: "10px" }} />
               <span>Menu</span>
             </div>
           </Link> 
@@ -99,4 +99,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default NavbarLecturer;

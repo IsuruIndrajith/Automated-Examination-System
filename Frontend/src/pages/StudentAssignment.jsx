@@ -98,7 +98,7 @@ const StudentAssignment = () => {
                 </div>
               ) : (
                 // Writing question
-                <textarea
+                <textarea className="text-assign"
                   rows="5"
                   placeholder="Type your answer here..."
                   onChange={(e) => handleTextAnswerChange(q.id, e.target.value)}
@@ -106,7 +106,7 @@ const StudentAssignment = () => {
               )}
             </div>
           ))}
-          <button onClick={submitAssignment} disabled={submitted}>
+          <button className="sub-btn-assign" onClick={submitAssignment} disabled={submitted}>
             Submit Assignment
           </button>
         </div>

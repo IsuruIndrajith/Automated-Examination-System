@@ -19,7 +19,7 @@
     font-size: 2rem;
     background: none;
     color: rgb(255, 255, 255);
-    cursor: pointer;
+    cursor: pointer; 
     
   }
   .user{
@@ -135,5 +135,30 @@
     transform: scale(1.05);
     transition: 0.3s;
 }
+/* Styling for submenu */
+.submenu {
+  padding-left: 20px;
+  background-color: #f0f0f0;
+  list-style: none;
+  display: block; /* Submenu is visible by default when active */
+  background-image: url('../assets/h-bg.png');
+    background-size: cover;
+    background-position: center;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    margin: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+.submenu li {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.submenu li:hover {
+  background-color: #ddd;
+}
+
 
   

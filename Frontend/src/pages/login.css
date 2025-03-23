@@ -61,7 +61,7 @@
     font-size: 1rem;
   }
   
-  button {
+  .login-submit-btn {
     margin-bottom: 15px;
     width: 100%;
     padding: 12px; /* Increased padding */
@@ -73,7 +73,7 @@
     cursor: pointer;
   }
   
-  button:hover {
+  .login-submit-btn:hover {
     background-color: #dcdada;
     color: #000;
     transition: 0.3s;
