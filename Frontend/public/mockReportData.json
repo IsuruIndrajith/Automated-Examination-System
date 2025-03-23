@@ -1,0 +1,31 @@
+{
+    
+    "classReport": {
+      "totalStudents": 50,
+      "averageScore": 78,
+      "highestScore": 95,
+      "lowestScore": 45,
+      "passRate": "85%"
+    },
+    "students": [
+      {
+        "id": "S101",
+        "name": "John Doe",
+        "email": "johndoe@example.com",
+        "assignments": 85,
+        "quizzes": 78,
+        "exams": 90,
+        "finalGrade": "A"
+      },
+      {
+        "id": "S102",
+        "name": "Jane Smith",
+        "email": "janesmith@example.com",
+        "assignments": 72,
+        "quizzes": 80,
+        "exams": 75,
+        "finalGrade": "B+"
+      }
+    ]
+  }
+  

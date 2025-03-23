@@ -5,48 +5,44 @@ import * as IoIcons from "react-icons/io";
 import { MdQuiz } from "react-icons/md";
 import { FaStickyNote } from "react-icons/fa";
 import { CgDanger } from "react-icons/cg";
+import { IoCreateSharp } from "react-icons/io5";
+import { MdNotificationsActive } from "react-icons/md";
 
 export const SidebarData = [
   {
     title: "Home",
     icon: <AiIcons.AiFillHome size={20} color="black" style={{ marginRight: "10px" }} />,
     cName: "nav-text home-bg",
-    onClick: (navigate) => navigate("/student"),
+    onClick: (navigate) => navigate("/lecturer"),
   }, 
   {
-    title: "Exam",
-    icon: <IoIcons.IoIosPaper size={20} color="black" style={{ marginRight: "10px" }} />,
+    title: "Create Event", 
+    icon: <IoCreateSharp size={20} color="black" style={{ marginRight: "10px" }} />,
     cName: "nav-text home-bg",
-    onClick: (navigate) => navigate("/student-exam"),
+    onClick: (navigate) => navigate("/create-event"),
   },
   {
-    title: "Quiz",
-    icon: <MdQuiz size={20} color="black" style={{ marginRight: "10px" }}/>,
+    title:"Notify",
+    icon: <MdNotificationsActive size={20} color="black" style={{ marginRight: "10px" }}/>,
     cName: "nav-text home-bg",
-    onClick: (navigate) => navigate("/student-quiz"),
-  },
-  {
-    title: "Assignment",
-    icon: <IoIcons.IoMdPeople size={20} color="black" style={{ marginRight: "10px" }}/>,
-    cName: "nav-text home-bg",
-    onClick: (navigate) => navigate("/student-assign"),
+    onClick: (navigate) => navigate("/notify"),
   },
   {
     title: "Reports",
     icon: <FaIcons.FaEnvelopeOpenText size={20} color="black" style={{ marginRight: "10px" }}/>,
     cName: "nav-text home-bg",
-    onClick: (navigate) => navigate("/student-report"),
+    onClick: (navigate) => navigate("/lecturer-report"),
   },
   {
     title: "Notes",
     icon: <FaStickyNote size={20} color="black" style={{ marginRight: "10px" }}/>,
     cName: "nav-text home-bg",
-    onClick: (navigate) => navigate("/student-note"),
+    onClick: (navigate) => navigate("/lecturer-note"),
   },
   {
     title: "Complains",
     icon: <CgDanger size={20} color="black" style={{ marginRight: "10px" }}/>,
     cName: "nav-text home-bg",
-    onClick: (navigate) => navigate("/student-complain"),
+    onClick: (navigate) => navigate("/lecturer-complain"),
   },
 ];

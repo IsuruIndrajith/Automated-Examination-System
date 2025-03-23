@@ -1,0 +1,65 @@
+.lecturer-create-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+    font-family: 'Inter', sans-serif;
+    height: 90vh;
+  }
+  .event-section {
+    flex: 1;
+    max-width: 55%;
+    text-align: center;
+    align-items: center;
+  }
+  .create-event-container {
+    max-width: 1000px;
+    text-align: center;
+    align-items: flex-start;
+    justify-content:flex-start;
+    margin: auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: calc(100vh - 150px);  /* Adjust this depending on other sections */
+    margin-right: 200px;
+  }
+  
+  .title , .event-cal {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    
+  }
+  .title{
+    text-align: left;
+    margin-left: 200px;
+    color: #1A2E45;
+  }
+
+  
+  .event-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 600px;
+  }
+  
+  .event-button {
+    padding: 12px;
+    font-size: 18px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    width: 100%;
+  }
+  
+  .event-button:hover {
+    background-color: #0056b3;
+    transition: 0.3s;
+  }
+  

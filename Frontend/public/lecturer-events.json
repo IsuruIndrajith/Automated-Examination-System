@@ -1,0 +1,61 @@
+{
+    "events": [
+      {
+        "id": 1,
+        "type": "exam",
+        "subject": "Software Engineering",
+        "date": "2025-04-01",
+        "code": "EC6060"
+      },
+      {
+        "id": 2,
+        "type": "quiz",
+        "subject": "Software Engineering",
+        "date": "2025-04-01",
+        "code": "EC6060"
+      },
+      {
+        "id": 3,
+        "type": "assignment",
+        "subject": "Software Engineering",
+        "date": "2025-04-01",
+        "code": "EC6060"
+      },
+      {
+        "id": 4,
+        "type": "exam",
+        "subject": "Software Engineering",
+        "date": "2025-04-01",
+        "code": "EC6060"
+      },
+      {
+        "id": 5,
+        "type": "quiz",
+        "subject": "Software Engineering",
+        "date": "2025-04-01",
+        "code": "EC6060"
+      },
+      {
+        "id": 6,
+        "type": "assignment",
+        "subject": "Software Engineering",
+        "date": "2025-04-01",
+        "code": "EC6060"
+      },
+      {
+        "id": 7,
+        "type": "exam",
+        "subject": "Software Engineering",
+        "date": "2025-04-01",
+        "code": "EC6060"
+      },
+      {
+        "id": 8,
+        "type": "quiz",
+        "subject": "Software Engineering",
+        "date": "2025-04-01",
+        "code": "EC6060"
+      } 
+    ]
+  }
+  

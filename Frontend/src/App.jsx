@@ -9,6 +9,12 @@ import StudentReports from './pages/StudentReports';
 import Scomplains from './pages/Scomplains';
 import { UserProvider } from "./components/userContext"; 
 import AdminHome from './pages/AdminHome';
+import LecturerHome from './pages/Lecturer/LecturerHome';
+import CreateEvent from './pages/Lecturer/LecturerCreate';
+import LecturerNotify from './pages/Lecturer/LecturerNotify';
+import LecturerNote from './pages/Lecturer/LecturerNote';
+import LecturerReports from './pages/Lecturer/LecturerReports';
+import Lcomplain from './pages/Lecturer/Lcomplain';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,7 +28,13 @@ const router = createBrowserRouter(
       <Route path="/student-report" element={<StudentReports />} />
       <Route path="/student-complain" element={<Scomplains />} />
       <Route path="/admin" element={<AdminHome />} />
-     </Route>
+      <Route path="/lecturer" element={<LecturerHome />} />
+      <Route path="/create-event" element={<CreateEvent />} />
+      <Route path="/notify" element={<LecturerNotify />} />
+      <Route path="/lecturer-note" element={<LecturerNote />} />
+      <Route path="/lecturer-report" element={<LecturerReports />} />
+      <Route path="/lecturer-complain" element={<Lcomplain />} />
+    </Route>
   )
 );
 

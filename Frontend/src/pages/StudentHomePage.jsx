@@ -13,7 +13,7 @@ const StudentHomePage = () => {
       .then((res) => res.json())
       .then((data) => setTasks(data))
       .catch((err) => console.error("Error fetching tasks:", err));
-  }, []);
+  }, []); 
 
   useEffect(() => {
     fetch('/special-dates.json')
@@ -66,7 +66,7 @@ const StudentHomePage = () => {
               </div>
           </div>
         </div>
-
+ 
         {/* Ongoing Tasks */}
         <div className="tasks-section">
           <h2 className="ongoing-tasks-title">Ongoing Tasks</h2>
