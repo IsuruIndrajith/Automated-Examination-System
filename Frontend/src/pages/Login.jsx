@@ -1,60 +1,60 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 import { UserContext } from "../components/userContext";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [users, setUsers] = useState([]);
   const [errors, setErrors] = useState("");
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
 
-  useEffect(() => {
-    fetch("/users.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setUsers(data.users);
-        console.log("Fetched Users: ", data.users);
-      })
-      .catch((err) => console.error("Error in fetching users: ", err));
-  }, []);
-
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      setErrors("Please enter both email and password");
+    if (!username || !password) {
+      setErrors("Please enter both username and password");
       return;
     }
-    console.log("Checking credentials for:", email, password);
 
-    const user = users.find(
-      (u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password
-    );
+    try {
+      const response = await fetch("http://192.168.68.73:8080/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-    if (user) {
-      setUser(user);
-      localStorage.setItem("user", JSON.stringify(user));
-      console.log("Login Successful!", user);
+      const data = await response.json();
 
-      switch (user.role) {
-        case "student":
-          navigate("/student");
-          break;
-        case "lecturer":
-          navigate("/lecturer");
-          break;
-        case "admin":
-          navigate("/admin");
-          break;
-        default:
-          setErrors("Invalid role detected!");
+      if (response.ok) {
+        setUser(data);
+        localStorage.setItem("user", JSON.stringify(data));
+
+        console.log("Login Successful!", data);
+        console.log("Role:", data.role);
+
+        switch (data.role) {
+          case "student":
+            navigate("/student");
+            break;
+          case "[ROLE_LECTURE]":
+            navigate("/lecturer");
+            break;
+          case "admin":
+            navigate("/admin");
+            break;
+          default:
+            setErrors("Invalid role detected!");
+        }
+      } else {
+        setErrors(data.message || "Invalid username or password");
       }
-    } else {
-      console.log("Invalid credentials");
-      setErrors("Invalid email or password");
+    } catch (error) {
+      console.error("Error in login:", error);
+      setErrors("Something went wrong! Please try again.");
     }
   };
 
@@ -63,17 +63,17 @@ const Login = () => {
       <div className="login-box">
         <h1 className="login-title">AUTOMATED EXAMINER LOGIN</h1>
         <form onSubmit={handleLogin}>
-          <div className="user-email">
-            <label>USER EMAIL</label>
+          <div className="user-username">
+            <label>USERNAME</label>
             <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
           <div className="user-password">
-          <label>USER PASSWORD</label>
+            <label>PASSWORD</label>
             <input
               type="password"
               value={password}
