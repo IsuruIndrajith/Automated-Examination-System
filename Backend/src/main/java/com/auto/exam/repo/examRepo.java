@@ -1,5 +1,6 @@
 package com.auto.exam.repo;
 
+import com.auto.exam.Dto.ExamReportAll;
 import com.auto.exam.Model.Exam;
 import com.auto.exam.Model.Student;
 
