@@ -233,7 +233,8 @@ public class examService {
     }
 
     public List<SendingExam> getAllExams() {
-        List<Exam> exams = examRepo.findAll();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<Exam> exams = examRepo.findStudentExamByUser(username);
         return exams.stream().map(exam -> new SendingExam(exam.getExamId(), exam.getStartDateTime(), exam.getDuration(), exam.getPassingCriteria(), exam.getType(), exam.getTotalMarks(), exam.getCourseOffering().getCourse().getCourseId(), exam.getCourseOffering().getCourse().getCourseName(), exam.getCourseOffering().getCourse().getCourseCode())).collect(Collectors.toList());
     }
 
@@ -247,5 +248,14 @@ public class examService {
         Examevent event=new Examevent();
         event.setEvents(examRepo.getAllExamEvents());
         return event;
+    }
+
+    public Examevent getAllExamEventsforStudent() {
+        UserPrincipal userPrincipal = SecurityUtil.getAuthenticatedUser();
+        String username = userPrincipal.getUsername();
+        Examevent event=new Examevent();
+        event.setEvents(examRepo.getAllExamEventsByStudentId(username));
+        return event;
+        
     }
 }

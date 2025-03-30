@@ -424,7 +424,7 @@ VALUES
 
 
 -- Registration
-INSERT INTO public.resitration (registration_id, registration_date, semester, ar_id, student_id)
+INSERT INTO public.registration (registration_id, registration_date, semester, ar_id, student_id)
 VALUES
     (1, '2025-01-01', 1, 1, 1),
     (2, '2025-01-01', 1, 2, 2),
@@ -493,7 +493,7 @@ VALUES
     (30, 30, 30);
 
 -- Exam (Continued)
-INSERT INTO public.examId (exam_id, duration, passing_criteria, start_date_and_time, total_marks, type, offering_id)
+INSERT INTO public.exam(exam_id, duration, passing_criteria, start_date_and_time, total_marks, type, offering_id)
 VALUES
     (1, 60, 50, '2025-06-01 09:00:00', 100, 1, 1),
     (2, 90, 60, '2025-06-02 09:00:00', 150, 2, 2),

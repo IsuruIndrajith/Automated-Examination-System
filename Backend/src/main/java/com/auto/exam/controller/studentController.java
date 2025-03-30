@@ -118,4 +118,14 @@ public class studentController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
+
+    @PostMapping("/getAllExam")
+    public ResponseEntity<Examevent> getAllExam(){
+        try {
+            Examevent reports= examService.getAllExamEventsforStudent();
+            return new ResponseEntity<>(reports, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

@@ -22,11 +22,21 @@ public interface examRepo extends JpaRepository<Exam, Integer> {
   
     Exam findExamByExamId(long ExamID);
 
-@Query("SELECT new com.auto.exam.Dto.ExamFront(e.examId, e.type, e.startDateTime, c.courseName, c.courseCode) " +
-       "FROM Exam e " +
-       "JOIN e.courseOffering co " +
-       "JOIN co.course c")
-List<ExamFront> getAllExamEvents();
+    @Query("SELECT new com.auto.exam.Dto.ExamFront(e.examId, e.type, e.startDateTime, c.courseName, c.courseCode) " +
+           "FROM Exam e " +
+           "JOIN e.courseOffering co " +
+           "JOIN co.course c")
+    List<ExamFront> getAllExamEvents();
 
+    @Query("SELECT new com.auto.exam.Dto.ExamFront(ex.examId, ex.type, ex.startDateTime, c.courseName, c.courseCode) " +
+       "FROM Exam ex " +
+       "JOIN ex.courseOffering co " +
+       "JOIN co.course c " +
+       "JOIN co.courseRegisters cr " +
+       "JOIN cr.registration r " +
+       "JOIN r.student s " +
+       "JOIN s.user u " +
+       "WHERE u.username = :user_name")
+List<ExamFront> getAllExamEventsByStudentId(@Param("user_name") String user_name);
 }
 
