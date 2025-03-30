@@ -27,7 +27,7 @@ function NavbarAdminHome() {
     <>
       <IconContext.Provider value={{ color: '#fff' }}>
         {/* Navbar */}
-        <div className='navbar'>Menu
+        <div className='navbar'>
           <Link to='#' className='menu-bars'>
           <div className="icon-text">
             <FaIcons.FaBars onClick={showSidebar} size={25} />
@@ -35,7 +35,9 @@ function NavbarAdminHome() {
           </div>
           </Link>
           <button className='logout-btn' onClick={handleLogout}>Logout</button>
+
         </div>
+
         
 
         {/* Sidebar */}
