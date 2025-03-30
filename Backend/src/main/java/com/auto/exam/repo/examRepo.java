@@ -22,7 +22,7 @@ public interface examRepo extends JpaRepository<Exam, Integer> {
   
     Exam findExamByExamId(long ExamID);
 
-@Query("SELECT e " +
+@Query("SELECT new com.auto.exam.Dto.ExamFront(e.examId, e.type, e.startDateTime, c.courseName, c.courseCode) " +
        "FROM Exam e " +
        "JOIN e.courseOffering co " +
        "JOIN co.course c")

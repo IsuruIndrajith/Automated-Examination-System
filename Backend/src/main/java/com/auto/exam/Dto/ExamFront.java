@@ -8,22 +8,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 @Data
-// @NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
+
 public class ExamFront {
-    private Long examId;
-    private String examName;
-    private LocalDateTime startDateTime;
-
-    public ExamFront(Long examId, String examName, LocalDateTime startDateTime) {
-        this.examId = examId;
-        this.examName = examName;
-        this.startDateTime = startDateTime;
-
-    }
-
-    public ExamFront() {
-    }
+    private Long id;
+    private Integer type;
+    private LocalDateTime date;
+    private String subject;
+    private String code;
 }
