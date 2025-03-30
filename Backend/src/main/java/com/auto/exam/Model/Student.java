@@ -9,7 +9,7 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "student_id")
     private Long studentId;
-
+ 
     private String email;
     private String fullName;
     private String nic;

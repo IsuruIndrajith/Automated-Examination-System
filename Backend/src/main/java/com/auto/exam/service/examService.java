@@ -3,6 +3,7 @@ package com.auto.exam.service;
 
 import com.auto.exam.Dto.ExamReportAll;
 import com.auto.exam.Dto.ExamRequest;
+import com.auto.exam.Dto.Examevent;
 import com.auto.exam.Dto.MarkQuestions;
 import com.auto.exam.Dto.ProvideQuestion;
 import com.auto.exam.Model.*;
@@ -12,6 +13,7 @@ import com.auto.exam.util.SecurityUtil;
 import org.springframework.security.core.Authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -239,5 +241,11 @@ public class examService {
         Long ExamId = Long.valueOf(payload.get("Exam_id").toString());
         List<ExamReportAll> exams= attemptRepo.getReports(ExamId);
         return exams;
+    }
+
+    public Examevent getAllExamEvents() {
+        Examevent event=new Examevent();
+        event.setEvents(examRepo.getAllExamEvents());
+        return event;
     }
 }
