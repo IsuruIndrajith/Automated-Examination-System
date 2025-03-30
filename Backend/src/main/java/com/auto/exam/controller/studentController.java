@@ -45,7 +45,11 @@ public class studentController {
     @PostMapping("/exam/getAll")
     public ResponseEntity<List<SendingExam>> getAllExams() {
         List<SendingExam> ex = examService.getAllExams();
-        return new ResponseEntity<>(ex, HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(ex, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 
     // {
@@ -68,7 +72,12 @@ public class studentController {
 
     @PostMapping("/exam/{ExamID}")
     public ResponseEntity<List<ProvideQuestion>> examQuestions(@PathVariable long ExamID){
-        return new ResponseEntity<>(examService.getQuestions(ExamID),HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(examService.getQuestions(ExamID),HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        
     }
 
 //     [
@@ -82,20 +91,31 @@ public class studentController {
 
     @PostMapping("/exam/{ExamID}/submit")
     public ResponseEntity<List<MarkQuestions>> markQuestions(@RequestBody List<MarkQuestions> markQuestions){
-        return new ResponseEntity<>(examService.markQuestions(markQuestions),HttpStatus.ACCEPTED) ;
+        try {
+            return new ResponseEntity<>(examService.markQuestions(markQuestions),HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 
 
     @PostMapping("/reports")
     public ResponseEntity<List<ExamReport>> getReports(){
-        return new ResponseEntity<>(studentDetailsService.getReports(),HttpStatus.OK) ;
+        try {
+            List<ExamReport> reports = studentDetailsService.getReports();
+            return new ResponseEntity<>(reports, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 
     @PostMapping("/reports/{examId}")
     public ResponseEntity<List<ExamReportAnalysis>> examAnalysis(@PathVariable long examId) {
         List<ExamReportAnalysis> analysisList = studentDetailsService.examAnalysis(examId);
-        return new ResponseEntity<>(analysisList, HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(analysisList, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
-
-
 }
