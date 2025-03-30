@@ -6,7 +6,7 @@ import './Navbar.css';
 import { IconContext } from 'react-icons';
 
 
-function Navbar() {
+function NavbarAdminHome() {
   const [sidebar, setSidebar] = useState(false);
   const navigate = useNavigate();
   const showSidebar = () => setSidebar(!sidebar); 
@@ -70,4 +70,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default NavbarAdminHome;

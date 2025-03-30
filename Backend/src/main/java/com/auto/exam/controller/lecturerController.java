@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.auto.exam.Dto.CoursesForLecture;
 import com.auto.exam.Dto.ExamAdding;
+import com.auto.exam.Dto.ExamReportAll;
+import com.auto.exam.Model.Attempt;
 import com.auto.exam.Model.Course;
 import com.auto.exam.Model.Exam;
 import com.auto.exam.Dto.ExamRequest;
@@ -72,6 +74,16 @@ public class lecturerController {
         List<CoursesForLecture> courses = courseService.getCourses();
         return new ResponseEntity<>(courses, HttpStatus.OK);
     }
+
+    // [
+    // {
+    //     "courseId": 1,
+    //     "courseName": "Introduction to CS",
+    //     "courseCode": "CS101",
+    //     "credits": 3,
+    //     "offeringId": 1
+    // }
+    // ]
 
     @PostMapping("/addExam")
     public ResponseEntity<Long> addExam(@RequestBody Map<String, Object> payload) {
@@ -132,6 +144,16 @@ public class lecturerController {
 
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/getExamReport")
+    public ResponseEntity<List<ExamReportAll>> getAllReport(@RequestBody Map<String, Object> payload){
+        try {
+            List<ExamReportAll> reports= examService.getReports(payload);
+            return new ResponseEntity<>(reports, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }

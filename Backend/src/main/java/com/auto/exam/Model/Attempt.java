@@ -12,7 +12,7 @@ public class Attempt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "attempt_id")
     private Long attemptId;
-
+ 
     @ManyToOne
     @JoinColumn(name = "student_id",nullable = false)
     private Student student;
