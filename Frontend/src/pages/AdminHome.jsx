@@ -6,9 +6,7 @@ import { Link } from 'react-router-dom';
 function AdminHome() {
   return (
     <>
-    <NavbarAdminHome/>
-    
-    
+    <NavbarAdminHome/> 
     </>
     
   )
