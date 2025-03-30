@@ -1,0 +1,120 @@
+.student-assignment-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center;  
+  flex-direction: column;
+  padding: 20px;
+  font-family: 'Inter', sans-serif;
+  width: 100%;
+}
+
+.assignment-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); 
+  gap: 20px;
+  width: 90%;
+  max-width: 1400px; 
+} 
+
+h2{
+  margin:10px;
+  margin-bottom: 20px;
+}
+
+.assignment-card {
+  background: #f4f4f4;
+  padding: 15px;
+  border-radius: 20px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.7);
+  margin-bottom: 20px;
+}
+.assignment-card:hover{
+  transform: scale(1.02);
+  transition: 0.3s;
+}
+
+.assignment-card h3 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.assignment-card p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.assignment-card button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.assignment-card button:hover {
+  background-color: #317e35;
+}
+
+.assignment-container {
+  flex: 1;
+  max-width: 100%;
+  text-align: left;
+}
+
+.assignment-container h2 {
+  font-size: 28px;
+  margin-bottom: 20px;  
+}
+
+.question {
+  margin-bottom: 20px;
+  background-color: #fffefe;
+}
+
+.mcq-options label {
+  display: block;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: start;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.text-assign {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 15px;
+  border: 1px solid #000000;
+  font-family: 'Inter', sans-serif;
+  height: 170px
+}
+
+.sub-btn-assign {
+  padding: 10px 20px;
+  background-color: #3544ea;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 80%;
+  margin-top: 20px;
+  margin-left: 100px;
+}
+
+.sub-btn-assign:hover {
+  background-color: #0f3963;
+  color: white;
+}
+
+.sub-btn-assign:disabled {
+  background-color: #ffffff;
+  cursor: not-allowed;
+}
+
+.assignment-container .text-assign {
+  background: #ffffff;
+  border: 1px solid #ffffff;
+}
+

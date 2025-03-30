@@ -1,6 +1,13 @@
 [
     { "id": 1, "title": "Quiz 1", "type": "Quiz", "dueDate": "2025-03-22" , "subject":"EC6060"},
     { "id": 2, "title": "Assignment 1", "type": "Assignment", "dueDate": "2025-03-25","subject":"EC6020" },
-    { "id": 3, "title": "Final Exam", "type": "Exam", "dueDate": "2025-04-10", "subject":"EC6090" }
+    { "id": 3, "title": "Final Exam", "type": "Exam", "dueDate": "2025-04-10", "subject":"EC6090" },
+    { "id": 4, "title": "Mid Exam", "type": "Exam", "dueDate": "2025-03-10", "subject":"EC6090" },
+    { "id": 5, "title": "Assignment 2", "type": "Assignment", "dueDate":"2025-04-20", "subject":"EC6090"},
+    { "id": 6, "title": "Quiz 2", "type": "Quiz", "dueDate":"2025-04-20", "subject":"EC6090"},
+    { "id": 7, "title": "Quiz 3", "type": "Quiz", "dueDate":"2025-04-20", "subject":"EC6090"},
+    { "id": 8, "title": "Assignment 3", "type": "Assignment", "dueDate":"2025-04-20", "subject":"EC6090"},
+    { "id": 9, "title": "Mid Exam ", "type": "Exam", "dueDate":"2025-04-20", "subject":"EC6090"},
+    { "id": 10, "title": "Assignment 4", "type": "Assignment", "dueDate":"2025-04-20", "subject":"EC6090"}
   ]
-  
+   

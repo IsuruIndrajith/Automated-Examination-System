@@ -1,10 +1,28 @@
 package com.auto.exam.Dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CoursesForLecture {
+
     private Long courseId;
     private String courseName;
     private String courseCode;
     private Integer credits;
+    private Long offeringId;
+    
+
+    public Long getOfferingId() {
+        return this.offeringId;
+    }
+
+    public void setOfferingId(Long offeringId) {
+        this.offeringId = offeringId;
+    }
 
     public Long getCourseId() {
         return this.courseId;
@@ -44,6 +62,8 @@ public class CoursesForLecture {
         this.courseCode = courseCode;
         this.credits = credits;
     }
+
+
 
 
 }

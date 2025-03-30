@@ -1,9 +1,13 @@
 package com.auto.exam.service;
 
 
+import com.auto.exam.Dto.ExamReportAll;
 import com.auto.exam.Dto.ExamRequest;
+import com.auto.exam.Dto.MarkQuestions;
+import com.auto.exam.Dto.ProvideQuestion;
 import com.auto.exam.Model.*;
 import com.auto.exam.repo.*;
+import com.auto.exam.util.SecurityUtil;
 
 import org.springframework.security.core.Authentication;
 
@@ -14,8 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,11 +36,14 @@ public class examService {
     private attemptRepo attemptRepo;
     private studentRepo studentRepo;
     private examanalysisRepo examanalysisRepo;
+    private courseOfferingRepo courseOfferingRepo;
 
     private long ExamId;
   
     @Autowired
-    public examService(examRepo examRepo, courseRegisterRepo courseRegisterRepo,questionRepo questionRepo,userRepo userRepo,studentDetailsService studentDetailsService,attemptRepo attemptRepo,studentRepo studentRepo,examanalysisRepo examanalysisRepo){
+    public examService(examRepo examRepo, courseRegisterRepo courseRegisterRepo,questionRepo questionRepo,
+                        userRepo userRepo,studentDetailsService studentDetailsService,attemptRepo attemptRepo,
+                        studentRepo studentRepo,examanalysisRepo examanalysisRepo, courseOfferingRepo courseOfferingRepo) {
         this.examRepo=examRepo;
         this.courseRegisterRepo=courseRegisterRepo;
         this.questionRepo = questionRepo;
@@ -41,10 +52,11 @@ public class examService {
         this.attemptRepo = attemptRepo;
         this.studentRepo = studentRepo;
         this.examanalysisRepo = examanalysisRepo;
+        this.courseOfferingRepo = courseOfferingRepo;
     }
     
     public List<SendingExam> getExamsUsingDateAndLecture(ExamRequest request){
-        UserPrincipal userPrincipal = SecurityUtil.getAuthenticatedUser();     
+        UserPrincipal userPrincipal = SecurityUtil.getAuthenticatedUser();
 
         Date date;
         try {
@@ -84,14 +96,25 @@ public class examService {
     }
 
     public List<ProvideQuestion> getQuestions(long examID) {
+ 
+        Exam exam = Optional.ofNullable(examRepo.findExamByExamId(examID))
+                            .orElseThrow(() -> new IllegalArgumentException("Invalid Exam ID"));
+ 
+        LocalDateTime currentDateTime = LocalDateTime.now();
 
-     /*   Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserPrincipal userPrincipal = (UserPrincipal)authentication.getPrincipal();
-        String user  = userRepo.findByUsername(userPrincipal.getUsername());
-        Student student = studentRepo.findByUser(user.getUsername());
-        */
 
-        this.ExamId=examID;
+        LocalDateTime examEndTime = exam.getStartDateTime().plusMinutes(exam.getDuration());
+        
+        if (currentDateTime.isBefore(exam.getStartDateTime()) || currentDateTime.isAfter(examEndTime)) {
+
+        }
+        
+        int examDuration = exam.getDuration();
+        
+        System.out.println("Exam Duration: " + examDuration + " minutes");
+    
+        this.ExamId = examID;
+    
         return questionRepo.findQuestionById(examID).stream()
                 .map(q -> new ProvideQuestion(q.getQuestionId(), q.getQuestion(), q.getMarks()))
                 .collect(Collectors.toList());
@@ -109,40 +132,64 @@ public class examService {
         Student student = studentRepo.findByUser(user);
 
         Exam exam = examRepo.findExamByExamId(ExamId);
+        int type = exam.getType();
 
-        for (MarkQuestions question : markQuestions) {
-            String correctAnswer = questionRepo.findAnswerByQuestionId((long) question.getQuestionId());
-            int retrievedMarks = questionRepo.findMarksByQuestionId((long) question.getQuestionId());
-
-            // Save Exam Analysis (User's Answer)
-            ExamAnalysis examAnalysis = new ExamAnalysis();
-            examAnalysis.setExam(exam);
-            examAnalysis.setQuestion(questionRepo.findById((long)question.getQuestionId()).orElse(null));
-            examAnalysis.setStudentAnswer(question.getAnswer()); // Save user-provided answer
-
-            examanalysisRepo.save(examAnalysis); // Save the entry into the exam_analysis table
-
-            // Compare the given answer with the correct answer
-            if (question.getAnswer().equalsIgnoreCase(correctAnswer)) {
-                question.setMarks(retrievedMarks); // Full marks for correct answer
-            } else {
-                question.setMarks(0); // Assign 0 marks for incorrect answers
+        if (type == 0) {
+            
+            for (MarkQuestions question : markQuestions) {
+                String correctAnswer = questionRepo.findAnswerByQuestionId((long) question.getQuestionId());
+                int retrievedMarks = questionRepo.findMarksByQuestionId((long) question.getQuestionId());
+    
+                ExamAnalysis examAnalysis = new ExamAnalysis();
+                examAnalysis.setExam(exam);
+                examAnalysis.setQuestion(questionRepo.findById((long)question.getQuestionId()).orElse(null));
+                examAnalysis.setStudentAnswer(question.getAnswer()); 
+                
+                
+    
+    
+                if (question.getAnswer().equalsIgnoreCase(correctAnswer)) {
+                    question.setMarks(retrievedMarks); 
+                    examAnalysis.setStudentMarks(retrievedMarks);
+                } else {
+                    question.setMarks(0); 
+                    examAnalysis.setStudentMarks(0);
+                }
+                examanalysisRepo.save(examAnalysis); 
+                TotalMarks += question.getMarks();
             }
-            TotalMarks += question.getMarks();
+    
+            attempt.setMarks(TotalMarks);
+            attempt.setExam(exam);
+            attempt.setGrade(getGrade(TotalMarks));
+            attempt.setStudent(student);
+    
+            try {
+                attemptRepo.save(attempt);
+            } catch (Exception e) {
+                System.out.println("Cannot Attempt More Than One Time " + e);
+            }
+    
+            return markQuestions;
+        }
+        else if (type == 1) {
+            //marking criteria for Essay type questions
+            for (MarkQuestions question : markQuestions) {
+                ExamAnalysis examAnalysis = new ExamAnalysis();
+                examAnalysis.setExam(exam);
+                examAnalysis.setQuestion(questionRepo.findById((long)question.getQuestionId()).orElse(null));
+                examAnalysis.setStudentAnswer(question.getAnswer()); 
+    
+                examanalysisRepo.save(examAnalysis); 
+    
+            }
+               return markQuestions;
+        }
+        else {
+            return null;
+           
         }
 
-        attempt.setMarks(TotalMarks);
-        attempt.setExam(exam);
-        attempt.setGrade(getGrade(TotalMarks));
-        attempt.setStudent(student);
-
-        try {
-            attemptRepo.save(attempt);
-        } catch (Exception e) {
-            System.out.println("Cannot Attempt More Than One Time " + e);
-        }
-
-        return markQuestions;
     }
 
 
@@ -154,5 +201,43 @@ public class examService {
         else if (totalMarks >= 60) return 'D';
         else if (totalMarks >= 50) return 'E';
         else return 'F';
+    }
+
+	public Long addExam( Map<String, Object> payload) {
+        
+        Long offeringId = Long.valueOf(payload.get("Offering_ID").toString());
+        LocalDateTime startDateTime = LocalDateTime.parse(payload.get("startDateTime").toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        Integer duration = Integer.valueOf(payload.get("duration").toString());
+        Integer passingCriteria = Integer.valueOf(payload.get("passingCriteria").toString());
+        Integer type = Integer.valueOf(payload.get("type").toString());
+        Integer totalMarks = Integer.valueOf(payload.get("totalMarks").toString());
+
+            // Fetch the CourseOffering entity
+        CourseOffering courseOffering = courseOfferingRepo.findById(offeringId).orElseThrow(() -> new IllegalArgumentException("Invalid Offering_ID"));
+
+            // Create the Exam object
+        Exam exam = new Exam();
+        exam.setCourseOffering(courseOffering);
+        exam.setStartDateTime(startDateTime);
+        exam.setDuration(duration);
+        exam.setPassingCriteria(passingCriteria);
+        exam.setType(type);
+        exam.setTotalMarks(totalMarks);
+
+            // Save the Exam object
+
+        examRepo.save(exam);
+        return exam.getExamId();
+    }
+
+    public List<SendingExam> getAllExams() {
+        List<Exam> exams = examRepo.findAll();
+        return exams.stream().map(exam -> new SendingExam(exam.getExamId(), exam.getStartDateTime(), exam.getDuration(), exam.getPassingCriteria(), exam.getType(), exam.getTotalMarks(), exam.getCourseOffering().getCourse().getCourseId(), exam.getCourseOffering().getCourse().getCourseName(), exam.getCourseOffering().getCourse().getCourseCode())).collect(Collectors.toList());
+    }
+
+    public List<ExamReportAll> getReports(Map<String, Object> payload) {
+        Long ExamId = Long.valueOf(payload.get("Exam_id").toString());
+        List<ExamReportAll> exams= attemptRepo.getReports(ExamId);
+        return exams;
     }
 }

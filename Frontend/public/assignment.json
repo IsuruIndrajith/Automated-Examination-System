@@ -1,0 +1,79 @@
+[
+    {
+      "id": 1,
+      "title": "Assignment 1",
+      "subject": "Math",
+      "deadline": "2025-03-30",
+      "questions": [
+        {
+          "id": 1,
+          "questionText": "What is 2 + 2?",
+          "type": "mcq",
+          "options": ["3", "4", "5"]
+        },
+        {
+          "id": 2,
+          "questionText": "Explain Pythagoras' theorem.",
+          "type": "text"
+        }
+      ]
+    },
+    {
+        "id": 2,
+        "title": "Assignment 2",
+        "subject": "Math",
+        "deadline": "2025-04-02",
+        "questions": [
+          {
+            "id": 1,
+            "questionText": "What is 2 + 2?",
+            "type": "mcq",
+            "options": ["3", "4", "5"]
+          },
+          {
+            "id": 2,
+            "questionText": "Explain Pythagoras' theorem.",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Assignment 3",
+        "subject": "Math",
+        "deadline": "2025-04-10",
+        "questions": [
+          {
+            "id": 1,
+            "questionText": "What is 2 + 2?",
+            "type": "mcq",
+            "options": ["3", "4", "5"]
+          },
+          {
+            "id": 2,
+            "questionText": "Explain Pythagoras' theorem.",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Assignment 4",
+        "subject": "Math",
+        "deadline": "2025-04-20",
+        "questions": [
+          {
+            "id": 1,
+            "questionText": "What is 2 + 2?",
+            "type": "mcq",
+            "options": ["3", "4", "5"]
+          },
+          {
+            "id": 2,
+            "questionText": "Explain Pythagoras' theorem.",
+            "type": "text"
+          }
+        ]
+      }
+  ]
+  

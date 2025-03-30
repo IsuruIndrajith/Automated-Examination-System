@@ -3,17 +3,29 @@
     height: 80px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    padding: 0;
+    justify-content: space-between;
+    padding: 10px 20px;
     margin: 0;
     font-family: 'Inter',sans-serif;
+    color: white;
+  }
+
+  .icon-text, .navbar-center, .navbar-right {
+    display: flex;
+    align-items: center;
   }
   
   .menu-bars {
     font-size: 2rem;
     background: none;
     color: rgb(255, 255, 255);
-    cursor: pointer;
+    cursor: pointer; 
+    
+  }
+  .user{
+    font-size: 2rem;
+    font-weight: normal;
+
   }
   
   .nav-menu {
@@ -25,7 +37,7 @@
     position: fixed;
     top: 0;
     left: -100%;
-    transition: 0.3s;
+    transition: all 0.3s ease;
 
   }
   
@@ -38,6 +50,11 @@
     padding: 0;
   }
   
+  .user{
+    color:white;
+    justify-content: center;
+    align-items: center;
+  }
   .navbar-toggle {
     /* background-color: #060b26; */
     width: 100%;
@@ -54,8 +71,11 @@
     display: flex;
     align-items: center;
     justify-content: start;
+    color: #060b26;
+    margin-left: 10px;
     
   }
+
 
   .home-bg {
     background-image: url('../assets/h-bg.png');
@@ -80,34 +100,65 @@
     font-size: large;
   }
 
-  .icon-text {
+  /* .icon-text {
     display: flex;
     align-items: center;
-    gap: 20px; /* Adjust spacing */
+    gap: 20px; /* Adjust spacing 
   }
-  
+   */
   
   .nav-text:hover {
     background-color: rgba(255, 255, 255, 0.2);
     transform: scale(1.15);
     transition: 0.3s;
   }
-
-  .logout-btn{
-    width: 80px;
-    height: 40px;
-    margin-left: 1550px;
+  .logout-btn {
+    width: 100px;
+    height: 55px;
+    /* margin-left: 1500px; */
+    margin-bottom: 10px;
     padding: 10px;
-    border: none;
     font-size: larger;
-    font-family: 'Inter',sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: bold;
     color: #dad0d0;
     background: transparent;
-  }
-  .logout-btn:hover{
-    background-color: transparent;
-    color: #ffffff;
-    transform: scale(1.2);
-  }
+    border: 2px solid #ffffff; 
+    border-radius: 10px;    
+    cursor: pointer; 
+    transition: all 0.3s ease-in-out;
+}
+
+.logout-btn:hover {
+    background: #ffffff;
+    color: #1C1C1C;
+    transform: scale(1.05);
+    transition: 0.3s;
+}
+/* Styling for submenu */
+.submenu {
+  padding-left: 20px;
+  background-color: #f0f0f0;
+  list-style: none;
+  display: block; /* Submenu is visible by default when active */
+  background-image: url('../assets/h-bg.png');
+    background-size: cover;
+    background-position: center;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    margin: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+.submenu li {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.submenu li:hover {
+  background-color: #ddd;
+}
+
+
   

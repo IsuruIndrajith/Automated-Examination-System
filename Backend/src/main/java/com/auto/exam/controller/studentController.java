@@ -1,8 +1,6 @@
 package com.auto.exam.controller;
 
-import com.auto.exam.Dto.ExamReport;
-import com.auto.exam.Dto.ExamReportAnalysis;
-import com.auto.exam.Dto.ExamRequest;
+import com.auto.exam.Dto.*;
 import com.auto.exam.Model.*;
 import com.auto.exam.repo.userRepo;
 import com.auto.exam.service.studentDetailsService;
@@ -38,17 +36,33 @@ public class studentController {
         return new ResponseEntity<>(st, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Student> addStudent(@RequestBody Student student) {
-        Student newStudent = studentDetailsService.save_student(student);
-        return new ResponseEntity<>(newStudent, HttpStatus.CREATED);
-    }
-
     @GetMapping("/profile")
     public  User getUserProfile() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepo.findByUsername(username);
     }
+
+    @PostMapping("/exam/getAll")
+    public ResponseEntity<List<SendingExam>> getAllExams() {
+        List<SendingExam> ex = examService.getAllExams();
+        try {
+            return new ResponseEntity<>(ex, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    // {
+    //     "examId": 1,
+    //     "startDateTime": "2025-06-01T09:00:00",
+    //     "duration": 60,
+    //     "passingCriteria": 50,
+    //     "type": 1,
+    //     "totalMarks": 100,
+    //     "courseId": 1,
+    //     "courseName": "Introduction to CS",
+    //     "courseCode": "CS101"
+    // },
 
     @PostMapping("/getExamsByDate")
     public ResponseEntity<List<SendingExam>> getExamsOnDate(@RequestBody ExamRequest request) {
@@ -58,26 +72,50 @@ public class studentController {
 
     @PostMapping("/exam/{ExamID}")
     public ResponseEntity<List<ProvideQuestion>> examQuestions(@PathVariable long ExamID){
-        return new ResponseEntity<>(examService.getQuestions(ExamID),HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(examService.getQuestions(ExamID),HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        
     }
+
+//     [
+//     {
+//         "questionId": 1,
+//         "question": "Question1",
+//         "marks": 10
+//     }
+// ]
 
 
     @PostMapping("/exam/{ExamID}/submit")
     public ResponseEntity<List<MarkQuestions>> markQuestions(@RequestBody List<MarkQuestions> markQuestions){
-        return new ResponseEntity<>(examService.markQuestions(markQuestions),HttpStatus.ACCEPTED) ;
+        try {
+            return new ResponseEntity<>(examService.markQuestions(markQuestions),HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 
 
     @PostMapping("/reports")
     public ResponseEntity<List<ExamReport>> getReports(){
-        return new ResponseEntity<>(studentDetailsService.getReports(),HttpStatus.OK) ;
+        try {
+            List<ExamReport> reports = studentDetailsService.getReports();
+            return new ResponseEntity<>(reports, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 
     @PostMapping("/reports/{examId}")
     public ResponseEntity<List<ExamReportAnalysis>> examAnalysis(@PathVariable long examId) {
         List<ExamReportAnalysis> analysisList = studentDetailsService.examAnalysis(examId);
-        return new ResponseEntity<>(analysisList, HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(analysisList, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
-
-
 }

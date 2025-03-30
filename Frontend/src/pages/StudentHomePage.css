@@ -2,8 +2,9 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 20px;
-  font-family: Arial, sans-serif;
+  padding: 20px; 
+  font-family: 'Inter', sans-serif;
+  height: 90vh;
 }
 
 .calendar-section {
@@ -19,8 +20,13 @@
   height: 550px; 
   background: #1C1C1C;
   border-radius: 10px;
-  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.8);
   padding: 20px;
+}
+
+.calendar-section:hover{
+  transform: scale(1.02);
+  transition: 0.3s;
 }
 
 .calendar-legend{
@@ -42,7 +48,7 @@
   height: 12px;
   border-radius: 50%; /* Makes it a circle */
   display: inline-block;
-  margin-right: 8px;
+  margin-right: 10px;
 }
 
 .legend-color.quiz{
@@ -85,8 +91,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: white;
 }
-
+.react-calendar__month-view__days__day--weekend {
+  color: red !important; /* Example: Red for weekends */
+}
 .react-calendar__tile:hover {
   background-color: #f3f3f3;
 }
@@ -99,7 +108,7 @@
   border-radius: 50%;
 }
 
-.react-calendar__tile.highlight-assignment {
+.react-calendar__tile.highlight-exam {
   background-color: #DC3545 !important;
   color: white;
   font-weight: bold;
@@ -111,25 +120,28 @@
   font-weight: bold;
 }
 
-.react-calendar__tile.highlight-exam {
+.react-calendar__tile.highlight-assignment {
   background-color: #0073e6 !important;
   color: white;
   font-weight: bold;
 }
 
 .react-calendar__month-view__weekdays {
-  color: white !important;  /* Change to white or any visible color */
+  color: rgb(255, 255, 255) !important;  
   font-weight: bold;
-  background-color: #1c1c1c; /* Background color for better visibility */
-  padding: 10px 0; /* Add some padding for better spacing */
+  background-color: #1c1c1c; 
+  padding: 10px 0; 
   border-radius: 5px;
 }
 
 
 .tasks-section {
-  flex: 1; 
+  flex: 1;  
   max-width: 40%;
   text-align: left;
+  max-height: calc(100vh - 150px);  /* Adjust this depending on other sections */
+  overflow-y: auto;  /* Enable vertical scroll for the tasks section */
+  padding: 20px;
 }
 
 .task-cards {
@@ -145,6 +157,53 @@
   box-shadow: 5px 5px 10px rgb(61, 49, 49);
   height: 110px;
   margin-right: 100px  ;
+  position: relative;
+}
+
+.enroll {
+  position: absolute; 
+  bottom: 10px;
+  right: 10px;  
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width:100px;
+  margin-right: 10px;
+  margin-bottom: 20px;
+}
+
+.enroll:hover {
+  background-color: #45a049; /* Slightly darker green on hover */
+}
+
+
+.task-card-quiz{
+  background: #ffcc00;
+  border-radius: 30px;
+  width: 200px;
+  margin-left: 5px;
+  padding: 5px;
+}
+.task-card-assignment{
+  background: #0073e6;
+  border-radius: 30px;
+  width: 200px;
+  margin-left: 5px;
+  padding: 5px;
+}
+.task-card-exam{
+  background: #ff5733;
+  border-radius: 30px;
+  width: 200px;
+  margin-left: 5px;
+  padding: 5px;
+}
+
+.task-card p {
+  margin-bottom: 5px; 
 }
 
 .task-card:hover{
@@ -152,24 +211,26 @@
   box-shadow: 2px 2px 10px rgb(61, 49, 49);
   transition: 0.3s;
 }
-.ongoing-tasks-title{
+.ongoing-tasks-title,.event-cal{
   color: #1A2E45;
   font-weight: bold;
+  margin-left: 20px; 
+  margin-bottom: 10px;
 }
 
-.react-calendar .highlight-assignment {
+.react-calendar .highlight-quiz {
   background-color: #ffcc00 !important;
   border-radius: 50%;
   color: white;
 }
 
-.react-calendar .highlight-quiz {
+.react-calendar .highlight-exam {
   background-color: #ff5733 !important;
   border-radius: 50%;
   color: white;
 }
 
-.react-calendar .highlight-exam {
+.react-calendar .highlight-assignment {
   background-color: #0073e6 !important;
   border-radius: 50%;
   color: white;
