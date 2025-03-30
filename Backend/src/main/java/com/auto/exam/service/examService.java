@@ -1,6 +1,7 @@
 package com.auto.exam.service;
 
 
+import com.auto.exam.Dto.ExamReportAll;
 import com.auto.exam.Dto.ExamRequest;
 import com.auto.exam.Dto.MarkQuestions;
 import com.auto.exam.Dto.ProvideQuestion;
@@ -196,5 +197,11 @@ public class examService {
     public List<SendingExam> getAllExams() {
         List<Exam> exams = examRepo.findAll();
         return exams.stream().map(exam -> new SendingExam(exam.getExamId(), exam.getStartDateTime(), exam.getDuration(), exam.getPassingCriteria(), exam.getType(), exam.getTotalMarks(), exam.getCourseOffering().getCourse().getCourseId(), exam.getCourseOffering().getCourse().getCourseName(), exam.getCourseOffering().getCourse().getCourseCode())).collect(Collectors.toList());
+    }
+
+    public List<ExamReportAll> getReports(Map<String, Object> payload) {
+        Long ExamId = Long.valueOf(payload.get("Exam_id").toString());
+        List<ExamReportAll> exams= attemptRepo.getReports(ExamId);
+        return exams;
     }
 }
