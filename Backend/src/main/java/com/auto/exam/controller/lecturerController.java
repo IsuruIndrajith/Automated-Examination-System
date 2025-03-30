@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import com.auto.exam.Dto.ExamRequest;
+import com.auto.exam.Dto.Examevent;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -151,6 +153,16 @@ public class lecturerController {
     public ResponseEntity<List<ExamReportAll>> getAllReport(@RequestBody Map<String, Object> payload){
         try {
             List<ExamReportAll> reports= examService.getReports(payload);
+            return new ResponseEntity<>(reports, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/getAllExam")
+    public ResponseEntity<Examevent> getAllExam(){
+        try {
+            Examevent reports= examService.getAllExamEvents();
             return new ResponseEntity<>(reports, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
