@@ -40,7 +40,7 @@ import com.auto.exam.service.courseService;
 
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RequestMapping("/lecturer")
 public class lecturerController {
 
