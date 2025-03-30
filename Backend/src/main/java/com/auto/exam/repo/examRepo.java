@@ -1,5 +1,6 @@
 package com.auto.exam.repo;
 
+import com.auto.exam.Dto.ExamFront;
 import com.auto.exam.Dto.ExamReportAll;
 import com.auto.exam.Model.Exam;
 import com.auto.exam.Model.Student;
@@ -20,5 +21,12 @@ public interface examRepo extends JpaRepository<Exam, Integer> {
     List<Exam> findLectureExamByUser(@Param("user_name") String user_name);
   
     Exam findExamByExamId(long ExamID);
+
+@Query("SELECT e " +
+       "FROM Exam e " +
+       "JOIN e.courseOffering co " +
+       "JOIN co.course c")
+List<ExamFront> getAllExamEvents();
+
 }
 
