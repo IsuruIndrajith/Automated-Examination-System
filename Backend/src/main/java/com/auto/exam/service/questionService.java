@@ -55,4 +55,8 @@ public class questionService {
         String prompt = payload.get("prompt").toString();
         return null;
     }
+
+    public List<Question> getAll() {
+        return questionRepo.findAll();
+    }
 }

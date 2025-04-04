@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import com.auto.exam.Dto.ExamRequest;
+import com.auto.exam.Dto.ExamSave;
 import com.auto.exam.Dto.Examevent;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import com.auto.exam.Dto.ExamReportAll;
 import com.auto.exam.Model.Attempt;
 import com.auto.exam.Model.Course;
 import com.auto.exam.Model.Exam;
+import com.auto.exam.Model.Question;
 import com.auto.exam.Dto.ExamRequest;
 import com.auto.exam.Dto.GenQuestion;
 import com.auto.exam.Model.SendingExam;
@@ -88,7 +90,7 @@ public class lecturerController {
     // ]
 
     @PostMapping("/addExam")
-    public ResponseEntity<Long> addExam(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<Long> addExam(@RequestBody ExamSave payload) {
         try {
             Long savedExamId = examService.addExam(payload);
             return new ResponseEntity<>(savedExamId, HttpStatus.CREATED);
