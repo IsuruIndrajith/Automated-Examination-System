@@ -32,18 +32,20 @@ const Login = () => {
       if (response.ok) {
         setUser(data);
         localStorage.setItem("user", JSON.stringify(data));
+        localStorage.setItem("token", data.tocken); 
+        localStorage.setItem("role", data.role);
 
         console.log("Login Successful!", data);
         console.log("Role:", data.role);
 
         switch (data.role) {
-          case "student":
+          case "[ROLE_STUDENT]":
             navigate("/student");
             break;
           case "[ROLE_LECTURE]":
             navigate("/lecturer");
             break;
-          case "admin":
+          case "[ROLE_AR]":
             navigate("/admin");
             break;
           default:

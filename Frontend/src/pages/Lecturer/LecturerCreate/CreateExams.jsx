@@ -1,32 +1,6 @@
-import React from "react";
-import "./LecturerCreate.css";
-import NavbarLecturer from "../../components/NavbarLecturer";
-import { useState, useEffect , navigate } from "react";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+import React from 'react'
 
-const CreateEvent = () => {
-    const [specialDates, setSpecialDates] = useState({});
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        fetch("/special-dates.json")
-          .then((res) => res.json())
-          .then((data) => setSpecialDates(data))
-          .catch((err) => console.error("Error fetching special dates:", err));
-      }, []);
-
-      const tileClassName = ({ date, view }) => {
-        if (view === "month") {
-          const dateString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-          if (specialDates[dateString]) {
-            return `highlight-${specialDates[dateString]}`;
-          }
-        }
-        return "";
-      };
-
-
+const CreateExams = () => {
   return (
     <>
     <NavbarLecturer/>
@@ -66,6 +40,6 @@ const CreateEvent = () => {
     </div>
     </>
   );
-};
+}
 
-export default CreateEvent;
+export default CreateExams
