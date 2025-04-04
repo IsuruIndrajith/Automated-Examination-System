@@ -3,6 +3,7 @@ package com.auto.exam.service;
 
 import com.auto.exam.Dto.ExamReportAll;
 import com.auto.exam.Dto.ExamRequest;
+import com.auto.exam.Dto.ExamSave;
 import com.auto.exam.Dto.Examevent;
 import com.auto.exam.Dto.MarkQuestions;
 import com.auto.exam.Dto.ProvideQuestion;
@@ -205,32 +206,53 @@ public class examService {
         else return 'F';
     }
 
-	public Long addExam( Map<String, Object> payload) {
-        
-        Long offeringId = Long.valueOf(payload.get("Offering_ID").toString());
-        LocalDateTime startDateTime = LocalDateTime.parse(payload.get("startDateTime").toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        Integer duration = Integer.valueOf(payload.get("duration").toString());
-        Integer passingCriteria = Integer.valueOf(payload.get("passingCriteria").toString());
-        Integer type = Integer.valueOf(payload.get("type").toString());
-        Integer totalMarks = Integer.valueOf(payload.get("totalMarks").toString());
+    @Transactional
+    public Long addExam(ExamSave payload) {
+        System.out.println("db1:::::::::::::::::::::::::::::::::::::: " + payload.toString());
+        // Fetch the CourseOffering entity
+        Long offeringId = payload.getCourseOfferingId();
+        CourseOffering courseOffering = courseOfferingRepo.findById(offeringId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Offering_ID"));
 
-            // Fetch the CourseOffering entity
-        CourseOffering courseOffering = courseOfferingRepo.findById(offeringId).orElseThrow(() -> new IllegalArgumentException("Invalid Offering_ID"));
-
-            // Create the Exam object
+        // Create the Exam object
         Exam exam = new Exam();
+        exam.setStartDateTime(payload.getStartDateTime());
+        exam.setDuration(payload.getDuration());
+        exam.setPassingCriteria(payload.getPassingCriteria());
+        exam.setType(payload.getType());
+        exam.setTotalMarks(payload.getTotalMarks());
         exam.setCourseOffering(courseOffering);
-        exam.setStartDateTime(startDateTime);
-        exam.setDuration(duration);
-        exam.setPassingCriteria(passingCriteria);
-        exam.setType(type);
-        exam.setTotalMarks(totalMarks);
 
-            // Save the Exam object
-
+        // Save the Exam object first to generate its ID
         examRepo.save(exam);
+        System.out.println("Exam ID:::::::::::::::::::::::::::::::::::::: " + exam.getExamId());
 
-        
+        // Handle questions
+        if (payload.getQuestions() != null && !payload.getQuestions().isEmpty()) {
+            for (Question questionPayload : payload.getQuestions()) {
+                Question question = new Question();
+                question.setQuestion(questionPayload.getQuestion());
+                question.setMarks(questionPayload.getMarks());
+                question.setAnswer(questionPayload.getAnswer());
+                question.setQuestionType(questionPayload.getQuestionType());
+                question.setExam(exam); // Associate the question with the exam
+
+                // Handle MCQ options
+                if (questionPayload.getMcqOptionsList() != null && !questionPayload.getMcqOptionsList().isEmpty()) {
+                    List<McqOptions> mcqOptionsList = questionPayload.getMcqOptionsList().stream().map(optionPayload -> {
+                        McqOptions option = new McqOptions();
+                        option.setOptionText(optionPayload.getOptionText());
+                        option.setIsCorrect(optionPayload.getIsCorrect());
+                        option.setQuestion(question); // Associate the option with the question
+                        return option;
+                    }).collect(Collectors.toList());
+                    question.setMcqOptionsList(mcqOptionsList);
+                }
+
+                // Save the question (cascading will save options)
+                questionRepo.save(question);
+            }
+        }
 
         return exam.getExamId();
     }

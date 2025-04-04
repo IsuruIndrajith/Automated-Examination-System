@@ -23,7 +23,6 @@ public class McqOptions {
     private Long optionId;
 
     private String optionText;
-    private Integer location;
     private Boolean isCorrect;
 
     @ManyToOne
