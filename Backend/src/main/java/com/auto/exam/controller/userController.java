@@ -1,5 +1,6 @@
 package com.auto.exam.controller;
 
+import com.auto.exam.Dto.Login;
 import com.auto.exam.Model.User;
 import com.auto.exam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class userController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody User user) {
+    public Login login(@RequestBody User user) {
         return service.verify(user);
     }
 }

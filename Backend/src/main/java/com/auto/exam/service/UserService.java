@@ -1,6 +1,8 @@
 package com.auto.exam.service;
 
 
+import com.auto.exam.Dto.Login;
+import com.auto.exam.Model.Role;
 import com.auto.exam.Model.User;
 import com.auto.exam.repo.userRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +33,17 @@ public class UserService {
         return user;
     }
 
-    public String verify(User user) {
+    public Login verify(User user) {
         Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         if (authentication.isAuthenticated()) {
             System.out.println("varify================================================");
-            return jwtService.generateToken(user.getUsername());
+            String role=authentication.getAuthorities().toString();
+            String toc= jwtService.generateToken(user.getUsername());
+            return new Login(toc,role);
+
         } else {
             System.out.println("fail================================================");
-
-            return "fail";
+            return new Login(); 
         }
     }
 }

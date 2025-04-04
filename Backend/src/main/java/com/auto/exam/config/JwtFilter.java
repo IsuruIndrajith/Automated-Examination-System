@@ -32,11 +32,26 @@ public class JwtFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
         String token = null;
         String username = null;
+        System.out.println(request);
+        System.out.println("++++++++++++++++++++++++++++++"+request.getHeader("Content-Type"));
+        System.out.println("++++++++++++++++++++++++++++++"+request.getHeader("Authorization"));
+        System.out.println("++++++++++++++++++++++++++++++"+request.getHeader("Accept"));
+        System.out.println("++++++++++++++++++++++++++++++"+request.getHeader("Accept-Language"));
+        System.out.println("++++++++++++++++++++++++++++++"+request.getHeader("Accept-Encoding"));
+        System.out.println("++++++++++++++++++++++++++++++"+request.getHeader("User-Agent"));
+        System.out.println("++++++++++++++++++++++++++++++"+request.getHeader("Host"));
 
         if (authHeader != null && authHeader.startsWith("Bearer")) {
             token = authHeader.substring(7);
             username = jwtService.extractUserName(token);
         }
+        else {
+            System.out.println("Token is not present");
+        }
+        System.out.println("=====================================");
+        System.out.println("Token: " + token);
+        System.out.println("Username: " + username);
+        System.out.println("=====================================");
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = context.getBean(MyUserDetailsService.class).loadUserByUsername(username);
@@ -48,6 +63,12 @@ public class JwtFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authToken);
 
             }
+            else {
+                System.out.println("====================Token is not valid=====================");
+            }
+        }
+        else {
+            System.out.println("====================Token is null=====================");
         }
         System.out.println("==================="+request.getRequestURI()+"===================");
         filterChain.doFilter(request, response);

@@ -9,7 +9,7 @@ import { CgDanger } from "react-icons/cg";
 export const SidebarData = [
   {
     title: 'Home',
-    path: '/',
+    path: '/admin',
     icon: <AiIcons.AiFillHome size={20}  color='black' />,
     cName: 'nav-text home-bg',
   },
@@ -20,14 +20,8 @@ export const SidebarData = [
     cName: 'nav-text home-bg',
   },
   {
-    title: 'Departments',
-    path: '/departments',
-    icon: <IoIcons.IoMdPeople size={20} color='black' />,
-    cName: 'nav-text home-bg',
-  },
-  {
-      title: 'Notes',
-      path: '/notes',
+      title: 'Reports',
+      path: '/Reports',
       icon: <FaStickyNote size={20} color='black'/>,
       cName: 'nav-text home-bg',
   },
