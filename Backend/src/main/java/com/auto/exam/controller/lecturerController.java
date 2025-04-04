@@ -26,6 +26,7 @@ import com.auto.exam.Dto.ExamReportAll;
 import com.auto.exam.Model.Attempt;
 import com.auto.exam.Model.Course;
 import com.auto.exam.Model.Exam;
+import com.auto.exam.Model.Question;
 import com.auto.exam.Dto.ExamRequest;
 import com.auto.exam.Dto.GenQuestion;
 import com.auto.exam.Model.SendingExam;
@@ -105,6 +106,11 @@ public class lecturerController {
     //     "type": 1,
     //     "totalMarks": 100
     // }
+
+    @PostMapping("/getAllQ")
+    public ResponseEntity<List<Question>> getQ(){
+        return new ResponseEntity<>(questionService.getAll(), HttpStatus.OK);
+    } 
 
 
     @PostMapping("/addQuestions")

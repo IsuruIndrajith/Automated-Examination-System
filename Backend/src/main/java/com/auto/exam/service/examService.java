@@ -229,6 +229,9 @@ public class examService {
             // Save the Exam object
 
         examRepo.save(exam);
+
+        
+
         return exam.getExamId();
     }
 
