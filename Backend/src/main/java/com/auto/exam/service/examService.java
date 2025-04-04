@@ -208,7 +208,6 @@ public class examService {
 
     @Transactional
     public Long addExam(ExamSave payload) {
-        System.out.println("db1:::::::::::::::::::::::::::::::::::::: " + payload.toString());
         // Fetch the CourseOffering entity
         Long offeringId = payload.getCourseOfferingId();
         CourseOffering courseOffering = courseOfferingRepo.findById(offeringId)
