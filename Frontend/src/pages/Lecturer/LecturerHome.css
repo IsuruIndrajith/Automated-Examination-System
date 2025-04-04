@@ -23,7 +23,7 @@
     font-size: 24px;
     text-decoration: underline;
   }
-  
+   
   .logout {
     cursor: pointer;
   }
@@ -93,4 +93,5 @@
     cursor: pointer;
     border-radius: 20px;
   }
+
   

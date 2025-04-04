@@ -13,7 +13,7 @@
   
 body {
     font-family: 'Inter', sans-serif;
-    background: linear-gradient(90deg, #5f8484, #cdf1f1);
+    background: linear-gradient(90deg, #abd5d5, #cdf1f1); /*#5f8484, #cdf1f1);*/
     background-size: cover;
 }
   

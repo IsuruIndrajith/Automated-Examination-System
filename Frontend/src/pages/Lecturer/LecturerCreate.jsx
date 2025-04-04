@@ -2,11 +2,13 @@ import React from "react";
 import "./LecturerCreate.css";
 import NavbarLecturer from "../../components/NavbarLecturer";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
 const CreateEvent = () => {
     const [specialDates, setSpecialDates] = useState({});
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch("/special-dates.json")
@@ -55,11 +57,10 @@ const CreateEvent = () => {
         <h2 className="title">Create Event</h2>
         <div className="create-event-container">
             <div className="event-options">
-                <button className="event-button">Quizzes</button>
-                <button className="event-button">Assignments</button>
-                <button className="event-button">Exams</button>
-                <button className="event-button">Quick Quizzes</button>
-                <button className="event-button">Reschedule</button>
+                <button className="event-button" onClick={()=> navigate("/quiz-create")} >Quizzes</button>
+                <button className="event-button" onClick={()=> navigate("/assignment-create")} >Assignments</button>
+                <button className="event-button" onClick={()=> navigate("/exams-create")} >Exams</button>
+                <button className="event-button" onClick={()=> navigate("/reschedule")} >Reschedule</button>
             </div>
         </div>
         </div>

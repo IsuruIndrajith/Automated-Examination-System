@@ -1,41 +1,74 @@
 import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import "./StudentHomePage.css"; 
-import Navbar from "../components/Navbar"; 
+import "./StudentHomePage.css";
+import Navbar from "../components/Navbar";
 
 const StudentHomePage = () => {
-  const [tasks, setTasks] = useState([]);
+  const [events, setEvents] = useState([]);
   const [specialDates, setSpecialDates] = useState({});
 
   useEffect(() => {
-    fetch("/tasks.json")
-      .then((res) => res.json())
-      .then((data) => setTasks(data))
-      .catch((err) => console.error("Error fetching tasks:", err));
-  }, []); 
-
-  useEffect(() => {
-    fetch('/special-dates.json')
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Fetched Special Dates: ", data); 
-        setSpecialDates(data);
+    const token = localStorage.getItem("token");
+  
+    fetch("http://10.102.16.157:8080/student/getAllExam", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        return res.json();
       })
-      .catch((err) => console.error("Error fetching special dates: ", err));
+      .then((data) => {
+        // Check if the data is valid
+        console.log("Raw API Response:", data);
+  
+        if (!data || !Array.isArray(data.events)) {
+          console.error("Expected an array but got:", data);
+          return;
+        }
+  
+        const typeMapping = {
+          1: "Exam",
+          2: "Quiz",
+          3: "Assignment",
+        };
+  
+        const formattedEvents = data.events.map((event) => ({
+          id: event.id,
+          type: typeMapping[event.type] || "Unknown",
+          date: new Date(event.date).toISOString().split("T")[0], // YYYY-MM-DD
+          time: new Date(event.date).toLocaleTimeString(),
+          subject: event.subject,
+          code: event.code,
+        }));
+  
+        setEvents(formattedEvents);
+  
+        // Extract unique dates for calendar highlights
+        const dateHighlightMap = {};
+        formattedEvents.forEach((event) => {
+          dateHighlightMap[event.date] = event.type;
+        });
+  
+        setSpecialDates(dateHighlightMap);
+      })
+      .catch((err) => {
+        console.error("Error fetching events: ", err);
+      });
   }, []);
+  
 
-  // Fix the tileClassName function
   const tileClassName = ({ date, view }) => {
     if (view === "month") {
-      const dateString = date.getFullYear() + '-' + 
-                          String(date.getMonth() + 1).padStart(2, '0') + '-' + 
-                          String(date.getDate()).padStart(2, '0');
-
-      console.log(`Checking Date: ${dateString}`, specialDates);
-
+      const dateString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
       if (specialDates[dateString]) {
-        return `highlight-${specialDates[dateString]}`;
+        return `highlight-${specialDates[dateString].toLowerCase()}`;
       }
     }
     return "";
@@ -45,44 +78,47 @@ const StudentHomePage = () => {
     <>
       <Navbar />
       <div className="student-homepage">
-        {/* Calendar */}
+        {/* Calendar Section */}
         <div className="calendar-section">
           <h2 className="event-cal">Event Calendar</h2>
           <Calendar tileClassName={tileClassName} />
 
           {/* Legend for Calendar */}
           <div className="calendar-legend">
-              <div className="legend-item">
-                <span className="legend-color assignment"></span> Assignment
-              </div>
-              <div className="legend-item">
-                <span className="legend-color quiz"></span> Quiz
-              </div>
-              <div className="legend-item">
-                <span className="legend-color exam"></span> Exam
-              </div>
-              <div className="legend-item">
-                <span className="legend-color today"></span> Today
-              </div>
+            <div className="legend-item">
+              <span className="legend-color assignment"></span> Assignment
+            </div>
+            <div className="legend-item">
+              <span className="legend-color quiz"></span> Quiz
+            </div>
+            <div className="legend-item">
+              <span className="legend-color exam"></span> Exam
+            </div>
+            <div className="legend-item">
+              <span className="legend-color today"></span> Today
+            </div>
           </div>
         </div>
- 
-        {/* Ongoing Tasks */}
+
+        {/* Events Section */}
         <div className="tasks-section">
-          <h2 className="ongoing-tasks-title">Ongoing Tasks</h2>
+          <h2 className="ongoing-tasks-title">Upcoming Events</h2>
           <div className="task-cards">
-            {tasks.length > 0 ? (
-              tasks.map((task) => (
-                <div key={task.id} className="task-card">
-                    <h3>{task.title}</h3>
-                    <p className={`task-card-${task.type.toLowerCase()}`} ></p>
-                    <p>Type: {task.type}</p>
-                    <p>Due Date: {task.dueDate}</p>
-                    <button type="submit" value="Enroll" className="enroll">Enroll</button>
+            {events.length > 0 ? (
+              events.map((event, index) => (
+                <div key={index} className="task-card">
+                  <h3>{event.subject}</h3>
+                  <p className={`task-card-${event.type.replace(/\s+/g, "-").toLowerCase()}`}>
+                    Type: {event.type}
+                  </p>
+                  <p>Date: {event.date}</p>
+                  <p>Time: {event.time}</p>
+                  <p>Code: {event.code}</p>
+                  <button type="submit" value="Enroll" className="enroll">Enroll</button>
                 </div>
               ))
             ) : (
-              <p>No ongoing tasks available.</p>
+              <p>No upcoming events.</p>
             )}
           </div>
         </div>
