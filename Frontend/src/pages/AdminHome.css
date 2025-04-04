@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5bacd5c018cd09ee18380d85e9888b9b3d66997c
 .SideButtons{
     display: flex;
     flex-direction: column;
@@ -12,4 +15,9 @@
     position: fixed;
     left: 0;
     top: 0;
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 5bacd5c018cd09ee18380d85e9888b9b3d66997c
 }

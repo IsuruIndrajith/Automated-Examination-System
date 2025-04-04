@@ -1,7 +1,8 @@
 import React from "react";
 import "./LecturerCreate.css";
 import NavbarLecturer from "../../components/NavbarLecturer";
-import { useState, useEffect , navigate } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 

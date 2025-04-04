@@ -17,6 +17,8 @@ import LecturerReports from './pages/Lecturer/LecturerReports';
 import Lcomplain from './pages/Lecturer/Lcomplain';
 import CreateAssignment from './pages/Lecturer/LecturerCreate/CreateAssignment';
 import CreateQuiz from './pages/Lecturer/LecturerCreate/CreateQuiz';
+import CreateExams from './pages/Lecturer/LecturerCreate/CreateExams';
+import Reschedule from './pages/Lecturer/LecturerCreate/Reschedule';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,10 +38,10 @@ const router = createBrowserRouter(
       <Route path="/lecturer-note" element={<LecturerNote />} />
       <Route path="/lecturer-report" element={<LecturerReports />} />
       <Route path="/lecturer-complain" element={<Lcomplain />} />
-      {/* <Route path="/quiz-create" element={<CreateQuiz />} />
+      <Route path="/quiz-create" element={<CreateQuiz />} />
       <Route path="/assignment-create" element={<CreateAssignment />} />
       <Route path="/exams-create" element={<CreateExams />} />
-      <Route path="/reschedule" element={<Reschedule />} /> */}
+      <Route path="/reschedule" element={<Reschedule />} />
     </Route>
   )
 );

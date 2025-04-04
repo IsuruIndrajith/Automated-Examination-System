@@ -1,6 +1,6 @@
 {
     "events": [
-      {
+      { 
         "id": 1,
         "type": "exam",
         "subject": "Software Engineering",
