@@ -245,6 +245,7 @@ public class lecturerController {
     public ResponseEntity<List<ExamFront>> markExam(){
         try {
             List<ExamFront> reports= examAnalysisService.returnExams();
+            System.out.println(reports);
             return new ResponseEntity<>(reports, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
