@@ -1,0 +1,29 @@
+.mark-exam-container {
+    padding: 20px;
+  }
+  
+  .dropdown-container {
+    margin-bottom: 20px;
+  }
+  
+  .marking-sections {
+    margin-top: 20px;
+  }
+  
+  .essay-marking,
+  .mcq-results {
+    margin-bottom: 20px;
+  }
+  
+  .essay-question {
+    margin-bottom: 15px;
+  }
+  
+  .essay-question p {
+    margin: 5px 0;
+  }
+  
+  .essay-question input {
+    margin-top: 5px;
+  }
+  

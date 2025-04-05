@@ -57,7 +57,7 @@ const StudentExams = () => {
 
     const token = localStorage.getItem("token"); // Retrieve token
 
-    fetch(`http://192.168.147.57:8080/student/exam/${currentQuiz.id}/submit`, {
+    fetch(`http://192.168.68.73:8080/student/exam/${currentQuiz.id}/submit`, {
       method: "POST",
       body: JSON.stringify({ quizId: currentQuiz.id, answers }),
       headers: {
