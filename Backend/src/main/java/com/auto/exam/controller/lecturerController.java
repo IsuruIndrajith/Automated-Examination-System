@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import com.auto.exam.Dto.ExamRequest;
 import com.auto.exam.Dto.ExamSave;
 import com.auto.exam.Dto.Examevent;
+import com.auto.exam.Dto.GeminiAnswer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,7 @@ import com.auto.exam.Dto.ExamRequest;
 import com.auto.exam.Dto.GenQuestion;
 import com.auto.exam.Dto.MarkEssayQuestion;
 import com.auto.exam.Dto.MarkQuestions;
+import com.auto.exam.Dto.QuestionRequest;
 import com.auto.exam.Dto.ShowStudentList;
 import com.auto.exam.Model.SendingExam;
 import com.auto.exam.service.examService;
@@ -44,10 +46,12 @@ import com.auto.exam.repo.questionRepo;
 
 import jakarta.transaction.Transactional;
 
+import com.auto.exam.service.aiServer;
 // import com.auto.exam.service.aiServer;
 import com.auto.exam.service.courseService;
 import com.auto.exam.service.examAnalysisService;
 import com.auto.exam.service.ollamaService;
+// import com.auto.exam.service.aiServer;
 
 
 
@@ -63,16 +67,19 @@ public class lecturerController {
     private ollamaService ollamaService;
     // private aiServer aiServer;
     private examAnalysisService examAnalysisService;
+    private aiServer aiServer;
 
     
     @Autowired
-    public lecturerController(examService examService, courseService courseService, courseOfferingRepo courseOfferingRepo, questionService questionService, ollamaService ollamaService, examAnalysisService examAnalysisService) {
+    public lecturerController(examService examService, courseService courseService, courseOfferingRepo courseOfferingRepo
+    , questionService questionService, ollamaService ollamaService, examAnalysisService examAnalysisService, aiServer aiServer) {
         this.courseService = courseService;
         this.questionService = questionService;
         this.courseOfferingRepo = courseOfferingRepo;
         this.ollamaService = ollamaService;
         this.examService = examService;
         this.examAnalysisService = examAnalysisService;
+        this.aiServer = aiServer;
     }
     
 
@@ -202,6 +209,17 @@ public class lecturerController {
     //         return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
     //     }
     // }
+
+    @PostMapping("/geminiExamAi")
+    public ResponseEntity<GeminiAnswer> generateExamAi(@RequestBody QuestionRequest request) {
+        try {
+            GeminiAnswer savedExamId = aiServer.askQuestion(request);
+            return new ResponseEntity<>(savedExamId, HttpStatus.CREATED);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
 
     @PostMapping("/getExamReport")
     public ResponseEntity<List<ExamReportAll>> getAllReport(@RequestBody Map<String, Object> payload){
