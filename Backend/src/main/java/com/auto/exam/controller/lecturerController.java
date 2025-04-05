@@ -40,6 +40,7 @@ import com.auto.exam.repo.questionRepo;
 import jakarta.transaction.Transactional;
 
 import com.auto.exam.service.courseService;
+import com.auto.exam.service.ollamaService;
 
 
 
@@ -52,14 +53,16 @@ public class lecturerController {
     private courseService courseService;
     private courseOfferingRepo courseOfferingRepo;
     private questionService questionService;
+    private ollamaService ollamaService;
 
     
     @Autowired
-    public lecturerController(examService examService, courseService courseService, courseOfferingRepo courseOfferingRepo, questionService questionService) {
+    public lecturerController(examService examService, courseService courseService, courseOfferingRepo courseOfferingRepo, questionService questionService, ollamaService ollamaService) {
         this.courseService = courseService;
         this.questionService = questionService;
         this.courseOfferingRepo = courseOfferingRepo;
         this.examService = examService;
+        this.ollamaService = ollamaService;
     }
     
 
@@ -172,13 +175,13 @@ public class lecturerController {
     //   }
 
     @PostMapping("/generateExamAi")
-    public ResponseEntity<List<GenQuestion>> generateExamAi(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<String> generateExamAi(@RequestBody Map<String, Object> payload) {
         try {
-            List<GenQuestion> savedExamId = questionService.generateQuestions(payload);
+            String savedExamId = ollamaService.generateQuestions(payload);
             return new ResponseEntity<>(savedExamId, HttpStatus.CREATED);
 
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
