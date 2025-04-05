@@ -8,13 +8,16 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import com.auto.exam.Dto.ExamRequest;
+import com.auto.exam.Dto.ExamSave;
 import com.auto.exam.Dto.Examevent;
+import com.auto.exam.Dto.GeminiAnswer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,12 +25,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.auto.exam.Dto.CoursesForLecture;
 import com.auto.exam.Dto.ExamAdding;
+import com.auto.exam.Dto.ExamFront;
 import com.auto.exam.Dto.ExamReportAll;
 import com.auto.exam.Model.Attempt;
 import com.auto.exam.Model.Course;
 import com.auto.exam.Model.Exam;
+import com.auto.exam.Model.Question;
 import com.auto.exam.Dto.ExamRequest;
 import com.auto.exam.Dto.GenQuestion;
+import com.auto.exam.Dto.MarkEssayQuestion;
+import com.auto.exam.Dto.MarkQuestions;
+import com.auto.exam.Dto.QuestionRequest;
+import com.auto.exam.Dto.ShowStudentList;
 import com.auto.exam.Model.SendingExam;
 import com.auto.exam.service.examService;
 import com.auto.exam.service.questionService;
@@ -37,7 +46,12 @@ import com.auto.exam.repo.questionRepo;
 
 import jakarta.transaction.Transactional;
 
+import com.auto.exam.service.aiServer;
+// import com.auto.exam.service.aiServer;
 import com.auto.exam.service.courseService;
+import com.auto.exam.service.examAnalysisService;
+import com.auto.exam.service.ollamaService;
+// import com.auto.exam.service.aiServer;
 
 
 
@@ -50,14 +64,22 @@ public class lecturerController {
     private courseService courseService;
     private courseOfferingRepo courseOfferingRepo;
     private questionService questionService;
+    private ollamaService ollamaService;
+    // private aiServer aiServer;
+    private examAnalysisService examAnalysisService;
+    private aiServer aiServer;
 
     
     @Autowired
-    public lecturerController(examService examService, courseService courseService, courseOfferingRepo courseOfferingRepo, questionService questionService) {
+    public lecturerController(examService examService, courseService courseService, courseOfferingRepo courseOfferingRepo
+    , questionService questionService, ollamaService ollamaService, examAnalysisService examAnalysisService, aiServer aiServer) {
         this.courseService = courseService;
         this.questionService = questionService;
         this.courseOfferingRepo = courseOfferingRepo;
+        this.ollamaService = ollamaService;
         this.examService = examService;
+        this.examAnalysisService = examAnalysisService;
+        this.aiServer = aiServer;
     }
     
 
@@ -88,22 +110,60 @@ public class lecturerController {
     // ]
 
     @PostMapping("/addExam")
-    public ResponseEntity<Long> addExam(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<Long> addExam(@RequestBody ExamSave payload) {
         try {
-            Long savedExamId = examService.addExam(payload);
+            Long savedExamId = null;
+            try {
+                savedExamId = examService.addExam(payload);
+            } catch (Exception e) {
+                System.out.println("Error in adding exam: " + e.getMessage());
+                return new ResponseEntity<>( HttpStatus.NOT_ACCEPTABLE);
+            }
             return new ResponseEntity<>(savedExamId, HttpStatus.CREATED);
 
         } catch (Exception e) {
+            System.out.println("Error in adding exam: " + e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
-    // {
-    //     "Offering_ID": 1,
-    //     "startDateTime": "2025-06-01 09:00:00",
-    //     "duration": 60,
-    //     "passingCriteria": 50,
+
+    // {   
+    //     "startDateTime": "2023-10-01T12:00:00",
+    //     "duration": 120,
+    //     "passingCriteria": 2,
     //     "type": 1,
-    //     "totalMarks": 100
+    //     "totalMarks": 100,
+    //     "courseOfferingId":7,
+    //     "questions": [
+    //       {
+    //         "question": "What is the capital of France?",
+    //         "marks": 5,
+    //         "answer": "Paris",
+    //         "questionType": 1,
+    //         "mcqOptionsList": [
+    //           {
+    //             "optionText": "Paris",
+    //             "location": 1,
+    //             "isCorrect": true
+    //           },
+    //           {
+    //             "optionText": "London",
+    //             "location": 2,
+    //             "isCorrect": false
+    //           },
+    //           {
+    //             "optionText": "Berlin",
+    //             "location": 3,
+    //             "isCorrect": false
+    //           },
+    //           {
+    //             "optionText": "Madrid",
+    //             "location": 4,
+    //             "isCorrect": false
+    //           }
+    //         ]
+    //       }
+    //     ]
     // }
 
 
@@ -138,14 +198,26 @@ public class lecturerController {
     //     ]
     //   }
 
-    @PostMapping("/generateExamAi")
-    public ResponseEntity<List<GenQuestion>> generateExamAi(@RequestBody Map<String, Object> payload) {
+
+    // @PostMapping("/generateExamAi")
+    // public ResponseEntity<String> generateExamAi(@RequestBody Map<String, Object> payload) {
+    //     try {
+    //         String savedExamId = aiServer.getAIResponse(payload);
+    //         return new ResponseEntity<>(savedExamId, HttpStatus.CREATED);
+
+    //     } catch (Exception e) {
+    //         return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+    //     }
+    // }
+
+    @PostMapping("/geminiExamAi")
+    public ResponseEntity<GeminiAnswer> generateExamAi(@RequestBody QuestionRequest request) {
         try {
-            List<GenQuestion> savedExamId = questionService.generateQuestions(payload);
+            GeminiAnswer savedExamId = aiServer.askQuestion(request);
             return new ResponseEntity<>(savedExamId, HttpStatus.CREATED);
 
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
@@ -168,4 +240,43 @@ public class lecturerController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping("/markExam")
+    public ResponseEntity<List<ExamFront>> markExam(){
+        try {
+            List<ExamFront> reports= examAnalysisService.returnExams();
+            return new ResponseEntity<>(reports, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PostMapping("/markExam/{examId}")
+    public ResponseEntity<List<ShowStudentList>> markExamShowStudentList(@PathVariable long examId){
+        try {
+            List<ShowStudentList> reports= examAnalysisService.ShowStudentList(examId);
+            return new ResponseEntity<>(reports, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PostMapping("/markExam/{examId}/{studentId}")
+    public ResponseEntity<List<MarkEssayQuestion>> markExamShowStudentList(@PathVariable long examId, @PathVariable long studentId){
+        try {
+            List<MarkEssayQuestion> reports= examAnalysisService.showStudentAnswers(examId,studentId);
+            return new ResponseEntity<>(reports, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PostMapping("/markExam/{examId}/{studentId}/submit")
+    public ResponseEntity<String> markExamSubmit(@PathVariable long examId, @PathVariable long studentId, @RequestBody List<MarkQuestions> payload){
+        try {
+            String reports= examService.markExamSubmit(examId,studentId,payload);
+            return new ResponseEntity<>(reports, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
 }

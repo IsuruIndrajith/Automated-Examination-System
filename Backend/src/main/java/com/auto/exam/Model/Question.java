@@ -1,5 +1,8 @@
 package com.auto.exam.Model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,4 +31,9 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "exam_id")
     private Exam exam;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private List<McqOptions> mcqOptionsList =new ArrayList<>();
+
+
 }

@@ -50,9 +50,12 @@ public class questionService {
         return savedQuestions.stream().map(Question::getQuestionId).collect(Collectors.toList());
     }
 
-    public List<GenQuestion> generateQuestions(Map<String, Object> payload) {
-        
+    public List<GenQuestion> generateQuestions(Map<String, Object> payload) {        
         String prompt = payload.get("prompt").toString();
         return null;
+    }
+
+    public List<Question> getAll() {
+        return questionRepo.findAll();
     }
 }

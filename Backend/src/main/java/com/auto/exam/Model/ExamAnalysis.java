@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "exam_analysis")
 public class ExamAnalysis {
 
-    @Id
+    @Id  
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "analysis_id")
     private Long id;
@@ -25,14 +25,24 @@ public class ExamAnalysis {
     @Column(name = "student_marks")
     private Integer studentMarks;
 
+    @Column(name = "student_id")
+    private Long studentId;
+
+
+    @Column(name = "marked")
+    private boolean marked;
+
     public ExamAnalysis() {
     }
 
-    public ExamAnalysis(Exam exam, Question question, String studentAnswer, Integer studentMarks) {
+
+    public ExamAnalysis(Exam exam, Question question, String studentAnswer, Integer studentMarks, Long studentId, boolean marked) {
+        this.marked = marked;
         this.exam = exam;
         this.question = question;
         this.studentAnswer = studentAnswer;
         this.studentMarks = studentMarks;
+        this.studentId = studentId;
     }
 
     // Getters and Setters
@@ -72,5 +82,18 @@ public class ExamAnalysis {
     }
     public void setStudentMarks(Integer studentMarks) {
         this.studentMarks = studentMarks;
+    }
+    public Long getStudentId() {
+        return studentId;
+    }
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
+    }
+
+    public boolean isMarked() {
+        return marked;
+    }
+    public void setMarked(boolean marked) {
+        this.marked = marked;
     }
 }
