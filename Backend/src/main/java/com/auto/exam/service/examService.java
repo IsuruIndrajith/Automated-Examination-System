@@ -6,6 +6,7 @@ import com.auto.exam.Dto.ExamRequest;
 import com.auto.exam.Dto.ExamSave;
 import com.auto.exam.Dto.Examevent;
 import com.auto.exam.Dto.MarkQuestions;
+import com.auto.exam.Dto.OptionList;
 import com.auto.exam.Dto.ProvideQuestion;
 import com.auto.exam.Model.*;
 import com.auto.exam.repo.*;
@@ -121,9 +122,17 @@ public class examService {
         this.ExamId = examID;
     
         return questionRepo.findQuestionById(examID).stream()
-                .map(q -> new ProvideQuestion(q.getQuestionId(), q.getQuestion(), q.getMarks()))
-                .collect(Collectors.toList());
-    }
+        .map(q -> new ProvideQuestion(
+                q.getQuestionId(),
+                q.getQuestion(),
+                q.getMarks(),
+                q.getMcqOptionsList().stream()
+                        .map(m -> new OptionList(
+                                m.getOptionText() 
+                        ))
+                        .collect(Collectors.toList())))
+            .collect(Collectors.toList());
+        }
 
     @Transactional
     public List<MarkQuestions> markQuestions(List<MarkQuestions> markQuestions) {
