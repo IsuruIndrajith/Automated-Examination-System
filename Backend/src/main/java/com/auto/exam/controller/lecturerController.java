@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import com.auto.exam.Dto.ExamRequest;
+import com.auto.exam.Dto.ExamSave;
 import com.auto.exam.Dto.Examevent;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import com.auto.exam.Dto.ExamReportAll;
 import com.auto.exam.Model.Attempt;
 import com.auto.exam.Model.Course;
 import com.auto.exam.Model.Exam;
+import com.auto.exam.Model.Question;
 import com.auto.exam.Dto.ExamRequest;
 import com.auto.exam.Dto.GenQuestion;
 import com.auto.exam.Model.SendingExam;
@@ -38,6 +40,7 @@ import com.auto.exam.repo.questionRepo;
 import jakarta.transaction.Transactional;
 
 import com.auto.exam.service.courseService;
+import com.auto.exam.service.ollamaService;
 
 
 
@@ -50,14 +53,16 @@ public class lecturerController {
     private courseService courseService;
     private courseOfferingRepo courseOfferingRepo;
     private questionService questionService;
+    private ollamaService ollamaService;
 
     
     @Autowired
-    public lecturerController(examService examService, courseService courseService, courseOfferingRepo courseOfferingRepo, questionService questionService) {
+    public lecturerController(examService examService, courseService courseService, courseOfferingRepo courseOfferingRepo, questionService questionService, ollamaService ollamaService) {
         this.courseService = courseService;
         this.questionService = questionService;
         this.courseOfferingRepo = courseOfferingRepo;
         this.examService = examService;
+        this.ollamaService = ollamaService;
     }
     
 
@@ -88,7 +93,7 @@ public class lecturerController {
     // ]
 
     @PostMapping("/addExam")
-    public ResponseEntity<Long> addExam(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<Long> addExam(@RequestBody ExamSave payload) {
         try {
             Long savedExamId = examService.addExam(payload);
             return new ResponseEntity<>(savedExamId, HttpStatus.CREATED);
@@ -97,13 +102,44 @@ public class lecturerController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
-    // {
-    //     "Offering_ID": 1,
-    //     "startDateTime": "2025-06-01 09:00:00",
-    //     "duration": 60,
-    //     "passingCriteria": 50,
+
+    // {   
+    //     "startDateTime": "2023-10-01T12:00:00",
+    //     "duration": 120,
+    //     "passingCriteria": 2,
     //     "type": 1,
-    //     "totalMarks": 100
+    //     "totalMarks": 100,
+    //     "courseOfferingId":7,
+    //     "questions": [
+    //       {
+    //         "question": "What is the capital of France?",
+    //         "marks": 5,
+    //         "answer": "Paris",
+    //         "questionType": 1,
+    //         "mcqOptionsList": [
+    //           {
+    //             "optionText": "Paris",
+    //             "location": 1,
+    //             "isCorrect": true
+    //           },
+    //           {
+    //             "optionText": "London",
+    //             "location": 2,
+    //             "isCorrect": false
+    //           },
+    //           {
+    //             "optionText": "Berlin",
+    //             "location": 3,
+    //             "isCorrect": false
+    //           },
+    //           {
+    //             "optionText": "Madrid",
+    //             "location": 4,
+    //             "isCorrect": false
+    //           }
+    //         ]
+    //       }
+    //     ]
     // }
 
 
@@ -139,13 +175,13 @@ public class lecturerController {
     //   }
 
     @PostMapping("/generateExamAi")
-    public ResponseEntity<List<GenQuestion>> generateExamAi(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<String> generateExamAi(@RequestBody Map<String, Object> payload) {
         try {
-            List<GenQuestion> savedExamId = questionService.generateQuestions(payload);
+            String savedExamId = ollamaService.generateQuestions(payload);
             return new ResponseEntity<>(savedExamId, HttpStatus.CREATED);
 
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
