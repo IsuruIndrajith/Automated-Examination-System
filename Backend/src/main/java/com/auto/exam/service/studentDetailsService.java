@@ -65,16 +65,23 @@ public class studentDetailsService {
     }
 
     public List<ExamReportAnalysis> examAnalysis(long examId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();        
+        User user = userRepo.findByUsername(userPrincipal.getUsername());   
+        Student student = getStudentByUser(user);
+        long studentId = student.getStudentId(); // Get the student ID
         List<ExamAnalysis> examAnalysisList = examanalysisRepo.findByExamId(examId);
 
         return examAnalysisList.stream()
+                .filter(exam -> exam.getStudentId() == studentId) // Filter by matching student ID
                 .map(exam -> new ExamReportAnalysis(
                         exam.getExam().getExamId(),  // Extract exam ID
                         exam.getQuestion().getQuestionId(),
                         exam.getQuestion().getQuestion(),
                         exam.getQuestion().getMarks(),
-                        exam.getQuestion().getAnswer(),// Extract question object
-                        exam.getStudentAnswer()      // Extract student's answer
+                        exam.getQuestion().getAnswer(), // Extract question object
+                        exam.getStudentAnswer(),       // Extract student's answer
+                        exam.getStudentId()
                 ))
                 .collect(Collectors.toList());
     }

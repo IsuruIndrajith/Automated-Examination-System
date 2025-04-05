@@ -57,10 +57,11 @@ const CreateEvent = () => {
         <h2 className="title">Create Event</h2>
         <div className="create-event-container">
             <div className="event-options">
-                <button className="event-button" onClick={()=> navigate("/quiz-create")} >Quizzes</button>
-                <button className="event-button" onClick={()=> navigate("/assignment-create")} >Assignments</button>
-                <button className="event-button" onClick={()=> navigate("/exams-create")} >Exams</button>
-                <button className="event-button" onClick={()=> navigate("/reschedule")} >Reschedule</button>
+              <button className="event-button" onClick={()=> navigate("/quiz-create")} >Quizzes</button>
+              <button className="event-button" onClick={()=> navigate("/assignment-create")} >Assignments</button>
+              <button className="event-button" onClick={()=> navigate("/exams-create")} >Exams</button>
+              <button className="event-button" onClick={()=> navigate("/reschedule")} >Reschedule</button>
+              <button className="event-button-mark" onClick={()=> navigate("/mark-exam")} >Mark Exam</button>
             </div>
         </div>
         </div>
