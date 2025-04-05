@@ -40,12 +40,11 @@ public class ollamaService {
         // Make HTTP entity
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(request, headers);
 
-        System.out.println("Sending request to Ollama API:::::::::::::::::::::::::::: " + entity.toString());
-
+        System.out.println("Request to Ollama API:::::::::::::: " + entity.toString());
         // Send the POST request
         ResponseEntity<Map> response = restTemplate.postForEntity(OLLAMA_URL, entity, Map.class);
 
-        System.out.println("Response from Ollama API:::::::::::::::::::::::::::: " + response.toString());
+        System.out.println("Response from Ollama API:::::::::::::::::: " + response.toString());
         // Extract the content from the response
         Map message = (Map) response.getBody().get("message");
         if (message == null) {
