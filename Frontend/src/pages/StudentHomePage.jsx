@@ -48,7 +48,7 @@ const StudentHomePage = () => {
           code: event.code,
         }));
   
-        setEvents(formattedEvents);
+        setEvents(formattedEvents); 
   
         // Extract unique dates for calendar highlights
         const dateHighlightMap = {};
