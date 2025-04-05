@@ -10,7 +10,8 @@ const Login = () => {
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
 
-  const BASE_URL = "http://10.102.16.157:8080";
+  const BASE_URL = "http://192.168.68.73:8080";
+  const token = localStorage.getItem("token");
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -24,6 +25,7 @@ const Login = () => {
       const response = await fetch(`${BASE_URL}/login`, {
         method: "POST",
         headers: {
+          "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ username, password }),
@@ -67,17 +69,17 @@ const Login = () => {
       <div className="login-box">
         <h1 className="login-title">AUTOMATED EXAMINER LOGIN</h1>
         <form onSubmit={handleLogin}>
-          <div className="user-email">
-            <label>USER EMAIL</label>
+          <div className="user-username">
+            <label>USERNAME</label>
             <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
           <div className="user-password">
-          <label>USER PASSWORD</label>
+            <label>PASSWORD</label>
             <input
               type="password"
               value={password}

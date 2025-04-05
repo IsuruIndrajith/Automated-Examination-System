@@ -10,7 +10,7 @@ const LecturerHomePage = () => {
   const [isLoading, setIsLoading] = useState(true); // Add loading state
   const [error, setError] = useState(null); // Add error state
 
-  const BASE_URL = "http://10.102.16.157:8080";
+  const BASE_URL = "http://192.168.68.73:8080";
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -96,6 +96,20 @@ const LecturerHomePage = () => {
         <div className="calendar-section">
           <h2 className="event-cal">Event Calendar</h2>
           <Calendar tileClassName={tileClassName} />
+          <div className="calendar-legend">
+              <div className="legend-item">
+                <span className="legend-color assignment"></span> Assignment
+              </div>
+              <div className="legend-item">
+                <span className="legend-color quiz"></span> Quiz
+              </div>
+              <div className="legend-item">
+                <span className="legend-color exam"></span> Exam
+              </div>
+              <div className="legend-item">
+                <span className="legend-color today"></span> Today
+              </div>
+          </div>
         </div>
 
         {/* Events Section */}
