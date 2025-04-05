@@ -19,8 +19,7 @@ import CreateAssignment from './pages/Lecturer/LecturerCreate/CreateAssignment';
 import CreateQuiz from './pages/Lecturer/LecturerCreate/CreateQuiz';
 import CreateExams from './pages/Lecturer/LecturerCreate/CreateExams';
 import Reschedule from './pages/Lecturer/LecturerCreate/Reschedule';
-import Manage from './pages/Admin/Manage';
-import Reports from './pages/Admin/Reports';
+import MarkExam from './pages/Lecturer/LecturerCreate/MarkExam';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -46,6 +45,7 @@ const router = createBrowserRouter(
       <Route path="/reschedule" element={<Reschedule />} />
       <Route path="/manage" element={<Manage />} />
       <Route path="/reports" element={<Reports />} />
+      <Route path="/mark-exam" element={<MarkExam />} />
     </Route>
   )
 );

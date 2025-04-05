@@ -10,6 +10,8 @@ const Login = () => {
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
 
+  const BASE_URL = "http://10.102.16.157:8080";
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -19,7 +21,7 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch("http://192.168.68.73:8080/login", {
+      const response = await fetch(`${BASE_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
