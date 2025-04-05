@@ -44,6 +44,7 @@ import com.auto.exam.repo.questionRepo;
 
 import jakarta.transaction.Transactional;
 
+// import com.auto.exam.service.aiServer;
 import com.auto.exam.service.courseService;
 import com.auto.exam.service.examAnalysisService;
 import com.auto.exam.service.ollamaService;
@@ -60,6 +61,7 @@ public class lecturerController {
     private courseOfferingRepo courseOfferingRepo;
     private questionService questionService;
     private ollamaService ollamaService;
+    // private aiServer aiServer;
     private examAnalysisService examAnalysisService;
 
     
@@ -68,8 +70,8 @@ public class lecturerController {
         this.courseService = courseService;
         this.questionService = questionService;
         this.courseOfferingRepo = courseOfferingRepo;
-        this.examService = examService;
         this.ollamaService = ollamaService;
+        this.examService = examService;
         this.examAnalysisService = examAnalysisService;
     }
     
@@ -103,10 +105,17 @@ public class lecturerController {
     @PostMapping("/addExam")
     public ResponseEntity<Long> addExam(@RequestBody ExamSave payload) {
         try {
-            Long savedExamId = examService.addExam(payload);
+            Long savedExamId = null;
+            try {
+                savedExamId = examService.addExam(payload);
+            } catch (Exception e) {
+                System.out.println("Error in adding exam: " + e.getMessage());
+                return new ResponseEntity<>( HttpStatus.NOT_ACCEPTABLE);
+            }
             return new ResponseEntity<>(savedExamId, HttpStatus.CREATED);
 
         } catch (Exception e) {
+            System.out.println("Error in adding exam: " + e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
@@ -182,16 +191,17 @@ public class lecturerController {
     //     ]
     //   }
 
-    @PostMapping("/generateExamAi")
-    public ResponseEntity<String> generateExamAi(@RequestBody Map<String, Object> payload) {
-        try {
-            String savedExamId = ollamaService.generateQuestions(payload);
-            return new ResponseEntity<>(savedExamId, HttpStatus.CREATED);
 
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
-        }
-    }
+    // @PostMapping("/generateExamAi")
+    // public ResponseEntity<String> generateExamAi(@RequestBody Map<String, Object> payload) {
+    //     try {
+    //         String savedExamId = aiServer.getAIResponse(payload);
+    //         return new ResponseEntity<>(savedExamId, HttpStatus.CREATED);
+
+    //     } catch (Exception e) {
+    //         return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+    //     }
+    // }
 
     @PostMapping("/getExamReport")
     public ResponseEntity<List<ExamReportAll>> getAllReport(@RequestBody Map<String, Object> payload){
@@ -250,5 +260,5 @@ public class lecturerController {
         }
     }
 
- 
+
 }
