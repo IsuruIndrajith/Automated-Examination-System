@@ -170,6 +170,7 @@ public class examService {
                 examAnalysis.setExam(exam);
                 examAnalysis.setQuestion(questionRepo.findById((long) question.getQuestionId()).orElse(null));
                 examAnalysis.setStudentAnswer(question.getAnswer());
+                System.out.println("========================================"+question.getAnswer()+"========================================");
             
                 if (question.getAnswer().equalsIgnoreCase(correctAnswer)) {
                     question.setMarks(retrievedMarks);
@@ -177,6 +178,7 @@ public class examService {
                 } else {
                     question.setMarks(0);
                     examAnalysis.setStudentMarks(0);
+                    question.setAnswer(correctAnswer);
                 }
                 examAnalysis.setMarked(true);
                 examanalysisRepo.save(examAnalysis);
