@@ -1,129 +1,129 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import "./StudentHomePage.css"; 
 import NavbarAdminHome from "../components/NavbarAdminHome";
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-import './AdminHome.css';
 
-function AdminHome() {
-  const [examEvents, setExamEvents] = useState([]);
+const AdminHome = () => {
+  const [events, setEvents] = useState([]);
+  const [specialDates, setSpecialDates] = useState({});
 
   useEffect(() => {
-    // Simulate fetching JSON data
-    const fetchData = async () => {
-      const response = await fetch('/Admin/AdminHome.json'); // Adjust the path as necessary
-      const data = await response.json();
-      setExamEvents(data);
-    };
-    fetchData();
+    const token = localStorage.getItem("token");
+
+    fetch("http://10.102.16.157:8080/admin/getAllExam", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log("API Response:", data);
+
+        if (!data.events || !Array.isArray(data.events)) {
+          console.error("Invalid data format:", data);
+          return;
+        }
+
+        const typeMapping = {
+          1: "Exam",
+          2: "Quiz",
+          3: "Assignment",
+        };
+
+        const formattedEvents = data.events.map((event) => {
+          const eventDate = new Date(event.date);
+          return {
+            id: event.id,
+            type: typeMapping[event.type] || "Unknown",
+            date: eventDate.toISOString().split("T")[0], // YYYY-MM-DD
+            time: eventDate.toLocaleTimeString(),
+            subject: event.subject,
+            code: event.code,
+          };
+        });
+
+        setEvents(formattedEvents);
+
+        const dateHighlightMap = {};
+        formattedEvents.forEach((event) => {
+          dateHighlightMap[event.date] = event.type; // For coloring the calendar
+        });
+
+        setSpecialDates(dateHighlightMap);
+      })
+      .catch((err) => {
+        console.error("Error fetching events: ", err);
+      });
   }, []);
 
-  const upcomingExams = examEvents
-    .filter(event => new Date(event.date) > new Date()) 
-    .sort((a, b) => new Date(a.date) - new Date(b.date)) // Sort by date
-    .slice(0, 3);
+  const tileClassName = ({ date, view }) => {
+    if (view === "month") {
+      const dateString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+      if (specialDates[dateString]) {
+        return `highlight-${specialDates[dateString].toLowerCase()}`;
+      }
+    }
+    return "";
+  };
 
   return (
     <>
       <NavbarAdminHome />
-      <div style={styles.container}>
-        <h1 style={styles.heading}>Admin Dashboard</h1>
-
+      <div className="student-homepage">
         {/* Calendar Section */}
-        <div style={styles.calendarContainer}>
-          <h2 style={styles.subHeading}>Upcoming Exams Calendar</h2>
-          <Calendar
-            tileContent={({ date }) => {
-              const event = examEvents.find(event => new Date(event.date).toDateString() === date.toDateString());
-              return event ? <span style={styles.eventDot}></span> : null;
-            }}
-          />
+        <div className="calendar-section">
+          <h2 className="event-cal">Event Calendar</h2>
+          <Calendar tileClassName={tileClassName} />
+
+          {/* Legend */}
+          <div className="calendar-legend">
+            <div className="legend-item">
+              <span className="legend-color assignment"></span> Assignment
+            </div>
+            <div className="legend-item">
+              <span className="legend-color quiz"></span> Quiz
+            </div>
+            <div className="legend-item">
+              <span className="legend-color exam"></span> Exam
+            </div>
+            <div className="legend-item">
+              <span className="legend-color today"></span> Today
+            </div>
+          </div>
         </div>
 
-        {/* Upcoming Exams Section */}
-        <div style={styles.upcomingExamsContainer}>
-          <h2 style={styles.subHeading}>Upcoming Exams</h2>
-          {upcomingExams.length > 0 ? (
-            <ul style={styles.examList}>
-              {upcomingExams.map((exam, index) => (
-                <li key={index} style={styles.examItem}>
-                  <h3 style={styles.examTitle}>{exam.title}</h3>
-                  <p style={styles.examDetails}>
-                    <strong>Date:</strong> {new Date(exam.date).toDateString()}
+        {/* Events Section */}
+        <div className="tasks-section">
+          <h2 className="ongoing-tasks-title">Upcoming Events</h2>
+          <div className="task-cards">
+            {events.length > 0 ? (
+              events.map((event, index) => (
+                <div key={index} className="task-card">
+                  <h3>{event.subject}</h3>
+                  <p className={`task-card-${event.type.replace(/\s+/g, "-").toLowerCase()}`}>
+                    Type: {event.type}
                   </p>
-                  <p style={styles.examDetails}>
-                    <strong>Time:</strong> {exam.time}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p style={styles.noExamsText}>No upcoming exams.</p>
-          )}
+                  <p>Date: {event.date}</p>
+                  <p>Time: {event.time}</p>
+                  <p>Code: {event.code}</p>
+                </div>
+              ))
+            ) : (
+              <p>No upcoming events.</p>
+            )}
+          </div>
         </div>
       </div>
     </>
   );
-}
-
-const styles = {
-  container: {
-    padding: '20px',
-    textAlign: 'center',
-    minHeight: '100vh',
-  },
-  heading: {
-    fontSize: '2rem',
-    color: '#333',
-    marginBottom: '20px',
-  },
-  subHeading: {
-    fontSize: '1.5rem',
-    color: '#333',
-    marginBottom: '15px',
-  },
-  calendarContainer: {
-    marginBottom: '40px',
-  },
-  eventDot: {
-    display: 'block',
-    width: '8px',
-    height: '8px',
-    backgroundColor: '#007bff',
-    borderRadius: '50%',
-    margin: '0 auto',
-    marginTop: '5px',
-  },
-  upcomingExamsContainer: {
-    textAlign: 'left',
-    margin: '0 auto',
-    maxWidth: '600px',
-    backgroundColor: '#fff',
-    padding: '20px',
-    borderRadius: '10px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-  },
-  examList: {
-    listStyleType: 'none',
-    padding: 0,
-  },
-  examItem: {
-    marginBottom: '20px',
-    padding: '10px',
-    borderBottom: '1px solid #ccc',
-  },
-  examTitle: {
-    fontSize: '1.2rem',
-    fontWeight: 'bold',
-    marginBottom: '5px',
-  },
-  examDetails: {
-    fontSize: '1rem',
-    marginBottom: '5px',
-  },
-  noExamsText: {
-    fontSize: '1rem',
-    color: '#555',
-  },
 };
 
 export default AdminHome;
