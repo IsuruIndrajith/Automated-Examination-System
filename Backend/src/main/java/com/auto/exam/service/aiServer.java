@@ -1,79 +1,82 @@
-// package com.auto.exam.service;
+package com.auto.exam.service;
 
-// import org.springframework.http.HttpHeaders;
-// import java.util.ArrayList;
-// import java.util.HashMap;
-// import java.util.List;
-// import java.util.Map;
+import java.util.List;
 
-// import org.springframework.http.MediaType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.client.RestClient;
 
-// import org.springframework.http.HttpEntity;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.stereotype.Service;
-// import org.springframework.web.client.RestTemplate;
+import com.auto.exam.Dto.GeminiAnswer;
+import com.auto.exam.Dto.GeminiModel;
+import com.auto.exam.Dto.ModelListResponse;
+import com.auto.exam.Dto.QuestionRequest;
 
-// @Service
-// public class aiServer {
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.ResponseEntity;
 
-//     private final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=YOUR_API_KEY"; // Use a specific model like gemini-pro
-//     private final String API_KEY = "AIzaSyBcUsfH8V9z9ES0SVlYRAZAY_Lp2AdO800"; // Replace with your actual API key
+@Service
+public class aiServer {
 
-//     public String getAIResponse(Map<String, Object> msg) {
+    private static final Logger log = LoggerFactory.getLogger(aiServer.class);
+    @Value("${spring.ai.openai.api-key}")
+    private String GEMINI_API_KEY;
+    private final RestClient restClient;
 
-//         String prompt = msg.get("prompt").toString();
+    public aiServer(RestClient.Builder builder) {
+        log.info("GeminiModelController...");
+        this.restClient = builder
+                .baseUrl("https://generativelanguage.googleapis.com")
+                .build();
+    }
+
+    public List<GeminiModel> models() {
+        ResponseEntity<ModelListResponse> response = restClient.get()
+                .uri("/v1beta/openai/models")
+                .header("Authorization","Bearer " + GEMINI_API_KEY)
+                .retrieve()
+                .toEntity(ModelListResponse.class);
+        return response.getBody().data();
+    }
+
+    @PostMapping("/answer")
+    public GeminiAnswer askQuestion(@RequestBody QuestionRequest request) {
+
+        String prompt = "Give simple questions with answers to following prompt(Question should give in json format)- " + request.getQuestion();
+        String model = "models/gemini-2.0-flash"; // Or whichever model is appropriate
+        String uri = "/v1beta/" + model + ":generateContent?key=" + GEMINI_API_KEY;
+
+        // Build the request payload
+        var payload = new java.util.HashMap<String, Object>();
+        payload.put("contents", List.of(
+                java.util.Map.of("parts", List.of(
+                        java.util.Map.of("text", prompt)
+                ))
+        ));
+
+        ResponseEntity<java.util.Map> response = restClient.post()
+                .uri(uri)
+                .body(payload)
+                .retrieve()
+                .toEntity(new ParameterizedTypeReference<>() {});
 
 
-//         RestTemplate restTemplate = new RestTemplate();
+        List<?> candidates = (List<?>) response.getBody().get("candidates");
+        if (candidates != null && !candidates.isEmpty()) {
+            var content = (java.util.Map<?, ?>) ((java.util.Map<?, ?>) candidates.get(0)).get("content");
+            var parts = (List<?>) content.get("parts");
+            var firstPart = (java.util.Map<?, ?>) parts.get(0);
+            String text = (String) firstPart.get("text");
+            return new GeminiAnswer(text);
+        }
 
-//         // Headers
-//         HttpHeaders headers = new HttpHeaders();
-//         headers.setContentType(MediaType.APPLICATION_JSON);
-//         // The API key is passed as a query parameter in the URL, not as a Bearer token.
-//         // headers.setBearerAuth(API_KEY);
+        return new GeminiAnswer("No response");
+    }
 
-//         // Body
-//         Map<String, Object> body = new HashMap<>();
-//         Map<String, Object> contents = new HashMap<>();
-//         Map<String, Object> parts = new HashMap<>();
-//         parts.put("text", prompt);
-//         List<Map<String, Object>> partsList = new ArrayList<>();
-//         partsList.add(parts);
-//         contents.put("parts", partsList);
-//         List<Map<String, Object>> contentsList = new ArrayList<>();
-//         contentsList.add(contents);
-//         body.put("contents", contentsList);
 
-//         // Optional: Add generationConfig
-//         Map<String, Object> generationConfig = new HashMap<>();
-//         generationConfig.put("maxOutputTokens", 100);
-//         body.put("generationConfig", generationConfig);
 
-//         System.out.println("===================AI SERVER REQUEST===================");
-//         System.out.println("Request Body: " + body.toString());
-//         System.out.println("Request Headers: " + headers.toString());
-//         System.out.println("=======================================================");
-
-//         HttpEntity<Map<String, Object>> request = new HttpEntity<>(body, headers);
-
-//         // Send POST request
-//         // The API key is already in the API_URL
-//         ResponseEntity<Map> response = restTemplate.postForEntity(API_URL.replace("YOUR_API_KEY", API_KEY), request, Map.class);
-
-//         // Extract the text response
-//         if (response.getBody() != null && response.getBody().containsKey("candidates")) {
-//             List<Map<String, Object>> candidates = (List<Map<String, Object>>) response.getBody().get("candidates");
-//             if (!candidates.isEmpty() && candidates.get(0).containsKey("content")) {
-//                 Map<String, Object> content = (Map<String, Object>) candidates.get(0).get("content");
-//                 if (content.containsKey("parts")) {
-//                     List<Map<String, Object>> responseParts = (List<Map<String, Object>>) content.get("parts");
-//                     if (!responseParts.isEmpty() && responseParts.get(0).containsKey("text")) {
-//                         return (String) responseParts.get(0).get("text");
-//                     }
-//                 }
-//             }
-//         }
-
-//         return null; // Or handle the error appropriately
-//     }
-// }
+}
