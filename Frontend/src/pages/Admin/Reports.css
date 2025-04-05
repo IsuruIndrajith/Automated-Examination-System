@@ -1,0 +1,129 @@
+
+.container {
+    padding: 20px;
+    text-align: center;
+    min-height: 100vh;
+  }
+  
+  .heading {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .subHeading {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .calendarContainer {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .calendarWrapper {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .custom-calendar {
+    width: 100% !important;
+    max-width: 400px !important;
+    margin: 0 auto !important;
+  }
+  
+  .react-calendar {
+    margin: 0 auto !important;
+  }
+  .examItem.selected {
+    background-color: #e0f7fa;
+  }
+  
+  /* Fix button hover state */
+  .button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Improve calendar responsiveness */
+  @media (max-width: 768px) {
+    .calendarWrapper {
+      max-width: 100%;
+      padding: 0 15px;
+    }
+    
+    .examList {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .eventDot {
+    display: block;
+    width: 8px;
+    height: 8px;
+    background-color: #007bff;
+    border-radius: 50%;
+    margin: 0 auto;
+    margin-top: 5px;
+  }
+  
+  .upcomingExamsContainer {
+    text-align: left;
+    margin: 20px auto;
+    width: 100%;
+    max-width: 800px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .examList {
+    list-style-type: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+  }
+  
+  .examItem {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .examItem:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .examTitle {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .examDetails {
+    font-size: 1rem;
+    margin-bottom: 5px;
+  }
+  
+  .button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+  }
+  

@@ -1,14 +1,20 @@
 package com.auto.exam.Dto;
 
+import java.util.List;
+
+import com.auto.exam.Model.McqOptions;
+
 public class ProvideQuestion {
     private long questionId;
     private String question;
     private Integer marks;
+    private List<OptionList> OptionList;
 
-    public ProvideQuestion(long questionId, String question, Integer marks) {
+    public ProvideQuestion(long questionId, String question, Integer marks, List<OptionList> OptionList) {
         this.questionId = questionId;
         this.question = question;
         this.marks = marks;
+        this.OptionList = OptionList;
     }
 
     public long getQuestionId() {
@@ -33,5 +39,11 @@ public class ProvideQuestion {
 
     public void setMarks(Integer marks) {
         this.marks = marks;
+    }
+    public List<OptionList> getOptionList() {
+        return OptionList;
+    }
+    public void setOptionList(List<OptionList> OptionList) {
+        this.OptionList = OptionList;
     }
 }

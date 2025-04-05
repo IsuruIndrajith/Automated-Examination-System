@@ -80,13 +80,27 @@ public class studentController {
         
     }
 
-//     [
-//     {
-//         "questionId": 1,
-//         "question": "Question1",
-//         "marks": 10
-//     }
-// ]
+    // [
+    //     {
+    //         "questionId": 3,
+    //         "question": "Question13",
+    //         "marks": 20,
+    //         "optionList": [
+    //             {
+    //                 "optionText": "Option A"
+    //             },
+    //             {
+    //                 "optionText": "Option B"
+    //             },
+    //             {
+    //                 "optionText": "Option C"
+    //             },
+    //             {
+    //                 "optionText": "Option D"
+    //             }
+    //         ]
+    //     }
+    // ]
 
 
     @PostMapping("/exam/{ExamID}/submit")

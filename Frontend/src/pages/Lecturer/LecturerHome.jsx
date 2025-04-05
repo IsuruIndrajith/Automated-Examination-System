@@ -7,23 +7,42 @@ import NavbarLecturer from "../../components/NavbarLecturer";
 const LecturerHomePage = () => {
   const [events, setEvents] = useState([]);
   const [specialDates, setSpecialDates] = useState({});
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
+  const [error, setError] = useState(null); // Add error state
+
+  const BASE_URL = "http://10.102.16.157:8080";
 
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch("http://10.102.16.157:8080/lecturer/getAllExam", {
+    if (!token) {
+      setError("Authentication token missing.");
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true); // Set loading to true before fetch
+    setError(null)
+
+    fetch(`${BASE_URL}/lecturer/getAllExam`, {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok " + res.statusText);
+        }
+        return res.json();
+      })
       .then((data) => {
         console.log("Raw API Response:", data);
 
         if (!data.events || !Array.isArray(data.events)) {
           console.error("Expected an array but got:", data);
+          setIsLoading(false);
           return;
         }
 
@@ -53,8 +72,10 @@ const LecturerHomePage = () => {
         });
 
         setSpecialDates(dateHighlightMap);
+        setIsLoading(false); // Set loading to false after successful fetch
       })
       .catch((err) => console.error("Error fetching events: ", err));
+      setIsLoading(false); // Set loading to false on error
   }, []);
 
   const tileClassName = ({ date, view }) => {
@@ -80,8 +101,10 @@ const LecturerHomePage = () => {
         {/* Events Section */}
         <div className="tasks-section">
           <h2 className="ongoing-tasks-title">Upcoming Events</h2>
+          {isLoading && <p>Loading events...</p>}
+          {error && <p style={{ color: "red" }}>{error}</p>}
           <div className="task-cards">
-            {events.length > 0 ? (
+          {!isLoading && !error && events.length > 0 ? (
               events.map((event, index) => (
                 <div key={index} className="task-card">
                   <h3>{event.subject}</h3>
@@ -93,9 +116,7 @@ const LecturerHomePage = () => {
                   <p>Code: {event.code}</p>
                 </div>
               ))
-            ) : (
-              <p>No upcoming events.</p>
-            )}
+            ) : (!isLoading && !error && <p>No upcoming events.</p>)}
           </div>
         </div>
       </div>
