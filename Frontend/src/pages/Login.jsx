@@ -10,6 +10,8 @@ const Login = () => {
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
 
+  const BASE_URL = "http://10.102.16.157:8080";
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -19,7 +21,7 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch("http://10.102.16.157:8080/login", {
+      const response = await fetch(`${BASE_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,17 +67,17 @@ const Login = () => {
       <div className="login-box">
         <h1 className="login-title">AUTOMATED EXAMINER LOGIN</h1>
         <form onSubmit={handleLogin}>
-          <div className="user-username">
-            <label>USERNAME</label>
+          <div className="user-email">
+            <label>USER EMAIL</label>
             <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
           <div className="user-password">
-            <label>PASSWORD</label>
+          <label>USER PASSWORD</label>
             <input
               type="password"
               value={password}

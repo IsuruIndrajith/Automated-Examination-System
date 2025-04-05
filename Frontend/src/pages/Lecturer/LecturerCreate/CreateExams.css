@@ -1,0 +1,106 @@
+.exam-create-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .exam-create-container h2 {
+    color: #1a2e45;
+    margin-bottom: 20px;
+  }
+
+  .exam-meta{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    background: #f4f4f4;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+    margin-bottom: 30px;
+  }
+  
+  .exam-meta input,
+  .exam-type-select select {
+    margin: 10px;
+    padding: 10px;
+    width: 250px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+  
+  .exam-type-select {
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .mcq-section,
+  .essay-section {
+    width: 100%;
+    max-width: 1000px;
+    background: #f4f4f4;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+  }
+  
+  .question-block {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #eaeaea;
+    border-radius: 10px;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+  }
+  
+  .question-block input,
+  .question-block select,
+  textarea {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+  
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  button {
+    padding: 12px 24px;
+    background-color: #0073e6;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 200px;
+  }
+  
+  button:hover {
+    background-color: #005bb5;
+  }
+  
+  
+  @media (max-width: 768px) {
+    .exam-meta input,
+    .exam-type-select select {
+      width: 100%;
+    }
+  
+    .mcq-section,
+    .essay-section {
+      padding: 15px;
+    }
+  }
+  
