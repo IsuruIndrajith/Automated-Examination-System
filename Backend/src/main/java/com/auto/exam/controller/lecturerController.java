@@ -99,13 +99,44 @@ public class lecturerController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
-    // {
-    //     "Offering_ID": 1,
-    //     "startDateTime": "2025-06-01 09:00:00",
-    //     "duration": 60,
-    //     "passingCriteria": 50,
+
+    // {   
+    //     "startDateTime": "2023-10-01T12:00:00",
+    //     "duration": 120,
+    //     "passingCriteria": 2,
     //     "type": 1,
-    //     "totalMarks": 100
+    //     "totalMarks": 100,
+    //     "courseOfferingId":7,
+    //     "questions": [
+    //       {
+    //         "question": "What is the capital of France?",
+    //         "marks": 5,
+    //         "answer": "Paris",
+    //         "questionType": 1,
+    //         "mcqOptionsList": [
+    //           {
+    //             "optionText": "Paris",
+    //             "location": 1,
+    //             "isCorrect": true
+    //           },
+    //           {
+    //             "optionText": "London",
+    //             "location": 2,
+    //             "isCorrect": false
+    //           },
+    //           {
+    //             "optionText": "Berlin",
+    //             "location": 3,
+    //             "isCorrect": false
+    //           },
+    //           {
+    //             "optionText": "Madrid",
+    //             "location": 4,
+    //             "isCorrect": false
+    //           }
+    //         ]
+    //       }
+    //     ]
     // }
 
 

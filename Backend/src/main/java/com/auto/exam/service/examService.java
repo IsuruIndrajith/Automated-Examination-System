@@ -224,7 +224,6 @@ public class examService {
 
         // Save the Exam object first to generate its ID
         examRepo.save(exam);
-        System.out.println("Exam ID:::::::::::::::::::::::::::::::::::::: " + exam.getExamId());
 
         // Handle questions
         if (payload.getQuestions() != null && !payload.getQuestions().isEmpty()) {
