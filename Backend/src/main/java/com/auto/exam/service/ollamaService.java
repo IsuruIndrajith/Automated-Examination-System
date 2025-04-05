@@ -20,18 +20,24 @@ import org.springframework.web.client.RestTemplate;
 public class ollamaService {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private final String OLLAMA_URL = "http://127.0.0.1:11500/api/chat"; // use your port
+    private final String OLLAMA_URL = "http://127.0.0.1:5050/api/chat"; // use your port
 
 
     public String generateQuestions(Map<String, Object> payload) {        
         String userMessage = payload.get("prompt").toString();
 
         Map<String, Object> request = new HashMap<>();
-        request.put("model", "deepseek-r1:1.5b"); // use your model name
 
         List<Map<String, String>> messages = new ArrayList<>();
         messages.add(Map.of("role", "user", "content", userMessage));
+        // messages.add(Map.of("role", "system", "content", "for the promt your answer should be json format"));
         request.put("messages", messages);
+
+
+        request.put("model", "tinyllama:1.1b-chat-v0.6-q3_K_S"); 
+
+        request.put("stream", false);
+
 
         // Set headers
         HttpHeaders headers = new HttpHeaders();

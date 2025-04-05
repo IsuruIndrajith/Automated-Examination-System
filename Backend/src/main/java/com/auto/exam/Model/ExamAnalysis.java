@@ -28,15 +28,19 @@ public class ExamAnalysis {
     @Column(name = "student_id")
     private Long studentId;
 
+    @Column(name= "mark")
+    private boolean mark;
+
     public ExamAnalysis() {
     }
 
-    public ExamAnalysis(Exam exam, Question question, String studentAnswer, Integer studentMarks, Long studentId) {
+    public ExamAnalysis(Exam exam, Question question, String studentAnswer, Integer studentMarks, Long studentId, boolean mark) {
         this.exam = exam;
         this.question = question;
         this.studentAnswer = studentAnswer;
         this.studentMarks = studentMarks;
         this.studentId = studentId;
+        this.mark = mark;
     }
 
     // Getters and Setters
@@ -83,4 +87,12 @@ public class ExamAnalysis {
     public void setStudentId(Long studentId) {
         this.studentId = studentId;
     }
+    public boolean getMark() {
+        return mark;
+    }
+    public void setMark(boolean mark) {
+        this.mark = mark;
+    }
+
+
 }
