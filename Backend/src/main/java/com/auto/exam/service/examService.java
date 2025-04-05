@@ -109,7 +109,9 @@ public class examService {
         LocalDateTime examEndTime = exam.getStartDateTime().plusMinutes(exam.getDuration());
         
         if (currentDateTime.isBefore(exam.getStartDateTime()) || currentDateTime.isAfter(examEndTime)) {
-
+                //throw exception or return an error response
+                System.out.println("Exam is not available at this time.");
+                //return null;
         }
         
         int examDuration = exam.getDuration();
@@ -140,39 +142,47 @@ public class examService {
         if (type == 0) {
             
             for (MarkQuestions question : markQuestions) {
+                //Verify if the question ID belongs to the current exam
+                if (!questionRepo.existsByExamIdAndQuestionId(exam.getExamId(), (long) question.getQuestionId())) {
+                    System.out.println("Question ID " + question.getQuestionId() + " does not belong to Exam ID " + exam.getExamId());
+                    continue; // Skip this question
+                }
+               
+                // // Verify if the question has already been marked for this student
+                 if (examanalysisRepo.existsByStudentAndQuestion(student.getStudentId(), question.getQuestionId())) {
+                     System.out.println("Question ID " + question.getQuestionId() + " has already been marked for this student.");
+                     continue; // Skip this question
+                 }
+            
                 String correctAnswer = questionRepo.findAnswerByQuestionId((long) question.getQuestionId());
                 int retrievedMarks = questionRepo.findMarksByQuestionId((long) question.getQuestionId());
-    
+            
                 ExamAnalysis examAnalysis = new ExamAnalysis();
                 examAnalysis.setExam(exam);
-                examAnalysis.setQuestion(questionRepo.findById((long)question.getQuestionId()).orElse(null));
-                examAnalysis.setStudentAnswer(question.getAnswer()); 
-                
-                
-    
-    
+                examAnalysis.setQuestion(questionRepo.findById((long) question.getQuestionId()).orElse(null));
+                examAnalysis.setStudentAnswer(question.getAnswer());
+            
                 if (question.getAnswer().equalsIgnoreCase(correctAnswer)) {
-                    question.setMarks(retrievedMarks); 
+                    question.setMarks(retrievedMarks);
                     examAnalysis.setStudentMarks(retrievedMarks);
                 } else {
-                    question.setMarks(0); 
+                    question.setMarks(0);
                     examAnalysis.setStudentMarks(0);
                 }
-                examanalysisRepo.save(examAnalysis); 
+                examanalysisRepo.save(examAnalysis);
                 TotalMarks += question.getMarks();
             }
-    
+            
             attempt.setMarks(TotalMarks);
             attempt.setExam(exam);
             attempt.setGrade(getGrade(TotalMarks));
             attempt.setStudent(student);
-    
+            
             try {
                 attemptRepo.save(attempt);
             } catch (Exception e) {
                 System.out.println("Cannot Attempt More Than One Time " + e);
             }
-    
             return markQuestions;
         }
         else if (type == 1) {
@@ -182,6 +192,7 @@ public class examService {
                 examAnalysis.setExam(exam);
                 examAnalysis.setQuestion(questionRepo.findById((long)question.getQuestionId()).orElse(null));
                 examAnalysis.setStudentAnswer(question.getAnswer()); 
+                examAnalysis.setStudentId(student.getStudentId());
     
                 examanalysisRepo.save(examAnalysis); 
     

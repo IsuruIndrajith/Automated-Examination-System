@@ -10,17 +10,19 @@ public class ExamReportAnalysis {
     private Integer marks;
     private String answer;
     private String studentAnswer;
+    private Long studentId;
 
 
     public ExamReportAnalysis() {
     }
-    public ExamReportAnalysis(Long examId, Long questionId, String question, Integer marks, String answer, String studentAnswer) {
+    public ExamReportAnalysis(Long examId, Long questionId, String question, Integer marks, String answer, String studentAnswer, Long studentId) {
         this.examId = examId;
         this.questionId = questionId;
         this.question = question;
         this.marks = marks;
         this.answer = answer;
         this.studentAnswer = studentAnswer;
+        this.studentId = studentId;
 
     }
     public Long getExamId() {
@@ -69,6 +71,12 @@ public class ExamReportAnalysis {
 
     public void setStudentAnswer(String studentAnswer) {
         this.studentAnswer = studentAnswer;
+    }
+    public Long getStudentId() {
+        return studentId;
+    }
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
     }
 
 

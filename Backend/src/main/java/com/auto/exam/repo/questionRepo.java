@@ -23,6 +23,9 @@ public interface questionRepo extends JpaRepository<Question, Long> {
     @Query("SELECT q.answer FROM Question q WHERE q.questionId = :questionId")
     String findAnswerByQuestionId(Long questionId);
 
+    @Query("SELECT CASE WHEN COUNT(q) > 0 THEN true ELSE false END FROM Question q WHERE q.exam.id = :examId AND q.questionId = :questionId")
+   boolean existsByExamIdAndQuestionId(@Param("examId") Long examId, @Param("questionId") long questionId);
+
 
 
 }
