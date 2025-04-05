@@ -25,13 +25,13 @@ public interface examanalysisRepo extends JpaRepository<ExamAnalysis,Long> {
     "WHERE ea.studentId = :student AND ea.question.id = :question")
     boolean existsByStudentAndQuestion(@Param("student") Long student, @Param("question") int question);
 
-    @Query("SELECT new com.auto.exam.Dto.ExamFront(e.examId, e.type, e.startDateTime, c.courseName, c.courseCode) " +
-    "FROM ExamAnalysis ea " +
-    "JOIN ea.exam e " +
-    "JOIN e.courseOffering co " +
-    "JOIN co.lecture lec " +
-    "JOIN co.course c " +
-    "WHERE lec.lectureId = :lecturerId")
+    @Query("SELECT DISTINCT new com.auto.exam.Dto.ExamFront(e.examId, e.type, e.startDateTime, c.courseName, c.courseCode) " +
+           "FROM ExamAnalysis ea " +
+           "JOIN ea.exam e " +
+           "JOIN e.courseOffering co " +
+           "JOIN co.lecture lec " +
+           "JOIN co.course c " +
+           "WHERE lec.lectureId = :lecturerId")
     List<ExamFront> getExamByLecturerId(@Param("lecturerId") Long lecturerId);
 
     @Query("SELECT ea.marked FROM ExamAnalysis ea JOIN ea.exam e WHERE e.examId = :examId")
