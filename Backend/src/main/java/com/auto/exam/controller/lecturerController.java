@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.auto.exam.Dto.CoursesForLecture;
 import com.auto.exam.Dto.ExamAdding;
+import com.auto.exam.Dto.ExamFront;
 import com.auto.exam.Dto.ExamReportAll;
 import com.auto.exam.Model.Attempt;
 import com.auto.exam.Model.Course;
@@ -30,6 +32,9 @@ import com.auto.exam.Model.Exam;
 import com.auto.exam.Model.Question;
 import com.auto.exam.Dto.ExamRequest;
 import com.auto.exam.Dto.GenQuestion;
+import com.auto.exam.Dto.MarkEssayQuestion;
+import com.auto.exam.Dto.MarkQuestions;
+import com.auto.exam.Dto.ShowStudentList;
 import com.auto.exam.Model.SendingExam;
 import com.auto.exam.service.examService;
 import com.auto.exam.service.questionService;
@@ -40,6 +45,7 @@ import com.auto.exam.repo.questionRepo;
 import jakarta.transaction.Transactional;
 
 import com.auto.exam.service.courseService;
+import com.auto.exam.service.examAnalysisService;
 import com.auto.exam.service.ollamaService;
 
 
@@ -54,15 +60,17 @@ public class lecturerController {
     private courseOfferingRepo courseOfferingRepo;
     private questionService questionService;
     private ollamaService ollamaService;
+    private examAnalysisService examAnalysisService;
 
     
     @Autowired
-    public lecturerController(examService examService, courseService courseService, courseOfferingRepo courseOfferingRepo, questionService questionService, ollamaService ollamaService) {
+    public lecturerController(examService examService, courseService courseService, courseOfferingRepo courseOfferingRepo, questionService questionService, ollamaService ollamaService, examAnalysisService examAnalysisService) {
         this.courseService = courseService;
         this.questionService = questionService;
         this.courseOfferingRepo = courseOfferingRepo;
         this.examService = examService;
         this.ollamaService = ollamaService;
+        this.examAnalysisService = examAnalysisService;
     }
     
 
@@ -204,4 +212,43 @@ public class lecturerController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping("/markExam")
+    public ResponseEntity<List<ExamFront>> markExam(){
+        try {
+            List<ExamFront> reports= examAnalysisService.returnExams();
+            return new ResponseEntity<>(reports, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PostMapping("/markExam/{examId}")
+    public ResponseEntity<List<ShowStudentList>> markExamShowStudentList(@PathVariable long examId){
+        try {
+            List<ShowStudentList> reports= examAnalysisService.ShowStudentList(examId);
+            return new ResponseEntity<>(reports, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PostMapping("/markExam/{examId}/{studentId}")
+    public ResponseEntity<List<MarkEssayQuestion>> markExamShowStudentList(@PathVariable long examId, @PathVariable long studentId){
+        try {
+            List<MarkEssayQuestion> reports= examAnalysisService.showStudentAnswers(examId,studentId);
+            return new ResponseEntity<>(reports, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PostMapping("/markExam/{examId}/{studentId}/submit")
+    public ResponseEntity<String> markExamSubmit(@PathVariable long examId, @PathVariable long studentId, @RequestBody List<MarkQuestions> payload){
+        try {
+            String reports= examService.markExamSubmit(examId,studentId,payload);
+            return new ResponseEntity<>(reports, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+ 
 }

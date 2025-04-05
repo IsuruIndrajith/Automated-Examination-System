@@ -33,7 +33,7 @@ public class Question {
     private Exam exam;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    private List<McqOptions> mcqOptionsList;
+    private List<McqOptions> mcqOptionsList =new ArrayList<>();
 
 
 }

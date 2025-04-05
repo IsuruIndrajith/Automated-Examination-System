@@ -148,7 +148,7 @@ public class examService {
         Exam exam = examRepo.findExamByExamId(ExamId);
         int type = exam.getType();
 
-        if (type == 0) {
+        if (type == 1) {
             
             for (MarkQuestions question : markQuestions) {
                 //Verify if the question ID belongs to the current exam
@@ -178,6 +178,7 @@ public class examService {
                     question.setMarks(0);
                     examAnalysis.setStudentMarks(0);
                 }
+                examAnalysis.setMarked(true);
                 examanalysisRepo.save(examAnalysis);
                 TotalMarks += question.getMarks();
             }
@@ -194,7 +195,7 @@ public class examService {
             }
             return markQuestions;
         }
-        else if (type == 1) {
+        else if (type == 0) {
             //marking criteria for Essay type questions
             for (MarkQuestions question : markQuestions) {
                 ExamAnalysis examAnalysis = new ExamAnalysis();
@@ -202,6 +203,7 @@ public class examService {
                 examAnalysis.setQuestion(questionRepo.findById((long)question.getQuestionId()).orElse(null));
                 examAnalysis.setStudentAnswer(question.getAnswer()); 
                 examAnalysis.setStudentId(student.getStudentId());
+                examAnalysis.setMarked(false);
     
                 examanalysisRepo.save(examAnalysis); 
     
@@ -300,5 +302,22 @@ public class examService {
         event.setEvents(examRepo.getAllExamEventsByStudentId(username));
         return event;
         
+    }
+
+    public String markExamSubmit(long examId2, long studentId, List<MarkQuestions> payload) {
+
+        // Proceed with marking the exam
+        for (MarkQuestions question : payload) {
+            ExamAnalysis examAnalysis = new ExamAnalysis();
+            examAnalysis.setExam(examRepo.findExamByExamId(examId2));
+            examAnalysis.setQuestion(questionRepo.findById((long) question.getQuestionId()).orElse(null));
+            examAnalysis.setStudentAnswer(question.getAnswer());
+            examAnalysis.setStudentId(studentId);
+            examAnalysis.setStudentMarks(question.getMarks());
+            examAnalysis.setMarked(true);
+
+            examanalysisRepo.save(examAnalysis);
+        }
+        return "Exam marked successfully";
     }
 }
