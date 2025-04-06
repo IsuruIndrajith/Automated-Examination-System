@@ -1,0 +1,17 @@
+[
+    {
+      "examId": "EX101",
+      "subject": "Deep Learning",
+      "date": "2025-04-15",
+      "time": "10:00",
+      "location": "Room 101"
+    },
+    {
+      "examId": "EX102",
+      "subject": "Machine Learning",
+      "date": "2025-04-17",
+      "time": "14:00",
+      "location": "Room 202"
+    }
+  ]
+  

@@ -10,7 +10,7 @@ const LecturerHomePage = () => {
   const [isLoading, setIsLoading] = useState(true); // Add loading state
   const [error, setError] = useState(null); // Add error state
 
-  const BASE_URL = "http://192.168.68.73:8080";
+  const BASE_URL = "http://10.102.18.163:8080";
 
   useEffect(() => {
     const token = localStorage.getItem("token");
