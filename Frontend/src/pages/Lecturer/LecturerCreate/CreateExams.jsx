@@ -15,7 +15,7 @@ const CreateExams = () => {
     courseOfferingId: "", // Ensure this is included
   });  
 
-  const BASE_URL = "http://10.102.16.157:8080";
+  const BASE_URL = "http://192.168.147.57:8080";
 
   const handleAddMcq = () => {
     setMcqQuestions([

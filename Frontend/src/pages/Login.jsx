@@ -10,38 +10,39 @@ const Login = () => {
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
 
-  const BASE_URL = "http://192.168.68.73:8080";
-  const token = localStorage.getItem("token");
+  const BASE_URL = "http://10.102.18.163:8080";
+  //const token = localStorage.getItem("token");
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     if (!username || !password) {
       setErrors("Please enter both username and password");
       return;
     }
-
+  
     try {
       const response = await fetch(`${BASE_URL}/login`, {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${token}`,
+          //"Authorization": `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ username, password }),
       });
-
-      const data = await response.json();
-
+  
+      const text = await response.text();
+      const data = text ? JSON.parse(text) : {};
+  
       if (response.ok) {
         setUser(data);
         localStorage.setItem("user", JSON.stringify(data));
-        localStorage.setItem("token", data.tocken); 
+        localStorage.setItem("token", data.tocken);
         localStorage.setItem("role", data.role);
-
+  
         console.log("Login Successful!", data);
         console.log("Role:", data.role);
-
+  
         switch (data.role) {
           case "[ROLE_STUDENT]":
             navigate("/student");
@@ -63,6 +64,7 @@ const Login = () => {
       setErrors("Something went wrong! Please try again.");
     }
   };
+  
 
   return (
     <div className="login-container">
