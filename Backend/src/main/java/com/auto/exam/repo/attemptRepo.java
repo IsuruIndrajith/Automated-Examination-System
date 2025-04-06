@@ -30,5 +30,13 @@ public interface attemptRepo extends JpaRepository<Attempt, Long> {
     List<ExamReportAll> getReports(@Param("examId") Long examId);
 
 
+    @Query("SELECT new com.auto.exam.Dto.ExamReportAll(s.studentId, s.fullName,a.marks, a.grade) "+
+    "FROM Attempt a "+
+    "JOIN a.exam e "+
+    "JOIN a.student s "+
+    "WHERE e.examId = :examId AND s.studentId = :studentId")
+    List<ExamReportAll> getStudentReport(long examId, long studentId);
+
+
 
 }

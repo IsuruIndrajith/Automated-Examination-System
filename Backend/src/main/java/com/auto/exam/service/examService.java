@@ -290,6 +290,16 @@ public class examService {
         return exams;
     }
 
+    public ExamReportAll getStudentReport(long examId, long studentId) {
+        // Fetch the exam report for the given examId and studentId
+        List<ExamReportAll> report = attemptRepo.getStudentReport(examId, studentId);
+        if (report != null) {
+            return report.get(0);
+        } else {
+            throw new IllegalArgumentException("No report found for the given exam and student ID");
+        }
+    }
+
     public Examevent getAllExamEvents() {
         Examevent event=new Examevent();
         event.setEvents(examRepo.getAllExamEvents());
@@ -321,4 +331,6 @@ public class examService {
         }
         return "Exam marked successfully";
     }
+
+
 }
