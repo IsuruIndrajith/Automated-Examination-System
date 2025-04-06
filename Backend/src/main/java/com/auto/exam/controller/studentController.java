@@ -42,9 +42,36 @@ public class studentController {
         return userRepo.findByUsername(username);
     }
 
-    @PostMapping("/exam/getAll")
+    // @PostMapping("/exam/getAll")
+    // public ResponseEntity<List<SendingExam>> getAllExams() {
+    //     List<SendingExam> ex = examService.getAllExams();
+    //     try {
+    //         return new ResponseEntity<>(ex, HttpStatus.OK);
+    //     } catch (Exception e) {
+    //         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    //     }
+    // }
+    @PostMapping("/exam/exams")
     public ResponseEntity<List<SendingExam>> getAllExams() {
         List<SendingExam> ex = examService.getAllExams();
+        try {
+            return new ResponseEntity<>(ex, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+    }
+    @PostMapping("/exam/quiz")
+    public ResponseEntity<List<SendingExam>> getAllQuices() {
+        List<SendingExam> ex = examService.getAllQuices();
+        try {
+            return new ResponseEntity<>(ex, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+    }
+    @PostMapping("/exam/assignments")
+    public ResponseEntity<List<SendingExam>> getAllAssignments() {
+        List<SendingExam> ex = examService.getAllAssingments();
         try {
             return new ResponseEntity<>(ex, HttpStatus.OK);
         } catch (Exception e) {

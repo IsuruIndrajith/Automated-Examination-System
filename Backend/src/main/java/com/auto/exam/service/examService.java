@@ -170,6 +170,7 @@ public class examService {
                 examAnalysis.setExam(exam);
                 examAnalysis.setQuestion(questionRepo.findById((long) question.getQuestionId()).orElse(null));
                 examAnalysis.setStudentAnswer(question.getAnswer());
+                System.out.println("========================================"+question.getAnswer()+"========================================");
             
                 if (question.getAnswer().equalsIgnoreCase(correctAnswer)) {
                     question.setMarks(retrievedMarks);
@@ -177,8 +178,10 @@ public class examService {
                 } else {
                     question.setMarks(0);
                     examAnalysis.setStudentMarks(0);
+                    question.setAnswer(correctAnswer);
                 }
                 examAnalysis.setMarked(true);
+                examAnalysis.setStudentId(student.getStudentId());
                 examanalysisRepo.save(examAnalysis);
                 TotalMarks += question.getMarks();
             }
@@ -204,7 +207,7 @@ public class examService {
                 examAnalysis.setStudentAnswer(question.getAnswer()); 
                 examAnalysis.setStudentId(student.getStudentId());
                 examAnalysis.setMarked(false);
-    
+                
                 examanalysisRepo.save(examAnalysis); 
     
             }
@@ -281,6 +284,19 @@ public class examService {
     public List<SendingExam> getAllExams() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         List<Exam> exams = examRepo.findStudentExamByUser(username);
+        exams = exams.stream().filter(exam -> exam.getType() == 3).collect(Collectors.toList());
+        return exams.stream().map(exam -> new SendingExam(exam.getExamId(), exam.getStartDateTime(), exam.getDuration(), exam.getPassingCriteria(), exam.getType(), exam.getTotalMarks(), exam.getCourseOffering().getCourse().getCourseId(), exam.getCourseOffering().getCourse().getCourseName(), exam.getCourseOffering().getCourse().getCourseCode())).collect(Collectors.toList());
+    }
+    public List<SendingExam> getAllQuices() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<Exam> exams = examRepo.findStudentExamByUser(username);
+        exams = exams.stream().filter(exam -> exam.getType() == 1).collect(Collectors.toList());
+        return exams.stream().map(exam -> new SendingExam(exam.getExamId(), exam.getStartDateTime(), exam.getDuration(), exam.getPassingCriteria(), exam.getType(), exam.getTotalMarks(), exam.getCourseOffering().getCourse().getCourseId(), exam.getCourseOffering().getCourse().getCourseName(), exam.getCourseOffering().getCourse().getCourseCode())).collect(Collectors.toList());
+    }
+    public List<SendingExam> getAllAssingments() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<Exam> exams = examRepo.findStudentExamByUser(username);
+        exams = exams.stream().filter(exam -> exam.getType() == 2).collect(Collectors.toList());
         return exams.stream().map(exam -> new SendingExam(exam.getExamId(), exam.getStartDateTime(), exam.getDuration(), exam.getPassingCriteria(), exam.getType(), exam.getTotalMarks(), exam.getCourseOffering().getCourse().getCourseId(), exam.getCourseOffering().getCourse().getCourseName(), exam.getCourseOffering().getCourse().getCourseCode())).collect(Collectors.toList());
     }
 
@@ -316,19 +332,41 @@ public class examService {
     }
 
     public String markExamSubmit(long examId2, long studentId, List<MarkQuestions> payload) {
-
-        // Proceed with marking the exam
-        for (MarkQuestions question : payload) {
-            ExamAnalysis examAnalysis = new ExamAnalysis();
-            examAnalysis.setExam(examRepo.findExamByExamId(examId2));
-            examAnalysis.setQuestion(questionRepo.findById((long) question.getQuestionId()).orElse(null));
-            examAnalysis.setStudentAnswer(question.getAnswer());
-            examAnalysis.setStudentId(studentId);
-            examAnalysis.setStudentMarks(question.getMarks());
-            examAnalysis.setMarked(true);
-
-            examanalysisRepo.save(examAnalysis);
+        
+        Exam exam = examRepo.findExamByExamId(examId2);
+        if (exam == null) {
+            throw new IllegalArgumentException("Invalid Exam ID: " + examId2);
         }
+
+        for (MarkQuestions question : payload) {
+         
+            Question questionEntity = questionRepo.findById((long) question.getQuestionId()).orElse(null);
+            if (questionEntity == null) {
+                System.out.println("Invalid Question ID: " + question.getQuestionId());
+                continue; 
+            }
+
+         
+            ExamAnalysis existingAnalysis = examanalysisRepo.findByStudentAndQuestion(studentId, question.getQuestionId());
+            if (existingAnalysis != null) {
+               
+                existingAnalysis.setStudentAnswer(question.getAnswer());
+                existingAnalysis.setStudentMarks(question.getMarks());
+                existingAnalysis.setMarked(true);
+                examanalysisRepo.save(existingAnalysis);
+            } else {
+                
+                ExamAnalysis examAnalysis = new ExamAnalysis();
+                examAnalysis.setExam(exam);
+                examAnalysis.setQuestion(questionEntity);
+                examAnalysis.setStudentAnswer(question.getAnswer());
+                examAnalysis.setStudentId(studentId);
+                examAnalysis.setStudentMarks(question.getMarks());
+                examAnalysis.setMarked(true);
+                examanalysisRepo.save(examAnalysis);
+            }
+        }
+
         return "Exam marked successfully";
     }
 

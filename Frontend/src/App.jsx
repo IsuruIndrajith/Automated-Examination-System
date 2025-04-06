@@ -24,6 +24,7 @@ import Manage from './pages/Admin/Manage';
 import Reports from './pages/Admin/Reports';
 import Department from './pages/Admin/Department';
 
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>

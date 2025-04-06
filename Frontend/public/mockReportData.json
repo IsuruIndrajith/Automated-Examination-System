@@ -9,22 +9,16 @@
     },
     "students": [
       {
-        "id": "S101",
-        "name": "John Doe",
-        "email": "johndoe@example.com",
-        "assignments": 85,
-        "quizzes": 78,
-        "exams": 90,
-        "finalGrade": "A"
+        "studentId": "S101",
+        "fullName": "John Doe",
+        "marks": 90,
+        "grade": "A"
       },
       {
-        "id": "S102",
-        "name": "Jane Smith",
-        "email": "janesmith@example.com",
-        "assignments": 72,
-        "quizzes": 80,
-        "exams": 75,
-        "finalGrade": "B+"
+        "studentId": "S102",
+        "fullName": "Jane Smith",
+        "marks": 75,
+        "grade": "B+"
       }
     ]
   }
