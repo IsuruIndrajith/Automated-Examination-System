@@ -38,7 +38,7 @@ public class examAnalysisService {
         List<ExamFront> examFronts = examanalysisRepo.getExamByLecturerId(LecturerId);
         // Filter out exams that are marked
         //if marked is true, remove it from the list
-        examFronts.removeIf(exam -> examanalysisRepo.findMarkedByExamId(exam.getId()));
+        //examFronts.removeIf(exam -> examanalysisRepo.findMarkedByExamId(exam.getId()));
 
         return examFronts;
 
