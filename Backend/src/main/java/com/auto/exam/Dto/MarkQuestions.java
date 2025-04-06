@@ -1,5 +1,10 @@
 package com.auto.exam.Dto;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
 public class MarkQuestions {
     private int QuestionId;
     private String Answer ;

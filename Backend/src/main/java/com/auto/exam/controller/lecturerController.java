@@ -27,6 +27,7 @@ import com.auto.exam.Dto.CoursesForLecture;
 import com.auto.exam.Dto.ExamAdding;
 import com.auto.exam.Dto.ExamFront;
 import com.auto.exam.Dto.ExamReportAll;
+import com.auto.exam.Dto.ExamReportAllwithAvg;
 import com.auto.exam.Model.Attempt;
 import com.auto.exam.Model.Course;
 import com.auto.exam.Model.Exam;
@@ -231,6 +232,32 @@ public class lecturerController {
         }
     }
 
+    // @PostMapping("/getExamReportAvarage/{examId}")
+    // public ResponseEntity<ExamReportAllwithAvg> getAvarageReport(@PathVariable long examId){
+    //     try {
+    //         List<ExamReportAll> reports= examService.getAvarageReports(examId);
+    //         return new ResponseEntity<>(HttpStatus.OK);
+    //     } catch (Exception e) {
+    //         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    //     }
+    // }
+
+
+
+    @PostMapping("/getExamReport/{examId}/{studentId}")
+    public ResponseEntity<ExamReportAll> getAllReport(@PathVariable long examId, @PathVariable long studentId){
+        try {
+            ExamReportAll reports= examService.getStudentReport(examId, studentId);
+            return new ResponseEntity<>(reports, HttpStatus.OK);
+        } catch (Exception e) {
+            if (e.getMessage().contains("Index 0 out of bounds for length 0")) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            System.out.println("Error in getting report: " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping("/getAllExam")
     public ResponseEntity<Examevent> getAllExam(){
         try {
@@ -269,8 +296,18 @@ public class lecturerController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
     @PostMapping("/markExam/{examId}/{studentId}/submit")
     public ResponseEntity<String> markExamSubmit(@PathVariable long examId, @PathVariable long studentId, @RequestBody List<MarkQuestions> payload){
+        for (MarkQuestions markQuestions : payload) {
+            System.out.println("================================================================");
+            System.out.println("Exam ID: " + examId);
+            
+            System.out.println("Question ID: " + markQuestions.getQuestionId());
+            System.out.println("Answer: " + markQuestions.getAnswer());
+            System.out.println("Marks: " + markQuestions.getMarks());
+        }
+        System.out.println("================================================================");
         try {
             String reports= examService.markExamSubmit(examId,studentId,payload);
             return new ResponseEntity<>(reports, HttpStatus.OK);
