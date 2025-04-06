@@ -15,14 +15,14 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface examanalysisRepo extends JpaRepository<ExamAnalysis,Long> {
+public interface examanalysisRepo extends JpaRepository<ExamAnalysis, Long> {
 
     @Query("SELECT ea FROM ExamAnalysis ea WHERE ea.exam.examId = :examId")
     List<ExamAnalysis> findByExamId(@Param("examId") long examId);
 
     @Query("SELECT CASE WHEN COUNT(ea) > 0 THEN true ELSE false END " +
-    "FROM ExamAnalysis ea " +
-    "WHERE ea.studentId = :student AND ea.question.id = :question")
+           "FROM ExamAnalysis ea " +
+           "WHERE ea.studentId = :student AND ea.question.id = :question")
     boolean existsByStudentAndQuestion(@Param("student") Long student, @Param("question") int question);
 
     @Query("SELECT DISTINCT new com.auto.exam.Dto.ExamFront(e.examId, e.type, e.startDateTime, c.courseName, c.courseCode) " +
@@ -31,18 +31,22 @@ public interface examanalysisRepo extends JpaRepository<ExamAnalysis,Long> {
            "JOIN e.courseOffering co " +
            "JOIN co.lecture lec " +
            "JOIN co.course c " +
-           "WHERE lec.lectureId = :lecturerId")
+           "WHERE lec.lectureId = :lecturerId AND ea.marked = false")
     List<ExamFront> getExamByLecturerId(@Param("lecturerId") Long lecturerId);
 
     @Query("SELECT ea.marked FROM ExamAnalysis ea JOIN ea.exam e WHERE e.examId = :examId")
-    boolean findMarkedByExamId(@Param("examId") long examId);
+    Boolean findMarkedByExamId(@Param("examId") long examId);
 
-    @Query("SELECT new com.auto.exam.Dto.ShowStudentList(ea.studentId) FROM ExamAnalysis ea ")
-    List<ShowStudentList> findStudentByExamId(Long examId);
+    @Query("SELECT new com.auto.exam.Dto.ShowStudentList(ea.studentId) " +
+           "FROM ExamAnalysis ea WHERE ea.exam.examId = :examId")
+    List<ShowStudentList> findStudentByExamId(@Param("examId") Long examId);
 
     @Query("SELECT new com.auto.exam.Dto.MarkEssayQuestion(q.questionId, q.question, ea.studentAnswer, ea.studentMarks) " +
-    "FROM ExamAnalysis ea " +
-    "JOIN ea.question q " +
-    "WHERE ea.exam.examId = :examId AND ea.studentId = :studentId")
+           "FROM ExamAnalysis ea " +
+           "JOIN ea.question q " +
+           "WHERE ea.exam.examId = :examId AND ea.studentId = :studentId")
     List<MarkEssayQuestion> findQuestionByStudentId(@Param("examId") long examId, @Param("studentId") long studentId);
+
+    @Query("SELECT ea FROM ExamAnalysis ea WHERE ea.studentId = :studentId AND ea.question.id = :questionId")
+    ExamAnalysis findByStudentAndQuestion(@Param("studentId") long studentId, @Param("questionId") int questionId);
 }

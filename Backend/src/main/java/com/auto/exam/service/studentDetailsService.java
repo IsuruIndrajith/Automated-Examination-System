@@ -73,7 +73,8 @@ public class studentDetailsService {
         List<ExamAnalysis> examAnalysisList = examanalysisRepo.findByExamId(examId);
 
         return examAnalysisList.stream()
-                .filter(exam -> exam.getStudentId() == studentId) // Filter by matching student ID
+                // Filter by matching student ID and mark only marked true
+                .filter(exam -> exam.getStudentId() == studentId && exam.isMarked())
                 .map(exam -> new ExamReportAnalysis(
                         exam.getExam().getExamId(),  // Extract exam ID
                         exam.getQuestion().getQuestionId(),

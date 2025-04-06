@@ -493,6 +493,10 @@ VALUES
     (30, 30, 30);
 
 -- Exam (Continued)
+--type ========
+-- 1 =quiz ;
+--2 = assignment ;
+--3 = exam;
 INSERT INTO public.exam(exam_id, duration, passing_criteria, start_date_and_time, total_marks, type, offering_id)
 VALUES
     (1, 60, 50, '2025-06-01 09:00:00', 100, 1, 1),
