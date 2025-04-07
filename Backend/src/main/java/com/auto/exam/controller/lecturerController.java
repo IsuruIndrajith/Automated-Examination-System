@@ -1,11 +1,7 @@
 package com.auto.exam.controller;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import com.auto.exam.Dto.ExamRequest;
 import com.auto.exam.Dto.ExamSave;
