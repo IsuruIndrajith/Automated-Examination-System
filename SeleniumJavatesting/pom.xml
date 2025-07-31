@@ -22,9 +22,15 @@
         </dependency>
 
         <dependency>
-            <groupId>org.testing</groupId>
-            <artifactId>testing</artifactId>
-            <version>7.10.2</version>>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.10.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>5.9.2</version>
         </dependency>
 
     </dependencies>

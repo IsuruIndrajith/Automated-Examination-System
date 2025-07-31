@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.auto.exam.tests.SampleTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 65.63 s -- in com.auto.exam.tests.SampleTest

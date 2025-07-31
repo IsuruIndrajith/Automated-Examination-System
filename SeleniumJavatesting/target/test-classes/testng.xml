@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="AutomatedExaminationSystemTestSuite">
+    <test name="ExaminationSystemTests">
+        <classes>
+            <class name="com.auto.exam.tests.SampleTest"/>
+            <class name="com.auto.exam.tests.LoginTest"/>
+            <class name="com.auto.exam.tests.ExamTest"/>
+        </classes>
+    </test>
+</suite>
